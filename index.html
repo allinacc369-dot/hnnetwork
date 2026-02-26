@@ -8,18 +8,15 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- FontAwesome Icons -->
+  <!-- FontAwesome Icons (Nơi định nghĩa các icon bạn thấy trong thẻ <i>) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <!-- React & ReactDOM -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  
-  <!-- Babel để dịch JSX trên trình duyệt -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <style>
-    /* CSS ẩn thanh scroll */
     .scrollbar-hide::-webkit-scrollbar { display: none; }
     .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
@@ -35,7 +32,7 @@
       const [activeCategory, setActiveCategory] = useState(null);
       const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-      // 8 mục Menu và Danh mục sản phẩm (sử dụng class của FontAwesome)
+      // THAY ĐỔI ICON TẠI ĐÂY: Thay các class 'fa-...' bằng icon từ fontawesome.com
       const menuItems = [
         { id: 1, name: 'Máy Chủ', icon: 'fa-server', desc: 'Hệ thống máy chủ hiệu năng cao, tối ưu cho doanh nghiệp.' },
         { id: 2, name: 'Thiết Bị Mạng', icon: 'fa-network-wired', desc: 'Switch, Router, Access Point và giải pháp mạng toàn diện.' },
@@ -47,7 +44,6 @@
         { id: 8, name: 'Dịch Vụ IT', icon: 'fa-screwdriver-wrench', desc: 'Dịch vụ bảo trì, triển khai và tư vấn giải pháp CNTT.' },
       ];
 
-      // Hàm chuyển trang
       const navigateToPage2 = (category) => {
         setActiveCategory(category);
         setCurrentPage('page2');
@@ -63,27 +59,20 @@
 
       return (
         <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-blue-200">
-          
-          {/* HEADER TỐI GIẢN */}
           <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
             <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between items-center h-20">
-                {/* Logo */}
-                <div
-                  className="flex items-center cursor-pointer group"
-                  onClick={navigateToHome}
-                >
+                
+                {/* LOGO: Bạn có thể thay thẻ <i> bằng thẻ <img> nếu muốn dùng logo ảnh */}
+                <div className="flex items-center cursor-pointer group" onClick={navigateToHome}>
                   <div className="w-11 h-11 bg-[#0047AB] rounded-xl flex items-center justify-center mr-3 group-hover:bg-blue-800 transition-colors shadow-md">
-                    <div className="w-11 h-11 mr-3">
-                    <div className="w-11 h-11 mr-3">
-                      <i className="fa-solid fa-network-wired text-white text-xl"></i>
+                    <i className="fa-solid fa-network-wired text-white text-xl"></i>
                   </div>
                   <span className="text-2xl font-extrabold tracking-tight text-slate-900">
                     HN<span className="text-[#0047AB]">Network</span>
                   </span>
                 </div>
 
-                {/* Menu Desktop (8 Items) */}
                 <nav className="hidden xl:flex space-x-1 lg:space-x-2">
                   {menuItems.map((item) => (
                     <button
@@ -100,54 +89,21 @@
                   ))}
                 </nav>
 
-                {/* Icons Actions */}
                 <div className="hidden lg:flex items-center space-x-3">
-                  <button className="p-2 text-slate-400 hover:text-[#0047AB] hover:bg-slate-50 rounded-full transition-colors flex items-center justify-center w-10 h-10">
-                    <i className="fa-solid fa-magnifying-glass text-lg"></i>
-                  </button>
-                  <button className="p-2 text-slate-400 hover:text-[#0047AB] hover:bg-slate-50 rounded-full transition-colors relative flex items-center justify-center w-10 h-10">
-                    <i className="fa-solid fa-cart-shopping text-lg"></i>
-                    <span className="absolute top-0 right-0 w-4 h-4 bg-orange-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white">2</span>
-                  </button>
-                  <button className="ml-2 bg-[#0047AB] hover:bg-blue-800 text-white px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-md shadow-blue-900/20 flex items-center">
+                  <button className="ml-2 bg-[#0047AB] hover:bg-blue-800 text-white px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-md flex items-center">
                     <i className="fa-solid fa-phone mr-2"></i> Liên Hệ
                   </button>
                 </div>
 
-                {/* Mobile Menu Toggle */}
                 <div className="flex items-center xl:hidden">
-                  <button
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className="text-slate-500 hover:text-[#0047AB] focus:outline-none p-2"
-                  >
+                  <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-slate-500 p-2">
                     <i className={`fa-solid ${isMobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-2xl`}></i>
                   </button>
                 </div>
               </div>
             </div>
-
-            {/* Mobile Navigation Panel */}
-            {isMobileMenuOpen && (
-              <div className="xl:hidden bg-white border-t border-slate-100 shadow-xl absolute w-full max-h-[80vh] overflow-y-auto">
-                <div className="px-4 pt-4 pb-6 space-y-2">
-                  {menuItems.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => navigateToPage2(item)}
-                      className="flex items-center w-full px-4 py-3.5 text-base font-semibold text-slate-700 hover:text-[#0047AB] hover:bg-blue-50 rounded-xl transition-colors border border-transparent hover:border-blue-100"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center mr-3">
-                        <i className={`fa-solid ${item.icon} text-[#0047AB]`}></i>
-                      </div>
-                      {item.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
           </header>
 
-          {/* MAIN CONTENT THAY ĐỔI THEO TRẠNG THÁI */}
           <main className="min-h-[calc(100vh-160px)]">
             {currentPage === 'home' ? (
               <HomeView menuItems={menuItems} navigateToPage2={navigateToPage2} />
@@ -156,395 +112,77 @@
             )}
           </main>
 
-          {/* FOOTER */}
           <footer className="bg-slate-900 text-slate-300 py-16 border-t-4 border-[#0047AB]">
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-                <div className="lg:col-span-2">
-                  <div className="flex items-center mb-6">
-                    <div className="w-10 h-10 bg-[#0047AB] rounded-lg flex items-center justify-center mr-3 shadow-lg">
-                      <i className="fa-solid fa-network-wired text-white text-lg"></i>
-                    </div>
-                    <span className="text-2xl font-extrabold text-white tracking-tight">
-                      HN<span className="text-blue-400">Network</span>
-                    </span>
-                  </div>
-                  <p className="text-sm text-slate-400 max-w-sm leading-relaxed mb-6">
-                    Chúng tôi cung cấp giải pháp toàn diện về hệ thống mạng, máy chủ lưu trữ dữ liệu, thiết bị bảo mật cùng dịch vụ IT chuyên nghiệp với giá thành tối ưu nhất cho doanh nghiệp.
-                  </p>
-                  <div className="flex space-x-4">
-                    <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-[#0047AB] transition-colors cursor-pointer text-white"><i className="fa-brands fa-facebook-f"></i></div>
-                    <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-[#0047AB] transition-colors cursor-pointer text-white"><i className="fa-brands fa-youtube"></i></div>
-                    <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-[#0047AB] transition-colors cursor-pointer text-white"><i className="fa-brands fa-linkedin-in"></i></div>
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="text-xs font-bold text-slate-50 uppercase tracking-widest mb-6 border-l-2 border-[#0047AB] pl-3">Sản Phẩm & Dịch Vụ</h3>
-                  <ul className="space-y-3 text-sm text-slate-400 font-medium">
-                    {menuItems.slice(0, 5).map(item => (
-                      <li key={item.id}>
-                        <button onClick={() => navigateToPage2(item)} className="hover:text-white transition-colors flex items-center group">
-                          <i className="fa-solid fa-chevron-right text-[10px] mr-2 text-slate-600 group-hover:text-blue-400 transition-colors"></i> {item.name}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-xs font-bold text-slate-50 uppercase tracking-widest mb-6 border-l-2 border-[#0047AB] pl-3">Thông Tin Liên Hệ</h3>
-                  <ul className="space-y-4 text-sm text-slate-400">
-                    <li className="flex items-start">
-                      <i className="fa-solid fa-phone text-blue-400 mr-3 mt-1"></i>
-                      <div>
-                        <span className="block font-bold text-white mb-1">Hotline / Zalo</span>
-                        <a href="tel:0123456789" className="hover:text-blue-400 transition-colors">0123 456 789</a>
-                      </div>
-                    </li>
-                    <li className="flex items-start">
-                      <i className="fa-solid fa-location-dot text-blue-400 mr-3 mt-1"></i>
-                      <div>
-                        <span className="block font-bold text-white mb-1">Trụ sở chính</span>
-                        <span>Hồ Chí Minh, Việt Nam</span>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="mt-16 pt-8 border-t border-slate-800 text-sm flex flex-col md:flex-row justify-between items-center text-slate-500">
-                <p>&copy; 2026 Bản quyền thuộc về HN Network. (Giao diện Demo)</p>
-                <div className="flex space-x-6 mt-4 md:mt-0 font-medium text-xs uppercase tracking-wider">
-                  <span className="hover:text-white cursor-pointer transition-colors">Điều khoản</span>
-                  <span className="hover:text-white cursor-pointer transition-colors">Bảo mật</span>
-                </div>
-              </div>
+            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">
+               <p>&copy; 2026 Bản quyền thuộc về HN Network.</p>
             </div>
           </footer>
         </div>
       );
     }
 
-    // ---------------------------------------------------------
-    // TRANG 1: TRANG CHỦ (HOME VIEW)
-    // ---------------------------------------------------------
     function HomeView({ menuItems, navigateToPage2 }) {
       return (
         <div className="animate-in fade-in duration-700">
-          
-          {/* SECTION BANNER (HERO) */}
+          {/* BANNER: Thay URL ảnh nền tại dòng dưới đây (phần url('...')) */}
           <section className="relative bg-[#0a192f] text-white overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-[#003366]/90 to-transparent z-10"></div>
             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2034&auto=format&fit=crop')] bg-cover bg-right bg-no-repeat opacity-40"></div>
             
             <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
               <div className="py-24 md:py-36 lg:py-48 max-w-3xl">
-                <div className="inline-flex items-center space-x-2 py-1.5 px-3 rounded-full bg-blue-900/50 border border-blue-400/30 text-blue-300 text-sm font-bold mb-6 backdrop-blur-sm">
-                  <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-                  <span>Đối tác cung cấp hạ tầng CNTT tin cậy</span>
-                </div>
-                
-                <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6 drop-shadow-lg">
-                  Xây dựng nền tảng <br className="hidden md:block" />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300">
-                    Số Hóa Doanh Nghiệp
-                  </span>
-                </h1>
-                
-                <p className="mt-4 text-lg md:text-2xl text-slate-300 font-light mb-10 max-w-2xl leading-relaxed">
-                  Giải pháp toàn diện Máy chủ, Mạng, Lưu trữ và Bảo mật. Tối ưu chi phí, nâng cao hiệu suất hoạt động.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <button 
-                    onClick={() => navigateToPage2(menuItems[0])}
-                    className="bg-[#0047AB] hover:bg-blue-600 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-xl shadow-[#0047AB]/40 flex items-center justify-center text-lg hover:-translate-y-1"
-                  >
-                    Khám phá hệ thống
-                    <i className="fa-solid fa-chevron-right ml-2 text-sm"></i>
-                  </button>
-                  <button className="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 px-8 py-4 rounded-xl font-bold transition-all flex items-center justify-center text-lg hover:-translate-y-1">
-                    Tư vấn giải pháp
-                  </button>
-                </div>
+                <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-6">Xây dựng nền tảng Số Hóa</h1>
+                <p className="text-lg md:text-2xl text-slate-300 mb-10">Giải pháp Máy chủ, Mạng và Bảo mật chuyên nghiệp.</p>
+                <button onClick={() => navigateToPage2(menuItems[0])} className="bg-[#0047AB] px-8 py-4 rounded-xl font-bold text-lg">Khám phá ngay</button>
               </div>
             </div>
           </section>
 
-          {/* SECTION DANH MỤC 8 MỤC SẢN PHẨM */}
-          <section className="py-24 bg-slate-50 relative -mt-10 z-30 rounded-t-[3rem] shadow-[0_-20px_50px_rgba(0,0,0,0.05)]">
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-              
-              <div className="flex flex-col items-center justify-center text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
-                  8 Trụ cột Hệ thống Công Nghệ
-                </h2>
-                <div className="w-24 h-1.5 bg-gradient-to-r from-[#0047AB] to-blue-400 rounded-full mb-6"></div>
-                <p className="text-lg text-slate-500 max-w-3xl">
-                  Chọn một danh mục để xem chi tiết các sản phẩm cấu hình cao, bảo hành chính hãng từ HN Network.
-                </p>
-              </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-                {menuItems.map((item, index) => (
-                  <div
-                    key={item.id}
-                    onClick={() => navigateToPage2(item)}
-                    className="group bg-white rounded-3xl p-8 border border-slate-200 hover:border-[#0047AB]/50 hover:shadow-2xl hover:shadow-[#0047AB]/5 transition-all duration-300 cursor-pointer flex flex-col items-start relative overflow-hidden"
-                  >
-                    <div className="absolute -right-8 -top-8 w-32 h-32 bg-slate-50 rounded-full group-hover:scale-150 transition-transform duration-700 ease-out z-0"></div>
-                    
-                    <div className="relative z-10 w-full">
-                      <div className="w-16 h-16 bg-blue-50/80 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#0047AB] transition-colors duration-300 shadow-sm border border-blue-100">
-                        <i className={`fa-solid ${item.icon} text-3xl text-[#0047AB] group-hover:text-white transition-colors duration-300`}></i>
-                      </div>
-                      
-                      <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-[#0047AB] transition-colors flex items-center justify-between">
-                        {item.name}
-                        <span className="text-slate-300 font-normal text-sm opacity-50">0{index + 1}</span>
-                      </h3>
-                      
-                      <p className="text-slate-600 mb-8 min-h-[48px] text-sm leading-relaxed font-medium">
-                        {item.desc}
-                      </p>
-                      
-                      <div className="mt-auto flex items-center text-sm font-bold text-[#0047AB] opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                        Xem dòng sản phẩm 
-                        <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center ml-2">
-                           <i className="fa-solid fa-arrow-right text-xs"></i>
-                        </div>
-                      </div>
+          <section className="py-24 bg-slate-50">
+            <div className="max-w-[1400px] mx-auto px-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {menuItems.map((item) => (
+                  <div key={item.id} onClick={() => navigateToPage2(item)} className="bg-white p-8 rounded-3xl border border-slate-200 cursor-pointer hover:shadow-xl transition-all">
+                    <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-6">
+                      <i className={`fa-solid ${item.icon} text-3xl text-[#0047AB]`}></i>
                     </div>
+                    <h3 className="text-xl font-bold mb-3">{item.name}</h3>
+                    <p className="text-slate-600 text-sm">{item.desc}</p>
                   </div>
                 ))}
               </div>
             </div>
           </section>
-          
-          {/* SECTION SẢN PHẨM NỔI BẬT */}
-          <section className="py-24 bg-white border-t border-slate-200">
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex flex-col md:flex-row justify-between items-end mb-12">
-                <div>
-                  <div className="text-sm font-bold tracking-widest text-[#0047AB] uppercase mb-2">Đề xuất tuần này</div>
-                  <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">Thiết bị bán chạy nhất</h2>
-                </div>
-                <button 
-                   onClick={() => navigateToPage2(menuItems[0])}
-                   className="mt-6 md:mt-0 flex text-[#0047AB] font-bold items-center hover:bg-blue-50 px-5 py-2.5 rounded-xl transition-colors border border-transparent hover:border-blue-100"
-                >
-                  Xem toàn bộ <i className="fa-solid fa-chevron-right ml-2 text-sm"></i>
-                </button>
-              </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-                {/* Mockup Mẫu 1 */}
-                <div className="group cursor-pointer">
-                  <div className="bg-slate-50 rounded-[2rem] p-8 aspect-[4/3] mb-6 border border-slate-100 overflow-hidden relative flex flex-col items-center justify-center transition-all group-hover:bg-blue-50/50">
-                     <i className="fa-solid fa-server text-[6rem] text-[#0047AB]/20 group-hover:scale-110 group-hover:text-[#0047AB] transition-all duration-500 mb-4"></i>
-                     <div className="absolute top-6 left-6 bg-orange-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-lg shadow-orange-500/30 uppercase tracking-wider">
-                        Bán Chạy
-                     </div>
-                     <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-[#0047AB] to-blue-400 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
-                  </div>
-                  <div className="px-2">
-                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">MÁY CHỦ DELL</div>
-                    <h4 className="text-xl font-bold text-slate-900 group-hover:text-[#0047AB] transition-colors line-clamp-2 leading-snug">Server Dell PowerEdge R750xs Rack 2U</h4>
-                    <p className="text-slate-500 text-sm mt-3 font-medium border-l-2 border-slate-200 pl-3">Xeon Silver 4310 / 32GB RAM / 1.2TB SAS / PERC H755 / 800W</p>
-                    <div className="mt-5 text-lg font-black text-slate-900 flex items-center justify-between">
-                       <span>Liên hệ nhận báo giá</span>
-                       <div className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-[#0047AB] group-hover:text-white group-hover:border-[#0047AB] transition-all">
-                          <i className="fa-solid fa-chevron-right"></i>
-                       </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Mockup Mẫu 2 */}
-                <div className="group cursor-pointer">
-                  <div className="bg-slate-50 rounded-[2rem] p-8 aspect-[4/3] mb-6 border border-slate-100 overflow-hidden relative flex flex-col items-center justify-center transition-all group-hover:bg-blue-50/50">
-                     <i className="fa-solid fa-network-wired text-[6rem] text-[#0047AB]/20 group-hover:scale-110 group-hover:text-[#0047AB] transition-all duration-500 mb-4"></i>
-                     <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-[#0047AB] to-blue-400 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
-                  </div>
-                  <div className="px-2">
-                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">THIẾT BỊ MẠNG CISCO</div>
-                    <h4 className="text-xl font-bold text-slate-900 group-hover:text-[#0047AB] transition-colors line-clamp-2 leading-snug">Cisco Catalyst C9200L-48P-4G-E Switch</h4>
-                    <p className="text-slate-500 text-sm mt-3 font-medium border-l-2 border-slate-200 pl-3">48 ports PoE+, 4x 1G SFP uplinks, Network Essentials</p>
-                    <div className="mt-5 text-lg font-black text-slate-900 flex items-center justify-between">
-                       <span>Liên hệ nhận báo giá</span>
-                       <div className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-[#0047AB] group-hover:text-white group-hover:border-[#0047AB] transition-all">
-                          <i className="fa-solid fa-chevron-right"></i>
-                       </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Mockup Mẫu 3 */}
-                <div className="group cursor-pointer">
-                  <div className="bg-slate-50 rounded-[2rem] p-8 aspect-[4/3] mb-6 border border-slate-100 overflow-hidden relative flex flex-col items-center justify-center transition-all group-hover:bg-blue-50/50">
-                     <i className="fa-solid fa-shield-halved text-[6rem] text-[#0047AB]/20 group-hover:scale-110 group-hover:text-[#0047AB] transition-all duration-500 mb-4"></i>
-                     <div className="absolute top-6 left-6 bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-lg uppercase tracking-wider">
-                        Mới
-                     </div>
-                     <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-[#0047AB] to-blue-400 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
-                  </div>
-                  <div className="px-2">
-                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">BẢO MẬT FORTINET</div>
-                    <h4 className="text-xl font-bold text-slate-900 group-hover:text-[#0047AB] transition-colors line-clamp-2 leading-snug">Firewall FortiGate 100F (FG-100F)</h4>
-                    <p className="text-slate-500 text-sm mt-3 font-medium border-l-2 border-slate-200 pl-3">22x GE RJ45, 4x SFP, Dual Power Supply, UTM Protection</p>
-                    <div className="mt-5 text-lg font-black text-slate-900 flex items-center justify-between">
-                       <span>Liên hệ nhận báo giá</span>
-                       <div className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-[#0047AB] group-hover:text-white group-hover:border-[#0047AB] transition-all">
-                          <i className="fa-solid fa-chevron-right"></i>
-                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
         </div>
       );
     }
 
-    // ---------------------------------------------------------
-    // TRANG 2: CATEGORY VIEW - Trang chi tiết sản phẩm thuộc Menu
-    // ---------------------------------------------------------
     function Page2View({ category, onBack }) {
       if (!category) return null;
-
-      const mockProducts = Array.from({ length: 12 }, (_, i) => ({
-        id: i + 1,
-        code: `${category.name.substring(0,3).toUpperCase()}-${1000 + i}`,
-        brand: ['DELL', 'HP', 'CISCO', 'FORTINET', 'IBM'][i % 5],
-        isHot: i === 1 || i === 4
-      }));
-
       return (
-        <div className="animate-in slide-in-from-right-8 duration-500 bg-slate-50 min-h-screen pb-24">
-          
-          <div className="bg-white border-b border-slate-200 pt-10 pb-16 relative overflow-hidden">
-            <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-blue-50 to-transparent pointer-events-none"></div>
-            <i className={`fa-solid ${category.icon} absolute -right-10 top-10 text-[16rem] text-slate-50 opacity-50 rotate-12 pointer-events-none`}></i>
-
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-              
-              <nav className="flex items-center text-sm font-bold text-slate-500 mb-10 tracking-wide uppercase">
-                <button 
-                  onClick={onBack} 
-                  className="hover:text-[#0047AB] flex items-center transition-colors bg-slate-100 hover:bg-blue-50 px-3 py-1.5 rounded-md"
-                >
-                  <i className="fa-solid fa-arrow-left mr-2"></i> Trang chủ
-                </button>
-                <i className="fa-solid fa-chevron-right mx-3 text-slate-300 text-[10px]"></i>
-                <span className="text-[#0047AB]">{category.name}</span>
-              </nav>
-
-              <div className="flex flex-col md:flex-row md:items-end md:justify-between">
-                <div className="flex items-start">
-                  <div className="w-20 h-20 bg-[#0047AB] rounded-2xl flex items-center justify-center mr-8 shadow-xl shadow-blue-900/20 shrink-0 mt-1">
-                    <i className={`fa-solid ${category.icon} text-4xl text-white`}></i>
+        <div className="p-8 max-w-[1400px] mx-auto">
+          <button onClick={onBack} className="mb-6 text-[#0047AB] font-bold flex items-center">
+            <i className="fa-solid fa-arrow-left mr-2"></i> Quay lại trang chủ
+          </button>
+          <h1 className="text-4xl font-bold mb-4">{category.name}</h1>
+          <p className="text-slate-500">{category.desc}</p>
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+             {/* Danh sách sản phẩm mẫu */}
+             {[1,2,3].map(i => (
+               <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                  <div className="aspect-video bg-slate-100 rounded-xl mb-4 flex items-center justify-center">
+                     <i className={`fa-solid ${category.icon} text-5xl text-slate-300`}></i>
                   </div>
-                  <div>
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 leading-tight">
-                      {category.name}
-                    </h1>
-                    <p className="text-lg text-slate-500 max-w-3xl font-medium leading-relaxed">
-                      {category.desc} Danh mục cung cấp đầy đủ các thiết bị công nghệ hiện đại, đáp ứng mọi quy mô và nhu cầu khắt khe của hệ thống CNTT.
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="mt-8 md:mt-0 bg-slate-100 px-5 py-3 rounded-xl flex flex-col items-center shrink-0">
-                   <span className="text-3xl font-black text-slate-900">{mockProducts.length}</span>
-                   <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Sản phẩm</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
-            
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 mb-10 flex flex-col sm:flex-row justify-between items-center gap-4">
-               <div className="flex space-x-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0 scrollbar-hide">
-                  <button className="px-5 py-2.5 bg-[#0047AB] text-white text-sm font-bold rounded-xl whitespace-nowrap shadow-md shadow-[#0047AB]/20">Tất cả sản phẩm</button>
-                  <button className="px-5 py-2.5 bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 text-sm font-bold rounded-xl whitespace-nowrap transition-colors">Theo hãng</button>
-                  <button className="px-5 py-2.5 bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 text-sm font-bold rounded-xl whitespace-nowrap transition-colors">Theo cấu hình</button>
+                  <h4 className="font-bold">Sản phẩm mẫu {category.name} #{i}</h4>
+                  <p className="text-sm text-slate-400 mt-2">Thông số kỹ thuật chi tiết của thiết bị...</p>
+                  <button className="mt-4 w-full py-2 bg-[#0047AB] text-white rounded-lg font-bold">Xem báo giá</button>
                </div>
-               
-               <div className="relative w-full sm:w-72">
-                 <input 
-                    type="text" 
-                    placeholder={`Tìm trong ${category.name}...`} 
-                    className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0047AB]/50 focus:border-[#0047AB] transition-all" 
-                 />
-                 <i className="fa-solid fa-magnifying-glass absolute left-4 top-4 text-slate-400"></i>
-               </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-              {mockProducts.map((product) => (
-                <div key={product.id} className="bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-2xl hover:shadow-blue-900/10 hover:-translate-y-1 transition-all duration-300 group flex flex-col">
-                  
-                  <div className="aspect-[4/3] bg-slate-50 relative flex items-center justify-center p-8 group-hover:bg-blue-50/50 transition-colors">
-                    <i className={`fa-solid ${category.icon} text-[5rem] text-slate-300 group-hover:scale-110 group-hover:text-[#0047AB]/60 transition-all duration-500`}></i>
-                    
-                    <div className="absolute top-4 left-4 flex flex-col gap-2">
-                      <span className="bg-white border border-slate-200 text-slate-700 text-[10px] font-black px-2 py-1 rounded shadow-sm uppercase tracking-wider">
-                        {product.brand}
-                      </span>
-                      {product.isHot && (
-                        <span className="bg-orange-500 text-white text-[10px] font-black px-2 py-1 rounded shadow-sm shadow-orange-500/30 uppercase tracking-wider">
-                          Bán Chạy
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="p-6 flex flex-col flex-grow bg-white border-t border-slate-100">
-                    <div className="text-xs text-[#0047AB] font-black mb-2 uppercase tracking-widest">{category.name}</div>
-                    <h3 className="font-extrabold text-slate-900 text-lg mb-2 group-hover:text-[#0047AB] transition-colors line-clamp-2 leading-snug">
-                      Thiết bị {category.name} Cao Cấp - {product.code}
-                    </h3>
-                    <p className="text-sm text-slate-500 font-medium mb-6 line-clamp-2">
-                      Sản phẩm thế hệ mới của {product.brand}. Cung cấp hiệu năng vượt trội, độ tin cậy cao phù hợp chuẩn hệ thống Data Center.
-                    </p>
-                    
-                    <div className="flex items-center justify-between mt-auto pt-5 border-t border-dashed border-slate-200">
-                      <div className="flex flex-col">
-                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Giá Dự Án</span>
-                        <span className="font-black text-xl text-slate-900 group-hover:text-[#0047AB] transition-colors">Liên hệ</span>
-                      </div>
-                      <button className="w-12 h-12 flex items-center justify-center bg-slate-50 text-[#0047AB] hover:bg-[#0047AB] hover:text-white rounded-xl transition-all shadow-sm">
-                        <i className="fa-solid fa-cart-shopping"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            <div className="flex justify-center mt-16">
-               <div className="flex space-x-2 bg-white p-2 rounded-2xl border border-slate-200 shadow-sm">
-                  <button className="w-12 h-12 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-50 disabled:opacity-50 transition-colors" disabled>
-                    <i className="fa-solid fa-arrow-left"></i>
-                  </button>
-                  <button className="w-12 h-12 flex items-center justify-center rounded-xl bg-[#0047AB] text-white font-bold shadow-md shadow-[#0047AB]/30">1</button>
-                  <button className="w-12 h-12 flex items-center justify-center rounded-xl text-slate-700 hover:bg-slate-50 font-bold transition-colors">2</button>
-                  <button className="w-12 h-12 flex items-center justify-center rounded-xl text-slate-700 hover:bg-slate-50 font-bold transition-colors">3</button>
-                  <div className="w-12 h-12 flex items-center justify-center text-slate-400 font-bold">...</div>
-                  <button className="w-12 h-12 flex items-center justify-center rounded-xl text-slate-700 hover:bg-slate-50 transition-colors">
-                    <i className="fa-solid fa-chevron-right"></i>
-                  </button>
-               </div>
-            </div>
-
+             ))}
           </div>
         </div>
       );
     }
 
-    // Render Ứng dụng
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<App />);
   </script>
