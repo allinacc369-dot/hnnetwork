@@ -8,7 +8,7 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- FontAwesome Icons (Nơi định nghĩa các icon bạn thấy trong thẻ <i>) -->
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <!-- React & ReactDOM -->
@@ -32,7 +32,6 @@
       const [activeCategory, setActiveCategory] = useState(null);
       const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-      // THAY ĐỔI ICON TẠI ĐÂY: Thay các class 'fa-...' bằng icon từ fontawesome.com
       const menuItems = [
         { id: 1, name: 'Máy Chủ', icon: 'fa-server', desc: 'Hệ thống máy chủ hiệu năng cao, tối ưu cho doanh nghiệp.' },
         { id: 2, name: 'Thiết Bị Mạng', icon: 'fa-network-wired', desc: 'Switch, Router, Access Point và giải pháp mạng toàn diện.' },
@@ -63,11 +62,20 @@
             <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between items-center h-20">
                 
-                {/* LOGO: Bạn có thể thay thẻ <i> bằng thẻ <img> nếu muốn dùng logo ảnh */}
+                {/* LOGO ĐÃ SỬA: Sử dụng đường dẫn tương đối trực tiếp đến file ảnh trên GitHub */}
                 <div className="flex items-center cursor-pointer group" onClick={navigateToHome}>
-                  <div className="w-11 h-11 mr-3">
-  <img src="https://github.com/allinacc369-dot/hnnetwork/blob/8591dce0fd4f5b87b7ce0049529c76a926621c57/Logo%20HN-04.png" alt="Logo" className="w-full h-full object-contain" />
-</div>
+                  <div className="w-14 h-14 mr-3 flex items-center justify-center overflow-hidden">
+                    <img 
+                      src="Logo HN-04.png" 
+                      alt="HN Network Logo" 
+                      className="w-full h-full object-contain"
+                      onError={(e) => {
+                        // Nếu ảnh không load được, hiển thị icon dự phòng
+                        e.target.style.display = 'none';
+                        e.target.parentNode.innerHTML = '<i class="fa-solid fa-network-wired text-[#0047AB] text-3xl"></i>';
+                      }}
+                    />
+                  </div>
                   <span className="text-2xl font-extrabold tracking-tight text-slate-900">
                     HN<span className="text-[#0047AB]">Network</span>
                   </span>
@@ -124,7 +132,6 @@
     function HomeView({ menuItems, navigateToPage2 }) {
       return (
         <div className="animate-in fade-in duration-700">
-          {/* BANNER: Thay URL ảnh nền tại dòng dưới đây (phần url('...')) */}
           <section className="relative bg-[#0a192f] text-white overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-[#003366]/90 to-transparent z-10"></div>
             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2034&auto=format&fit=crop')] bg-cover bg-right bg-no-repeat opacity-40"></div>
@@ -167,7 +174,6 @@
           <h1 className="text-4xl font-bold mb-4">{category.name}</h1>
           <p className="text-slate-500">{category.desc}</p>
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-             {/* Danh sách sản phẩm mẫu */}
              {[1,2,3].map(i => (
                <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                   <div className="aspect-video bg-slate-100 rounded-xl mb-4 flex items-center justify-center">
