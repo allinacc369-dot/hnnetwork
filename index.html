@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HN Network - Giải pháp CNTT</title>
+  <title>HN Network - Thiết bị mạng hàng đầu Việt Nam</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -17,174 +17,214 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <style>
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    .dropdown:hover .dropdown-menu { display: block; }
+    .megamenu-item:hover { background-color: #f8fafc; color: #0047AB; }
   </style>
 </head>
-<body>
+<body class="bg-gray-50">
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useEffect } = React;
+    const { useState } = React;
 
     function App() {
-      const [currentPage, setCurrentPage] = useState('home');
-      const [activeCategory, setActiveCategory] = useState(null);
-      const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+      const [searchTerm, setSearchTerm] = useState('');
 
-      const menuItems = [
-        { id: 1, name: 'Máy Chủ', icon: 'fa-server', desc: 'Hệ thống máy chủ hiệu năng cao, tối ưu cho doanh nghiệp.' },
-        { id: 2, name: 'Thiết Bị Mạng', icon: 'fa-network-wired', desc: 'Switch, Router, Access Point và giải pháp mạng toàn diện.' },
-        { id: 3, name: 'Lưu Trữ', icon: 'fa-hard-drive', desc: 'Thiết bị lưu trữ NAS/SAN an toàn, dung lượng lớn.' },
-        { id: 4, name: 'Bảo Mật', icon: 'fa-shield-halved', desc: 'Tường lửa thế hệ mới và giải pháp an toàn thông tin.' },
-        { id: 5, name: 'Máy Tính', icon: 'fa-desktop', desc: 'PC, Workstation, Laptop cho văn phòng và đồ họa.' },
-        { id: 6, name: 'Phần Mềm', icon: 'fa-code', desc: 'Cung cấp bản quyền phần mềm hệ thống và ứng dụng.' },
-        { id: 7, name: 'Linh Kiện', icon: 'fa-microchip', desc: 'Linh kiện thay thế, nâng cấp chính hãng các loại.' },
-        { id: 8, name: 'Dịch Vụ IT', icon: 'fa-screwdriver-wrench', desc: 'Dịch vụ bảo trì, triển khai và tư vấn giải pháp CNTT.' },
+      const categories = [
+        { id: 1, name: 'Máy Chủ', sub: ['Dell PowerEdge', 'HPE ProLiant', 'Lenovo ThinkSystem'] },
+        { id: 2, name: 'Thiết Bị Mạng', sub: ['Cisco Switch', 'Aruba AP', 'MikroTik Router'] },
+        { id: 3, name: 'Lưu Trữ NAS', sub: ['Synology', 'QNAP', 'TerraMaster'] },
+        { id: 4, name: 'Bảo Mật Firewall', sub: ['Fortinet', 'Sophos', 'Palo Alto'] },
+        { id: 5, name: 'Linh Kiện Server', sub: ['RAM Server', 'HDD/SSD Enterprise', 'CPU Tray'] },
       ];
 
-      const navigateToPage2 = (category) => {
-        setActiveCategory(category);
-        setCurrentPage('page2');
-        setIsMobileMenuOpen(false);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      };
-
-      const navigateToHome = () => {
-        setCurrentPage('home');
-        setActiveCategory(null);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      };
-
       return (
-        <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-blue-200">
-          <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-between items-center h-20">
-                
-                {/* LOGO ĐÃ SỬA: Sử dụng đường dẫn tương đối trực tiếp đến file ảnh trên GitHub */}
-                <div className="flex items-center cursor-pointer group" onClick={navigateToHome}>
-                  <div className="w-14 h-14 mr-3 flex items-center justify-center overflow-hidden">
-                    <img 
-                      src="Logo HN-04.png" 
-                      alt="HN Network Logo" 
-                      className="w-full h-full object-contain"
-                      onError={(e) => {
-                        // Nếu ảnh không load được, hiển thị icon dự phòng
-                        e.target.style.display = 'none';
-                        e.target.parentNode.innerHTML = '<i class="fa-solid fa-network-wired text-[#0047AB] text-3xl"></i>';
-                      }}
-                    />
+        <div className="flex flex-col min-h-screen">
+          {/* HEADER (Dựa trên header.php) */}
+          <header id="header" className="bg-white border-b border-gray-200">
+            <div className="container mx-auto px-4 py-4 flex flex-wrap items-center justify-between">
+              {/* Logo */}
+              <div id="header_logo" className="w-full md:w-1/6 flex justify-center md:justify-start mb-4 md:mb-0">
+                <a href="/" title="HN Network">
+                  <img src="Logo HN-04.png" alt="HN Network" className="h-16 object-contain" 
+                       onError={(e) => e.target.src='https://via.placeholder.com/150x50?text=HN+Network'} />
+                </a>
+              </div>
+
+              {/* Top Info & Search */}
+              <div className="w-full md:w-5/6 flex flex-col md:flex-row items-center md:justify-end space-y-4 md:space-y-0 md:space-x-8">
+                <div className="flex space-x-6 text-sm">
+                  <div className="flex items-center">
+                    <i className="fa fa-truck text-blue-600 mr-2 text-xl"></i>
+                    <div>
+                      <p className="font-bold leading-none">Miễn phí giao hàng</p>
+                      <small className="text-gray-500">Đơn hàng từ 1.000.000đ</small>
+                    </div>
                   </div>
-                  <span className="text-2xl font-extrabold tracking-tight text-slate-900">
-                    HN<span className="text-[#0047AB]">Network</span>
-                  </span>
+                  <div className="flex items-center">
+                    <i className="fa fa-phone text-blue-600 mr-2 text-xl"></i>
+                    <div>
+                      <p className="font-bold leading-none">Hotline hỗ trợ</p>
+                      <small className="text-gray-500">09xx.xxx.xxx</small>
+                    </div>
+                  </div>
                 </div>
 
-                <nav className="hidden xl:flex space-x-1 lg:space-x-2">
-                  {menuItems.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => navigateToPage2(item)}
-                      className={`text-sm font-semibold px-3 py-2 rounded-lg transition-all whitespace-nowrap ${
-                        activeCategory?.id === item.id && currentPage === 'page2'
-                          ? 'bg-blue-50 text-[#0047AB]'
-                          : 'text-slate-600 hover:text-[#0047AB] hover:bg-slate-50'
-                      }`}
-                    >
-                      {item.name}
-                    </button>
-                  ))}
-                </nav>
-
-                <div className="hidden lg:flex items-center space-x-3">
-                  <button className="ml-2 bg-[#0047AB] hover:bg-blue-800 text-white px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-md flex items-center">
-                    <i className="fa-solid fa-phone mr-2"></i> Liên Hệ
-                  </button>
-                </div>
-
-                <div className="flex items-center xl:hidden">
-                  <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-slate-500 p-2">
-                    <i className={`fa-solid ${isMobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-2xl`}></i>
+                <div className="relative w-full md:w-72">
+                  <input 
+                    type="text" 
+                    placeholder="Tìm kiếm sản phẩm..." 
+                    className="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                  <button className="absolute right-3 top-2 text-gray-400">
+                    <i className="fa fa-search"></i>
                   </button>
                 </div>
               </div>
             </div>
           </header>
 
-          <main className="min-h-[calc(100vh-160px)]">
-            {currentPage === 'home' ? (
-              <HomeView menuItems={menuItems} navigateToPage2={navigateToPage2} />
-            ) : (
-              <Page2View category={activeCategory} onBack={navigateToHome} />
-            )}
+          {/* MAIN CONTENT (Dựa trên layout.php) */}
+          <main className="container mx-auto px-4 py-6 flex-grow">
+            <div className="flex flex-col lg:flex-row gap-6">
+              
+              {/* SIDEBAR (Dựa trên sidebar.php) */}
+              <aside className="w-full lg:w-1/4">
+                <div className="bg-[#0047AB] text-white px-4 py-3 rounded-t-lg font-bold flex items-center">
+                  <i className="fa fa-reorder mr-3"></i> DANH MỤC SẢN PHẨM
+                </div>
+                <div className="bg-white border border-gray-200 rounded-b-lg shadow-sm">
+                  <ul className="flex flex-col">
+                    {categories.map((cat) => (
+                      <li key={cat.id} className="dropdown relative border-b border-gray-100 last:border-0 group">
+                        <a href="#" className="flex justify-between items-center px-4 py-3 hover:bg-gray-50 hover:text-blue-700 transition-colors">
+                          <span className="font-medium">{cat.name}</span>
+                          <i className="fa fa-angle-right text-gray-400"></i>
+                        </a>
+                        {/* Megamenu/Dropdown */}
+                        <div className="dropdown-menu hidden absolute left-full top-0 w-64 bg-white shadow-xl border border-gray-100 z-50 rounded-r-lg">
+                          <div className="p-4">
+                            <h4 className="font-bold text-blue-800 mb-2 border-b pb-2">{cat.name}</h4>
+                            {cat.sub.map((s, idx) => (
+                              <a key={idx} href="#" className="block py-2 text-gray-600 hover:text-blue-600 hover:translate-x-1 transition-transform">{s}</a>
+                            ))}
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </aside>
+
+              {/* CENTER COLUMN (Hero Banner & Products) */}
+              <section className="w-full lg:w-3/4 flex flex-col gap-6">
+                {/* Banner Slide */}
+                <div className="relative rounded-2xl overflow-hidden h-[300px] md:h-[450px] shadow-lg group">
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent z-10"></div>
+                  <img 
+                    src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2034&auto=format&fit=crop" 
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    alt="Server Infrastructure" 
+                  />
+                  <div className="absolute inset-0 z-20 flex flex-col justify-center px-8 md:px-16 text-white">
+                    <h2 className="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">Hạ tầng mạng <br/><span className="text-blue-400">Chuyên Nghiệp</span></h2>
+                    <p className="text-lg text-gray-200 mb-8 max-w-md">Cung cấp giải pháp tối ưu cho doanh nghiệp chuyển đổi số.</p>
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-bold w-max transition-all">XEM SẢN PHẨM</button>
+                  </div>
+                </div>
+
+                {/* Featured Products Grid */}
+                <div>
+                  <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-2xl font-bold border-l-4 border-blue-600 pl-3">Sản phẩm nổi bật</h3>
+                    <a href="#" className="text-blue-600 hover:underline">Xem tất cả <i className="fa fa-angle-double-right"></i></a>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {[1, 2, 3].map(i => (
+                      <div key={i} className="bg-white p-4 rounded-xl border border-gray-200 hover:shadow-lg transition-shadow group">
+                        <div className="aspect-square bg-gray-100 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                           <i className="fa fa-server text-5xl text-gray-300 group-hover:scale-110 transition-transform"></i>
+                        </div>
+                        <h4 className="font-bold text-gray-800 line-clamp-2 mb-2">Máy chủ Dell PowerEdge R750 8x3.5-inch Silver 4310 32GB 2TB</h4>
+                        <p className="text-blue-700 font-extrabold text-lg">Liên hệ báo giá</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            </div>
           </main>
 
-          <footer className="bg-slate-900 text-slate-300 py-16 border-t-4 border-[#0047AB]">
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">
-               <p>&copy; 2026 Bản quyền thuộc về HN Network.</p>
+          {/* FOOTER (Dựa trên footer.php) */}
+          <footer className="bg-white border-t border-gray-200 mt-12">
+            <div className="container mx-auto px-4 py-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                
+                {/* Hỗ trợ kỹ thuật */}
+                <div>
+                  <h4 className="bg-blue-600 text-white text-center py-2 rounded-t-lg font-bold mb-4">HỖ TRỢ KỸ THUẬT</h4>
+                  <div className="space-y-4">
+                    <div className="bg-gray-50 p-4 rounded-lg flex items-center">
+                      <div className="bg-blue-100 p-3 rounded-full mr-4">
+                        <i className="fa fa-user-gear text-blue-600"></i>
+                      </div>
+                      <div>
+                        <p className="font-bold">Kỹ thuật viên 1</p>
+                        <p className="text-blue-700">0912.345.678</p>
+                        <small className="text-gray-500">Skype: hn_support01</small>
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 p-4 rounded-lg flex items-center">
+                      <div className="bg-blue-100 p-3 rounded-full mr-4">
+                        <i className="fa fa-user-gear text-blue-600"></i>
+                      </div>
+                      <div>
+                        <p className="font-bold">Kỹ thuật viên 2</p>
+                        <p className="text-blue-700">0987.654.321</p>
+                        <small className="text-gray-500">Skype: hn_support02</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Thông tin liên hệ */}
+                <div>
+                  <h4 className="font-bold text-xl mb-4 border-b-2 border-blue-600 pb-2">HN NETWORK</h4>
+                  <ul className="space-y-3 text-gray-600">
+                    <li className="flex items-start"><i className="fa fa-map-marker-alt mt-1 mr-3 text-blue-600"></i> 14 Đường số 4, An Lạc A, Bình Tân, TP. HCM</li>
+                    <li className="flex items-center"><i className="fa fa-phone mr-3 text-blue-600"></i> (028) xxxx xxxx</li>
+                    <li className="flex items-center"><i className="fa fa-envelope mr-3 text-blue-600"></i> info@hnnetwork.vn</li>
+                  </ul>
+                  <div className="flex space-x-4 mt-6">
+                    <a href="#" className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white transition-colors"><i className="fab fa-facebook-f"></i></a>
+                    <a href="#" className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center text-red-600 hover:bg-red-600 hover:text-white transition-colors"><i className="fab fa-youtube"></i></a>
+                    <a href="#" className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-400 hover:bg-blue-400 hover:text-white transition-colors"><i className="fab fa-twitter"></i></a>
+                  </div>
+                </div>
+
+                {/* Bản đồ (Iframe từ footer.php) */}
+                <div>
+                  <h4 className="font-bold text-xl mb-4 border-b-2 border-blue-600 pb-2">VỊ TRÍ</h4>
+                  <div className="rounded-lg overflow-hidden border border-gray-200 h-64 shadow-inner">
+                    <iframe 
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.8888387025445!2d106.61501791472925!3d10.743049962746708!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752dce20e1df19%3A0xa082e1b1d9ec7eb0!2zMTQgxJDGsOG7nW5nIHPhu5EgNCwgQW4gTOG6oWMgQSwgQsOsbmggVMOibiwgSOG7kyBDaMOtIE1pbmgsIFZpZXRuYW0!5e0!3m2!1sen!2s!4v1497362667001" 
+                      width="100%" 
+                      height="100%" 
+                      frameBorder="0" 
+                      style={{ border:0 }} 
+                      allowFullScreen 
+                    ></iframe>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-12 pt-8 border-t border-gray-100 text-center text-gray-500 text-sm">
+                &copy; 2026 HN Network. Tất cả quyền được bảo lưu. Thiết kế bởi HN Team.
+              </div>
             </div>
           </footer>
-        </div>
-      );
-    }
-
-    function HomeView({ menuItems, navigateToPage2 }) {
-      return (
-        <div className="animate-in fade-in duration-700">
-          <section className="relative bg-[#0a192f] text-white overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#003366]/90 to-transparent z-10"></div>
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2034&auto=format&fit=crop')] bg-cover bg-right bg-no-repeat opacity-40"></div>
-            
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-              <div className="py-24 md:py-36 lg:py-48 max-w-3xl">
-                <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-6">Xây dựng nền tảng Số Hóa</h1>
-                <p className="text-lg md:text-2xl text-slate-300 mb-10">Giải pháp Máy chủ, Mạng và Bảo mật chuyên nghiệp.</p>
-                <button onClick={() => navigateToPage2(menuItems[0])} className="bg-[#0047AB] px-8 py-4 rounded-xl font-bold text-lg">Khám phá ngay</button>
-              </div>
-            </div>
-          </section>
-
-          <section className="py-24 bg-slate-50">
-            <div className="max-w-[1400px] mx-auto px-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {menuItems.map((item) => (
-                  <div key={item.id} onClick={() => navigateToPage2(item)} className="bg-white p-8 rounded-3xl border border-slate-200 cursor-pointer hover:shadow-xl transition-all">
-                    <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-6">
-                      <i className={`fa-solid ${item.icon} text-3xl text-[#0047AB]`}></i>
-                    </div>
-                    <h3 className="text-xl font-bold mb-3">{item.name}</h3>
-                    <p className="text-slate-600 text-sm">{item.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        </div>
-      );
-    }
-
-    function Page2View({ category, onBack }) {
-      if (!category) return null;
-      return (
-        <div className="p-8 max-w-[1400px] mx-auto">
-          <button onClick={onBack} className="mb-6 text-[#0047AB] font-bold flex items-center">
-            <i className="fa-solid fa-arrow-left mr-2"></i> Quay lại trang chủ
-          </button>
-          <h1 className="text-4xl font-bold mb-4">{category.name}</h1>
-          <p className="text-slate-500">{category.desc}</p>
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-             {[1,2,3].map(i => (
-               <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                  <div className="aspect-video bg-slate-100 rounded-xl mb-4 flex items-center justify-center">
-                     <i className={`fa-solid ${category.icon} text-5xl text-slate-300`}></i>
-                  </div>
-                  <h4 className="font-bold">Sản phẩm mẫu {category.name} #{i}</h4>
-                  <p className="text-sm text-slate-400 mt-2">Thông số kỹ thuật chi tiết của thiết bị...</p>
-                  <button className="mt-4 w-full py-2 bg-[#0047AB] text-white rounded-lg font-bold">Xem báo giá</button>
-               </div>
-             ))}
-          </div>
         </div>
       );
     }
