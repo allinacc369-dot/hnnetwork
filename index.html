@@ -99,6 +99,11 @@
         }
       ];
 
+      const handleZaloRedirect = (phone) => {
+        const cleanPhone = phone.replace(/\./g, '');
+        window.open(`https://zalo.me/${cleanPhone}`, '_blank');
+      };
+
       return (
         <div className="min-h-screen flex flex-col">
           {/* NAVIGATION BAR */}
@@ -123,7 +128,10 @@
                     <span className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter text-nowrap">Hotline 24/7</span>
                     <span className="text-blue-600 font-bold text-nowrap">0938.888.304</span>
                 </div>
-                <button className="bg-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all text-nowrap">
+                <button 
+                  onClick={() => handleZaloRedirect('0938888304')}
+                  className="bg-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all text-nowrap"
+                >
                   Báo giá ngay
                 </button>
               </div>
@@ -220,7 +228,10 @@
                       </p>
                       <div className="flex items-center justify-between mt-auto pt-6 border-t border-gray-50">
                         <span className="text-blue-600 font-extrabold text-lg tracking-tight uppercase">{product.price}</span>
-                        <button className="bg-gray-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-600 transition-all flex items-center gap-2">
+                        <button 
+                          onClick={() => handleZaloRedirect('0938888304')}
+                          className="bg-gray-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-600 transition-all flex items-center gap-2"
+                        >
                           Chi tiết <i className="fa fa-chevron-right text-[10px]"></i>
                         </button>
                       </div>
@@ -240,14 +251,20 @@
                 <div className="lg:col-span-4">
                   <h4 className="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Hỗ trợ kinh doanh</h4>
                   <div className="grid gap-4">
-                    <div className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group">
+                    <div 
+                      onClick={() => handleZaloRedirect('0938.888.304')}
+                      className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group cursor-pointer"
+                    >
                       <div className="flex justify-between items-center mb-1">
                         <span className="text-gray-400 text-[10px] font-bold uppercase">Kinh doanh 1</span>
                         <i className="fa fa-phone text-blue-400 text-xs group-hover:rotate-12 transition-transform"></i>
                       </div>
                       <p className="text-xl font-bold">0938.888.304</p>
                     </div>
-                    <div className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group">
+                    <div 
+                      onClick={() => handleZaloRedirect('0974.700.952')}
+                      className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group cursor-pointer"
+                    >
                       <div className="flex justify-between items-center mb-1">
                         <span className="text-gray-400 text-[10px] font-bold uppercase">Kinh doanh 2</span>
                         <i className="fa fa-phone text-blue-400 text-xs group-hover:rotate-12 transition-transform"></i>
@@ -281,7 +298,7 @@
                       </div>
                     </div>
                     <div className="flex gap-4 pt-2">
-                      <a href="#" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-blue-600 transition-all"><i className="fab fa-facebook-f"></i></a>
+                      <a href="https://www.facebook.com/hnnetwork.vn" target="_blank" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-blue-600 transition-all"><i className="fab fa-facebook-f"></i></a>
                       <a href="#" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-red-600 transition-all"><i className="fab fa-youtube"></i></a>
                     </div>
                   </div>
