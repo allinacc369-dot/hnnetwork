@@ -109,11 +109,17 @@
           {/* NAVIGATION BAR */}
           <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'glass-nav py-3 border-b border-gray-100 shadow-sm' : 'bg-transparent py-6'}`}>
             <div className="container mx-auto px-6 flex items-center justify-between">
-              <a href="#" className="flex items-center gap-3">
-                <div className="bg-blue-600 w-10 h-10 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-extrabold text-xl italic">HN</span>
-                </div>
-                <span className="font-extrabold text-xl tracking-tighter text-blue-900 hidden sm:inline text-nowrap">HN NETWORK</span>
+              {/* PHẦN ĐÃ THAY ĐỔI: Sử dụng ảnh Logo_HN-04.png thay cho chữ HN */}
+              <a href="#" className="flex items-center gap-3 group">
+                <img 
+                  src="Logo_HN-04.png" 
+                  alt="HN Network Logo" 
+                  className={`transition-all duration-300 object-contain ${scrolled ? 'h-10' : 'h-14'}`}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://via.placeholder.com/150x50?text=HN+NETWORK";
+                  }}
+                />
               </a>
 
               <div className="hidden md:flex items-center gap-8 font-medium text-sm uppercase tracking-widest text-gray-600">
@@ -136,7 +142,7 @@
                 </button>
               </div>
             </div>
-          </nav>
+          </nav>a
 
           {/* HERO SECTION */}
           <section className="relative pt-32 pb-20 overflow-hidden">
