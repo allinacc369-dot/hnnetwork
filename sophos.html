@@ -1,1 +1,287 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import { 
+  Server, 
+  Network, 
+  Database, 
+  ShieldCheck, 
+  Cpu, 
+  ArrowRight, 
+  MapPin, 
+  Headset, 
+  ChevronRight, 
+  ChevronLeft,
+  Phone,
+  Facebook,
+  Youtube,
+  Menu,
+  X,
+  Shield,
+  Zap,
+  Activity
+} from 'lucide-react';
 
+const App = () => {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 9;
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Dữ liệu sản phẩm từ danh sách Sophos XGS
+  const sophosProducts = [
+    { id: 1, model: 'XGS 87', desc: 'Hardware Appliance with 4 GbE ports', throughput: '3.7 Gbps', threat: '240 Mbps', memory: '4 GB', vpn: '750 Mbps' },
+    { id: 2, model: 'XGS 87w', desc: 'Hardware Appliance with 4 GbE ports + Wi-Fi', throughput: '3.7 Gbps', threat: '240 Mbps', memory: '4 GB', vpn: '750 Mbps' },
+    { id: 3, model: 'XGS 107', desc: 'Hardware Appliance with 8 GbE + 1 SFP', throughput: '7.0 Gbps', threat: '330 Mbps', memory: '4 GB', vpn: '900 Mbps' },
+    { id: 4, model: 'XGS 107w', desc: 'Hardware Appliance with 8 GbE + 1 SFP + Wi-Fi', throughput: '7.0 Gbps', threat: '330 Mbps', memory: '4 GB', vpn: '900 Mbps' },
+    { id: 5, model: 'XGS 116', desc: 'Hardware Appliance with 8 GbE + 1 SFP + 1 GbE bypass', throughput: '7.7 Gbps', threat: '685 Mbps', memory: '4 GB', vpn: '1.1 Gbps' },
+    { id: 6, model: 'XGS 116w', desc: 'Hardware Appliance with 8 GbE + 1 SFP + 1 GbE bypass + Wi-Fi', throughput: '7.7 Gbps', threat: '685 Mbps', memory: '4 GB', vpn: '1.1 Gbps' },
+    { id: 7, model: 'XGS 126', desc: 'Hardware Appliance with 8 GbE + 1 SFP + 1 SFP+ + 1 GbE bypass', throughput: '10.5 Gbps', threat: '900 Mbps', memory: '4 GB', vpn: '1.8 Gbps' },
+    { id: 8, model: 'XGS 126w', desc: 'Hardware Appliance with 8 GbE + 1 SFP + 1 SFP+ + 1 GbE bypass + Wi-Fi', throughput: '10.5 Gbps', threat: '900 Mbps', memory: '4 GB', vpn: '1.8 Gbps' },
+    { id: 9, model: 'XGS 136', desc: 'Hardware Appliance with 8 GbE + 1 SFP + 1 SFP+ + 1 GbE bypass', throughput: '11.5 Gbps', threat: '1.0 Gbps', memory: '4 GB', vpn: '2.5 Gbps' },
+    { id: 10, model: 'XGS 136w', desc: 'Hardware Appliance with 8 GbE + 1 SFP + 1 SFP+ + 1 GbE bypass + Wi-Fi', throughput: '11.5 Gbps', threat: '1.0 Gbps', memory: '4 GB', vpn: '2.5 Gbps' },
+    { id: 11, model: 'XGS 2100', desc: 'Hardware Appliance with 8 GbE + 2 SFP + 1 Flexi Port slot', throughput: '30.0 Gbps', threat: '1.25 Gbps', memory: '8 GB', vpn: '3.0 Gbps' },
+    { id: 12, model: 'XGS 2300', desc: 'Hardware Appliance with 8 GbE + 2 SFP + 1 SFP+ + 1 Flexi Port slot', throughput: '35.0 Gbps', threat: '1.45 Gbps', memory: '8 GB', vpn: '3.5 Gbps' },
+    { id: 13, model: 'XGS 3100', desc: 'Hardware Appliance with 8 GbE + 2 SFP + 1 SFP+ + 1 Flexi Port slot', throughput: '45.0 Gbps', threat: '2.0 Gbps', memory: '16 GB', vpn: '5.0 Gbps' },
+    { id: 14, model: 'XGS 3300', desc: 'Hardware Appliance with 8 GbE + 2 SFP + 2 SFP+ + 1 Flexi Port slot', throughput: '52.0 Gbps', threat: '2.77 Gbps', memory: '16 GB', vpn: '6.5 Gbps' },
+    { id: 15, model: 'XGS 4300', desc: 'Hardware Appliance with 8 GbE + 2 SFP+ + 2 Flexi Port slots', throughput: '75.0 Gbps', threat: '4.8 Gbps', memory: '16 GB', vpn: '9.8 Gbps' },
+    { id: 16, model: 'XGS 4500', desc: 'Hardware Appliance with 8 GbE + 2 SFP+ + 2 Flexi Port slots', throughput: '80.0 Gbps', threat: '8.39 Gbps', memory: '32 GB', vpn: '16.0 Gbps' },
+    { id: 17, model: 'XGS 5500', desc: 'Hardware Appliance with 8 GbE + 4 SFP+ + 2 Flexi Port slots', throughput: '100 Gbps', threat: '12.39 Gbps', memory: '64 GB', vpn: '21.0 Gbps' },
+    { id: 18, model: 'XGS 6500', desc: 'Hardware Appliance with 8 GbE + 4 SFP+ + 2 Flexi Port slots', throughput: '115 Gbps', threat: '17.05 Gbps', memory: '128 GB', vpn: '26.0 Gbps' }
+  ];
+
+  // Logic phân trang
+  const currentProducts = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * productsPerPage;
+    const lastPageIndex = firstPageIndex + productsPerPage;
+    return sophosProducts.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage]);
+
+  const totalPages = Math.ceil(sophosProducts.length / productsPerPage);
+
+  const handleZaloRedirect = (phone) => {
+    const cleanPhone = phone.replace(/\./g, '');
+    window.open(`https://zalo.me/${cleanPhone}`, '_blank');
+  };
+
+  return (
+    <div className="min-h-screen bg-[#fafafa] text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900">
+      
+      {/* HEADER (GIỮ NGUYÊN) */}
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+        scrolled ? 'bg-white/80 backdrop-blur-md py-3 shadow-sm border-b border-slate-100' : 'bg-transparent py-6'
+      }`}>
+        <div className="container mx-auto px-6 flex items-center justify-between">
+          <a href="#" className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-black text-xl shadow-lg shadow-blue-200">HN</div>
+            <span className="font-extrabold text-xl tracking-tighter text-slate-900 hidden sm:inline uppercase">HN NETWORK</span>
+          </a>
+          <div className="hidden md:flex items-center gap-8 font-semibold text-xs uppercase tracking-widest text-slate-500">
+            <a href="#" className="hover:text-blue-600 transition-colors">Sản phẩm</a>
+            <a href="#" className="hover:text-blue-600 transition-colors">Giải pháp</a>
+            <a href="#" className="hover:text-blue-600 transition-colors">Dịch vụ</a>
+            <a href="#" className="hover:text-blue-600 transition-colors text-blue-600">Phân phối Sophos</a>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="hidden lg:flex flex-col items-end mr-2 text-nowrap">
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Hotline hỗ trợ</span>
+              <span className="text-blue-600 font-bold text-sm">0938.888.304</span>
+            </div>
+            <button onClick={() => handleZaloRedirect('0938888304')} className="bg-blue-600 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all">Báo giá</button>
+            <button className="md:hidden text-slate-900" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* MOBILE MENU */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-white pt-24 px-6 md:hidden">
+          <div className="flex flex-col gap-6 text-xl font-bold text-slate-800">
+            <a href="#" onClick={() => setMobileMenuOpen(false)}>Sản phẩm</a>
+            <a href="#" onClick={() => setMobileMenuOpen(false)}>Giải pháp</a>
+            <a href="#" onClick={() => setMobileMenuOpen(false)}>Dịch vụ</a>
+            <hr />
+            <p className="text-blue-600">0938.888.304</p>
+          </div>
+        </div>
+      )}
+
+      {/* MAIN CONTENT: SOPHOS FIREWALL LIST */}
+      <main className="pt-32 pb-24">
+        <div className="container mx-auto px-6">
+          
+          {/* Section Header */}
+          <div className="flex flex-col items-center text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-widest mb-6 border border-blue-100">
+              Phân phối chính hãng
+            </div>
+            <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight uppercase">Sophos Firewall XGS Series</h1>
+            <p className="text-slate-500 max-w-2xl font-medium leading-relaxed">
+              Giải pháp tường lửa thế hệ mới với kiến trúc Xstream vượt trội, mang lại hiệu suất tối đa cho việc kiểm tra SSL và ngăn chặn mối đe dọa.
+            </p>
+          </div>
+
+          {/* Product Grid 3x3 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {currentProducts.map((p) => (
+              <div key={p.id} className="bg-white rounded-[2.5rem] border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 group flex flex-col h-full">
+                <div className="p-8 pb-4">
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                      <Shield size={32} />
+                    </div>
+                    <span className="text-[10px] font-black bg-blue-50 text-blue-600 px-3 py-1 rounded-full uppercase tracking-widest border border-blue-100">XGS Series</span>
+                  </div>
+                  <h3 className="text-2xl font-black text-slate-800 mb-2">Sophos {p.model}</h3>
+                  <p className="text-slate-400 text-xs font-semibold mb-6 line-clamp-1">{p.desc}</p>
+                  
+                  {/* Specifications */}
+                  <div className="space-y-4 mb-8">
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-2 text-slate-500"><Zap size={14} className="text-blue-500" /> Firewall Throughput</div>
+                      <span className="font-bold text-slate-700">{p.throughput}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-2 text-slate-500"><Shield size={14} className="text-red-500" /> Threat Protection</div>
+                      <span className="font-bold text-slate-700">{p.threat}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-2 text-slate-500"><Activity size={14} className="text-green-500" /> IPsec VPN</div>
+                      <span className="font-bold text-slate-700">{p.vpn}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-2 text-slate-500"><Cpu size={14} className="text-purple-500" /> Memory</div>
+                      <span className="font-bold text-slate-700">{p.memory}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-8 pt-0 mt-auto">
+                  <button 
+                    onClick={() => handleZaloRedirect('0938888304')}
+                    className="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 group-hover:bg-blue-600 transition-all shadow-xl shadow-slate-100 group-hover:shadow-blue-200"
+                  >
+                    Báo giá chi tiết <ChevronRight size={18} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Pagination Controls */}
+          <div className="mt-20 flex justify-center items-center gap-4">
+            <button 
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className={`w-12 h-12 rounded-2xl border flex items-center justify-center transition-all ${
+                currentPage === 1 ? 'border-slate-100 text-slate-300 cursor-not-allowed' : 'border-slate-200 text-slate-600 hover:bg-white hover:shadow-lg'
+              }`}
+            >
+              <ChevronLeft size={20} />
+            </button>
+            
+            <div className="flex gap-2">
+              {[...Array(totalPages)].map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={`w-12 h-12 rounded-2xl font-bold text-sm transition-all ${
+                    currentPage === i + 1 
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' 
+                    : 'bg-white border border-slate-200 text-slate-500 hover:border-blue-200'
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+
+            <button 
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className={`w-12 h-12 rounded-2xl border flex items-center justify-center transition-all ${
+                currentPage === totalPages ? 'border-slate-100 text-slate-300 cursor-not-allowed' : 'border-slate-200 text-slate-600 hover:bg-white hover:shadow-lg'
+              }`}
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        </div>
+      </main>
+
+      {/* FOOTER (GIỮ NGUYÊN) */}
+      <footer className="bg-slate-950 text-white pt-24 pb-12">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
+            <div className="lg:col-span-4">
+              <div className="flex items-center gap-3 mb-10">
+                <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center font-bold text-sm text-white">HN</div>
+                <span className="font-extrabold text-lg tracking-tight uppercase">HN NETWORK</span>
+              </div>
+              <div className="grid gap-4">
+                <div onClick={() => handleZaloRedirect('0938.888.304')} className="bg-white/5 border border-white/10 p-5 rounded-2xl hover:bg-white/10 cursor-pointer group">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Kinh doanh 1</span>
+                    <Phone size={14} className="text-blue-400 group-hover:rotate-12 transition-transform" />
+                  </div>
+                  <p className="text-xl font-bold tracking-tight">0938.888.304</p>
+                </div>
+                <div onClick={() => handleZaloRedirect('0974.700.952')} className="bg-white/5 border border-white/10 p-5 rounded-2xl hover:bg-white/10 cursor-pointer group">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Kinh doanh 2</span>
+                    <Phone size={14} className="text-blue-400 group-hover:rotate-12 transition-transform" />
+                  </div>
+                  <p className="text-xl font-bold tracking-tight">0974.700.952</p>
+                </div>
+              </div>
+            </div>
+            <div className="lg:col-span-5">
+              <h4 className="text-blue-400 text-[10px] font-black uppercase tracking-[0.3em] mb-10">Liên hệ</h4>
+              <div className="space-y-8">
+                <div className="flex gap-5">
+                  <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-blue-400 shrink-0 shadow-inner">
+                    <MapPin size={24} />
+                  </div>
+                  <div>
+                    <h5 className="text-xs font-bold mb-2 uppercase tracking-wider text-slate-300">Văn phòng đại diện</h5>
+                    <p className="text-slate-400 text-sm leading-relaxed font-medium">Số 2A Đường Thành Công, P. Phú Thọ Hòa, Q. Tân Phú, TP. HCM</p>
+                  </div>
+                </div>
+                <div className="flex gap-5">
+                  <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-blue-400 shrink-0 shadow-inner">
+                    <Headset size={24} />
+                  </div>
+                  <div>
+                    <h5 className="text-xs font-bold mb-2 uppercase tracking-wider text-slate-300">Tổng đài hỗ trợ</h5>
+                    <p className="text-slate-400 text-sm font-medium">CSKH: (028) 668 42 689 | Email: info@hnnetwork.vn</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <a href="#" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-blue-600 transition-all border border-white/5"><Facebook size={20} /></a>
+                  <a href="#" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-red-600 transition-all border border-white/5"><Youtube size={20} /></a>
+                </div>
+              </div>
+            </div>
+            <div className="lg:col-span-3">
+              <h4 className="text-blue-400 text-[10px] font-black uppercase tracking-[0.3em] mb-10">Bản đồ</h4>
+              <div className="rounded-[2rem] overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 border border-white/10 h-[220px] shadow-2xl">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2412216077746!2d106.63263728527505!3d10.792827961914577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529532c42131f%3A0xc72609f9f908c1cc!2zMkEgVGjDoG5oIEPDtG5nLCBUw6JuIFRow6BuaCwgVMOibiBQaMO6LCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1772251814694!5m2!1svi!2s" width="100%" height="100%" frameBorder="0" style={{ border:0 }} allowFullScreen loading="lazy"></iframe>
+              </div>
+            </div>
+          </div>
+          <div className="pt-12 border-t border-white/5 text-center text-[10px] text-slate-500 font-bold uppercase tracking-widest">
+            <p>&copy; 2026 HN Network Enterprise. Chuyên gia giải pháp Firewall Sophos hàng đầu.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
