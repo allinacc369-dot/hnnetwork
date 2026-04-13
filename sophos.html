@@ -19,7 +19,7 @@
     }
 
     .glass-nav {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
@@ -101,17 +101,21 @@
         <div className="min-h-screen flex flex-col">
           {/* Navigation */}
           <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-            scrolled ? 'glass-nav py-3 shadow-md' : 'bg-transparent py-6'
+            scrolled ? 'glass-nav py-2 shadow-md border-b border-slate-100' : 'bg-transparent py-4'
           }`}>
             <div className="container mx-auto px-6 flex items-center justify-between">
-              <a href="index.html" className="flex items-center gap-3 group">
-                <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-lg shadow-blue-200 group-hover:scale-110 transition-transform">HN</div>
-                <span className="font-extrabold text-xl tracking-tighter text-slate-900 hidden sm:inline uppercase">HN NETWORK</span>
+              <a href="index.html" className="flex items-center group">
+                <img 
+                  src="Logo_HN-04.png" 
+                  alt="HN Network Logo" 
+                  className="h-12 md:h-16 w-auto transition-transform duration-300 group-hover:scale-105"
+                  onError={(e) => { e.target.src = 'https://via.placeholder.com/150x50?text=HN+NETWORK'; }}
+                />
               </a>
               
-              <div className="hidden md:flex items-center gap-8 font-bold text-[11px] uppercase tracking-widest text-slate-500">
+              <div className="hidden md:flex items-center gap-8 font-bold text-[11px] uppercase tracking-widest text-slate-600">
                 <a href="index.html" className="hover:text-blue-600 transition-colors">Trang chủ</a>
-                <a href="#" className="text-blue-600">Sản phẩm Sophos</a>
+                <a href="#" className="text-blue-600 border-b-2 border-blue-600 pb-1">Sản phẩm Sophos</a>
                 <a href="#" className="hover:text-blue-600 transition-colors">Giải pháp</a>
                 <a href="#" className="hover:text-blue-600 transition-colors">Dịch vụ</a>
               </div>
@@ -119,11 +123,11 @@
               <div className="flex items-center gap-4">
                 <div className="hidden lg:flex flex-col items-end mr-2 text-nowrap">
                   <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Hotline hỗ trợ</span>
-                  <span className="text-blue-600 font-bold text-sm">0938.888.304</span>
+                  <span className="text-blue-600 font-extrabold text-sm">0938.888.304</span>
                 </div>
                 <button 
                   onClick={() => handleZaloRedirect('0938888304')}
-                  className="bg-blue-600 text-white px-6 py-2.5 rounded-full text-xs font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 hover:shadow-blue-300 transition-all active:scale-95"
+                  className="bg-blue-600 text-white px-7 py-3 rounded-full text-xs font-black shadow-lg shadow-blue-200 hover:bg-blue-700 hover:shadow-blue-300 transition-all active:scale-95 uppercase tracking-widest"
                 >
                   BÁO GIÁ
                 </button>
@@ -144,8 +148,8 @@
                 <a href="#" onClick={() => setMobileMenuOpen(false)}>Dịch vụ</a>
                 <hr className="border-slate-100" />
                 <div className="flex flex-col gap-2">
-                  <span className="text-xs text-slate-400 uppercase tracking-widest">Liên hệ nhanh</span>
-                  <p className="text-blue-600 text-2xl">0938.888.304</p>
+                  <span className="text-xs text-slate-400 uppercase tracking-widest font-bold">Liên hệ nhanh</span>
+                  <p className="text-blue-600 text-2xl font-black">0938.888.304</p>
                 </div>
               </div>
             </div>
@@ -154,9 +158,6 @@
           <main className="pt-40 pb-24 flex-grow">
             <div className="container mx-auto px-6">
               <div className="flex flex-col items-center text-center mb-16">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-widest mb-6 border border-blue-100 shadow-sm">
-                  <i className="fa-solid fa-shield-check mr-1"></i> Authorized Partner
-                </div>
                 <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight uppercase leading-tight">
                   Sophos Firewall <span className="text-blue-600">XGS Series</span>
                 </h1>
@@ -226,9 +227,9 @@
                   <button 
                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
-                    className="pagination-btn w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-white hover:shadow-xl transition-all active:scale-90"
+                    className="pagination-btn w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-white hover:shadow-xl transition-all active:scale-90 shadow-sm"
                   >
-                    <i className="fa-solid fa-chevron-left"></i>
+                    <i className="fa-solid fa-chevron-left text-sm"></i>
                   </button>
                   
                   <div className="flex gap-2">
@@ -250,9 +251,9 @@
                   <button 
                     onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}
-                    className="pagination-btn w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-white hover:shadow-xl transition-all active:scale-90"
+                    className="pagination-btn w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-white hover:shadow-xl transition-all active:scale-90 shadow-sm"
                   >
-                    <i className="fa-solid fa-chevron-right"></i>
+                    <i className="fa-solid fa-chevron-right text-sm"></i>
                   </button>
                 </div>
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
@@ -267,9 +268,14 @@
             <div className="container mx-auto px-6">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
                 <div className="lg:col-span-4">
-                  <div className="flex items-center gap-3 mb-10">
-                    <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center font-bold text-sm text-white">HN</div>
-                    <span className="font-extrabold text-lg tracking-tight uppercase">HN NETWORK</span>
+                  <div className="mb-10">
+                    <img 
+                      src="Logo_HN-04.png" 
+                      alt="HN Network Logo" 
+                      className="h-16 w-auto brightness-0 invert"
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
+                    <p className="mt-4 text-slate-500 text-xs font-bold uppercase tracking-widest">HN NETWORK ENTERPRISE</p>
                   </div>
                   <div className="grid gap-4">
                     <div onClick={() => handleZaloRedirect('0938.888.304')} className="bg-white/5 border border-white/10 p-5 rounded-3xl hover:bg-white/10 cursor-pointer group transition-all">
