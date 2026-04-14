@@ -39,6 +39,15 @@
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
     }
 
+    /* Ẩn thanh cuộn nhưng vẫn cho phép cuộn ngang trên mobile */
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
     ::-webkit-scrollbar {
       width: 6px;
     }
@@ -87,7 +96,7 @@
           name: 'Sophos Firewall XGS Series Next-Gen',
           desc: 'Tường lửa thế hệ mới với kiến trúc Dual-Processor Xstream, mang lại hiệu suất vượt trội và khả năng bảo vệ mối đe dọa toàn diện.',
           price: 'Giá cực tốt',
-          link: 'sophos.html', // Gắn link tới trang sophos
+          link: 'sophos.html',
           image: 'https://images.contentstack.io/v3/assets/blt38f1f401b66100ad/blt29ba689efd9e8428/695cd582ec41045bb273008c/firewall-graphics-gen-ai-upscaled-update-2.png?width=1220&quality=80&auto=webp&format=auto&cache=true&immutable=true&cache-control=max-age%3D31536000'
         },
         {
@@ -108,7 +117,7 @@
 
       return (
         <div className="min-h-screen flex flex-col">
-          {/* NAVIGATION BAR */}
+          {/* NAVIGATION BAR - Phục hồi nguyên trạng */}
           <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'glass-nav py-3 border-b border-gray-100 shadow-sm' : 'bg-transparent py-6'}`}>
             <div className="container mx-auto px-6 flex items-center justify-between">
               <a href="index.html" className="flex items-center gap-3 group">
@@ -192,16 +201,18 @@
             </div>
           </section>
 
-          {/* QUICK CATEGORIES */}
-          <section className="bg-white py-12 border-y border-gray-100">
+          {/* QUICK CATEGORIES - Đã chỉnh sửa để xem được trên điện thoại (cuộn ngang) */}
+          <section className="bg-white py-12 border-y border-gray-100 overflow-hidden">
             <div className="container mx-auto px-6">
-              <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+              <div className="flex overflow-x-auto hide-scrollbar lg:justify-center gap-8 md:gap-16 pb-2 lg:pb-0">
                 {categories.map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 group cursor-pointer">
-                    <div className="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                  <div key={i} className="flex items-center gap-3 group cursor-pointer shrink-0">
+                    <div className="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
                       <i className={`fa ${item.icon} text-lg`}></i>
                     </div>
-                    <span className="font-bold text-gray-800 tracking-tight group-hover:text-blue-600 transition-colors uppercase text-xs">{item.name}</span>
+                    <span className="font-bold text-gray-800 tracking-tight group-hover:text-blue-600 transition-colors uppercase text-xs whitespace-nowrap">
+                      {item.name}
+                    </span>
                   </div>
                 ))}
               </div>
