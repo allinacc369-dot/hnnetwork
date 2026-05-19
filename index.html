@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HN Network | Premium IT Solutions</title>
+  <title>HN Network | Thiết bị mạng & Server</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -13,7 +13,6 @@
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
-    
     body {
       font-family: 'Inter', sans-serif;
     }
@@ -63,6 +62,31 @@
       transform: translateX(0);
       transition: transform 300ms ease-out;
     }
+
+    /* KHÔI PHỤC LẠI HOVER MENU ĐA CẤP TRÊN DESKTOP */
+    .dropdown-submenu {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.2s ease-in-out;
+    }
+    .dropdown-parent:hover .dropdown-submenu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-sub-menu {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(10px);
+      transition: all 0.2s ease-in-out;
+    }
+    .dropdown-sub-parent:hover .dropdown-sub-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
   </style>
 </head>
 <body class="bg-[#fafafa] text-[#1a1a1a] selection:bg-blue-100 selection:text-blue-900">
@@ -74,6 +98,8 @@
     const App = () => {
       const [scrolled, setScrolled] = useState(false);
       const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+      const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
+      const [isMobileCiscoOpen, setIsMobileCiscoOpen] = useState(false);
 
       useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -96,7 +122,7 @@
           name: 'Cisco Catalyst 9200L Switch 24-port Data, 4 x 10G uplinks',
           desc: 'Nền tảng chuyển mạch hàng đầu với khả năng bảo mật và hiệu năng vượt trội cho doanh nghiệp.',
           price: 'Liên hệ báo giá',
-          link: '#',
+          link: 'cisco-switch.html',
           image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=800'
         },
         {
@@ -114,7 +140,7 @@
           name: 'Synology DiskStation DS923+ 4-Bay NAS Storage',
           desc: 'Hệ thống lưu trữ dữ liệu thông minh, linh hoạt cho cá nhân và văn phòng nhỏ với hiệu suất cao.',
           price: 'Sẵn hàng',
-          link: '#',
+          link: 'synology-storage.html',
           image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&q=80&w=800'
         }
       ];
@@ -129,7 +155,12 @@
           {/* NAVIGATION BAR */}
           <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled || isMobileMenuOpen ? 'glass-nav py-3 border-b border-gray-100 shadow-sm' : 'bg-transparent py-6'}`}>
             <div className="container mx-auto px-6 flex items-center justify-between">
-              <a href="index.html" className="flex items-center gap-3 group shrink-0">
+              
+              {/* LOGO VÀ TÊN THƯƠNG HIỆU LUÔN HIỆN KẾ BÊN NHAU */}
+              <a 
+                href="index.html" 
+                className="flex items-center gap-3 group shrink-0"
+              >
                 <img 
                   src="Logo_HN-04.png" 
                   alt="HN Network Logo" 
@@ -139,19 +170,19 @@
                     e.target.src = "https://via.placeholder.com/150x50?text=HN+NETWORK";
                   }}
                 />
-                <span className="font-extrabold text-xl tracking-tighter text-blue-900 hidden sm:inline text-nowrap">
+                <span className="font-extrabold text-xl tracking-tighter text-blue-900 text-nowrap">
                   HN NETWORK
                 </span>
               </a>
 
-{/* Desktop Menu - Tích hợp submenu 3 cấp link trực tiếp tới các trang .html riêng */}
+              {/* Desktop Menu - Tích hợp submenu 3 cấp link trực tiếp tới các trang .html riêng biệt */}
               <div className="hidden md:flex items-center gap-8 font-medium text-sm uppercase tracking-widest text-gray-600">
                 <div className="relative group dropdown-parent">
                     <button className="hover:text-blue-600 transition-colors flex items-center gap-1 py-2 focus:outline-none">
                       Sản phẩm <i className="fa fa-chevron-down text-[10px]"></i>
                     </button>
                     
- {/* MENU CẤP 2 (Dropdown mượt mà trên Desktop) */}
+                    {/* MENU CẤP 2 (Dropdown mượt mà trên Desktop) */}
                     <div className="dropdown-submenu absolute top-full left-0 mt-2 w-56 bg-white shadow-xl rounded-xl py-2 transition-all border border-gray-100 z-50">
                         <a href="sophos.html" className="block px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-gray-700">Sophos Firewall</a>
                         
@@ -202,30 +233,47 @@
               </div>
             </div>
 
-            {/* Mobile Menu Content (Có tích hợp link Cisco cho di động) */}
+            {/* Mobile Menu Content (Có cơ chế đóng mở click thả xuống chuẩn) */}
             {isMobileMenuOpen && (
-              <div className="md:hidden bg-white border-t border-gray-100 absolute top-full left-0 w-full shadow-2xl">
+              <div className="md:hidden bg-white border-t border-gray-100 absolute top-full left-0 w-full shadow-2xl max-h-[85vh] overflow-y-auto">
                 <div className="flex flex-col p-6 space-y-4 font-bold text-sm uppercase tracking-widest text-gray-700">
                   <div className="border-b border-gray-50 pb-2">
-                    <div className="flex justify-between items-center mb-2 text-blue-900 font-extrabold">
+                    <button 
+                      onClick={() => setIsMobileProductsOpen(!isMobileProductsOpen)}
+                      className="flex justify-between items-center w-full mb-2 text-blue-900 font-extrabold focus:outline-none"
+                    >
                       <span>Sản phẩm</span>
-                    </div>
-                    <div className="pl-4 space-y-3 mt-2 normal-case font-medium tracking-normal text-gray-500">
-                      <a href="sophos.html" className="block hover:text-blue-600 py-1 font-semibold">Sophos Firewall</a>
-                      
-                      {/* Cisco Submenu di động với liên kết trang riêng */}
-                      <div className="py-1">
-                        <span className="block font-semibold text-gray-700 mb-1.5">Cisco Networking:</span>
-                        <div className="pl-3 space-y-2 border-l border-blue-100">
-                          <a href="cisco-switch.html" className="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Switch cisco</a>
-                          <a href="cisco-router.html" className="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Router cisco</a>
-                          <a href="cisco-firewall.html" className="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Firewall cisco</a>
-                          <a href="cisco-ap.html" className="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Access point cisco</a>
+                      <i className={`fa-solid ${isMobileProductsOpen ? 'fa-chevron-down' : 'fa-chevron-right'} text-[10px] text-gray-400`}></i>
+                    </button>
+                    
+                    {/* Danh sách Sản Phẩm cấp 2 di động */}
+                    {isMobileProductsOpen && (
+                      <div className="pl-4 space-y-3 mt-2 normal-case font-medium tracking-normal text-gray-500">
+                        <a href="sophos.html" className="block hover:text-blue-600 py-1 font-semibold">Sophos Firewall</a>
+                        
+                        {/* Mục Cisco Networking cấp 3 di động */}
+                        <div className="py-1">
+                          <button 
+                            onClick={() => setIsMobileCiscoOpen(!isMobileCiscoOpen)}
+                            className="flex justify-between items-center w-full font-semibold text-gray-700 mb-1.5 focus:outline-none"
+                          >
+                            <span>Cisco Networking</span>
+                            <i className={`fa-solid ${isMobileCiscoOpen ? 'fa-chevron-down' : 'fa-chevron-right'} text-[10px] text-gray-400`}></i>
+                          </button>
+                          
+                          {isMobileCiscoOpen && (
+                            <div className="pl-3 space-y-2 border-l border-blue-100">
+                              <a href="cisco-switch.html" className="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Switch cisco</a>
+                              <a href="cisco-router.html" className="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Router cisco</a>
+                              <a href="cisco-firewall.html" className="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Firewall cisco</a>
+                              <a href="cisco-ap.html" className="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Access point cisco</a>
+                            </div>
+                          )}
                         </div>
+                        
+                        <a href="synology-storage.html" className="block hover:text-blue-600 py-1 font-semibold">Synology Storage</a>
                       </div>
-                      
-                      <a href="synology-storage.html" className="block hover:text-blue-600 py-1 font-semibold">Synology Storage</a>
-                    </div>
+                    )}
                   </div>
                   <a href="#" className="border-b border-gray-50 pb-4 hover:text-blue-600 transition-colors">Giải pháp</a>
                   <a href="#" className="border-b border-gray-50 pb-4 hover:text-blue-600 transition-colors">Dịch vụ</a>
@@ -303,11 +351,13 @@
           </section>
 
           {/* PRODUCTS SECTION */}
-          <section className="py-24">
+          <section id="featured-products" className="py-24 scroll-mt-24">
             <div className="container mx-auto px-6">
               <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4 text-center md:text-left">
                 <div>
-                  <h2 className="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight uppercase">Sản phẩm nổi bật</h2>
+                  <h2 className="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight uppercase">
+                    Sản phẩm nổi bật
+                  </h2>
                   <p className="text-gray-500">Thiết bị CNTT cao cấp được tin dùng nhất hiện nay.</p>
                 </div>
                 <a href="#" className="font-bold text-blue-600 hover:text-blue-700 flex items-center justify-center gap-2 underline decoration-2 underline-offset-4 transition-all">
