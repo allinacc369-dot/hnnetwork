@@ -148,11 +148,28 @@
               <div className="hidden md:flex items-center gap-8 font-medium text-sm uppercase tracking-widest text-gray-600">
                 <div className="relative group">
                     <button className="hover:text-blue-600 transition-colors flex items-center gap-1">Sản phẩm <i className="fa fa-chevron-down text-[10px]"></i></button>
-                    <div className="absolute top-full left-0 mt-2 w-48 bg-white shadow-xl rounded-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all border border-gray-100">
-                        <a href="sophos.html" className="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600">Sophos Firewall</a>
-                        <a href="#" className="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600">Cisco Networking</a>
-                        <a href="#" className="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600">Synology Storage</a>
-                    </div>
+                    {/* MENU CẤP 2 */}
+                    <div className="dropdown-submenu absolute top-full left-0 mt-2 w-56 bg-white shadow-xl rounded-xl py-2 transition-all border border-gray-100 z-50">
+                        <a href="sophos.html" className="block px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-gray-700">Sophos Firewall</a>
+                        
+                        {/* MENU CẤP 3: Cisco Networking */}
+                        <div className="relative dropdown-sub-parent">
+                          <button className="w-full text-left px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-gray-700 flex justify-between items-center">
+                            <span>Cisco Networking</span>
+                            <i className="fa fa-chevron-right text-[10px] text-gray-400"></i>
+                          </button>
+                          
+                          {/* Menu con cấp 3 chứa các liên kết trang riêng của bạn */}
+                          <div className="dropdown-sub-menu absolute left-full top-0 ml-1 w-48 bg-white shadow-xl rounded-xl py-2 border border-gray-100">
+                            <a href="cisco-switch.html" className="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600 font-medium text-gray-600">Switch cisco</a>
+                            <a href="cisco-router.html" className="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600 font-medium text-gray-600">Router cisco</a>
+                            <a href="cisco-firewall.html" className="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600 font-medium text-gray-600">Firewall cisco</a>
+                            <a href="cisco-ap.html" className="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600 font-medium text-gray-600">Access point cisco</a>
+                          </div>
+                        </div>
+                        
+                        <a href="synology-storage.html" className="block px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-gray-700">Synology Storage</a>
+                    </div
                 </div>
                 <a href="#" className="hover:text-blue-600 transition-colors">Giải pháp</a>
                 <a href="#" className="hover:text-blue-600 transition-colors">Dịch vụ</a>
