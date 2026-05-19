@@ -147,15 +147,17 @@
 {/* Desktop Menu - Tích hợp submenu 3 cấp link trực tiếp tới các trang .html riêng */}
               <div className="hidden md:flex items-center gap-8 font-medium text-sm uppercase tracking-widest text-gray-600">
                 <div className="relative group dropdown-parent">
-                    <button className="hover:text-blue-600 transition-colors flex items-center gap-1 py-2">Sản phẩm <i className="fa fa-chevron-down text-[10px]"></i></button>
+                    <button className="hover:text-blue-600 transition-colors flex items-center gap-1 py-2 focus:outline-none">
+                      Sản phẩm <i className="fa fa-chevron-down text-[10px]"></i>
+                    </button>
                     
-                    {/* MENU CẤP 2 */}
+ {/* MENU CẤP 2 (Dropdown mượt mà trên Desktop) */}
                     <div className="dropdown-submenu absolute top-full left-0 mt-2 w-56 bg-white shadow-xl rounded-xl py-2 transition-all border border-gray-100 z-50">
                         <a href="sophos.html" className="block px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-gray-700">Sophos Firewall</a>
                         
                         {/* MENU CẤP 3: Cisco Networking */}
                         <div className="relative dropdown-sub-parent">
-                          <button className="w-full text-left px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-gray-700 flex justify-between items-center">
+                          <button className="w-full text-left px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-gray-700 flex justify-between items-center focus:outline-none">
                             <span>Cisco Networking</span>
                             <i className="fa fa-chevron-right text-[10px] text-gray-400"></i>
                           </button>
