@@ -45,10 +45,19 @@
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
+    // Thay đổi 2: Lưu vào localStorage mỗi khi currentPage thay đổi
+    useEffect(() => {
+    localStorage.setItem('ciscoPage', currentPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [currentPage]);
+
     const App = () => {
       const [scrolled, setScrolled] = useState(false);
       const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-      const [currentPage, setCurrentPage] = useState(1);
+      // Thay đổi 1: Khởi tạo trang dựa trên localStorage, nếu chưa có thì mặc định là 1
+    const [currentPage, setCurrentPage] = useState(() => {
+      return parseInt(localStorage.getItem('ciscoPage')) || 1;
+    });
       const productsPerPage = 9;
 
       useEffect(() => {
