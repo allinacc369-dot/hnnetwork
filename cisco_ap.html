@@ -1,62 +1,77 @@
-// --- Thay thế đoạn mảng sophosProducts cũ bằng đoạn này ---
-const apProducts = [
-  { id: 1, model: 'Catalyst 9105AXI', wifiGen: 'Wi-Fi 6', mimo: '2x2:2', rate: '1.49 Gbps', uplink: '1 x 1GE', poe: '802.3af', type: 'Indoor' },
-  { id: 2, model: 'Catalyst 9120AXI', wifiGen: 'Wi-Fi 6', mimo: '4x4:4', rate: '2.6 Gbps', uplink: '1 x 2.5GE', poe: '802.3at', type: 'Indoor' },
-  { id: 3, model: 'Catalyst 9136I', wifiGen: 'Wi-Fi 6E', mimo: '4x4:4', rate: '5.4 Gbps', uplink: '1 x 5GE', poe: '802.3bt', type: 'Indoor' },
-  { id: 4, model: 'Catalyst 9166D1', wifiGen: 'Wi-Fi 6E', mimo: '4x4:4', rate: '7.8 Gbps', uplink: '1 x 5GE', poe: '802.3bt', type: 'Indoor/Directional' },
-  { id: 5, model: 'Catalyst 9124AXI', wifiGen: 'Wi-Fi 6', mimo: '4x4:4', rate: '2.6 Gbps', uplink: '1 x 1GE', poe: '802.3at', type: 'Outdoor' }
-];
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cisco Access Points | HN Network</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-[#fafafa]">
+  <div id="root"></div>
 
-// --- Thay thế logic render trong phần Grid Products ---
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-  {currentProducts.map((p) => (
-    <div key={p.id} className="product-card bg-white rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/30 transition-all duration-500 group flex flex-col h-full overflow-hidden">
-      <div className="p-8">
-        <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 mb-6 group-hover:bg-teal-600 group-hover:text-white transition-all">
-          <i className="fa-solid fa-wifi text-2xl"></i>
+  <script type="text/babel">
+    const { useState } = React;
+    const App = () => {
+      const apProducts = [
+        { id: 1, model: 'Catalyst 9105AXI', wifiGen: 'Wi-Fi 6', mimo: '2x2:2', rate: '1.49 Gbps', uplink: '1 x 1GE', poe: '802.3af', type: 'Indoor' },
+        { id: 2, model: 'Catalyst 9120AXI', wifiGen: 'Wi-Fi 6', mimo: '4x4:4', rate: '2.6 Gbps', uplink: '1 x 2.5GE', poe: '802.3at', type: 'Indoor' },
+        { id: 3, model: 'Catalyst 9136I', wifiGen: 'Wi-Fi 6E', mimo: '4x4:4', rate: '5.4 Gbps', uplink: '1 x 5GE', poe: '802.3bt', type: 'Indoor' },
+        { id: 4, model: 'Catalyst 9166D1', wifiGen: 'Wi-Fi 6E', mimo: '4x4:4', rate: '7.8 Gbps', uplink: '1 x 5GE', poe: '802.3bt', type: 'Indoor' },
+        { id: 5, model: 'Catalyst 9124AXI', wifiGen: 'Wi-Fi 6', mimo: '4x4:4', rate: '2.6 Gbps', uplink: '1 x 1GE', poe: '802.3at', type: 'Outdoor' }
+      ];
+
+      const handleZaloRedirect = (phone) => {
+        window.open(`https://zalo.me/${phone.replace(/\./g, '')}`, '_blank');
+      };
+
+      return (
+        <div className="container mx-auto px-6 py-20">
+          <h1 className="text-4xl font-black text-slate-900 mb-12 text-center">Cisco Access Points</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {apProducts.map((p) => (
+              <div key={p.id} className="bg-white rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/30 p-8 flex flex-col h-full hover:shadow-2xl transition-all">
+                <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 mb-6">
+                  <i className="fa-solid fa-wifi text-2xl"></i>
+                </div>
+                <h3 className="text-xl font-black text-slate-800 mb-6">{p.model}</h3>
+                <div className="grid grid-cols-2 gap-3 text-[10px] uppercase font-bold text-slate-400 mb-8">
+                  <div className="bg-slate-50 p-3 rounded-xl">
+                    <span className="block text-slate-800 font-black text-[12px]">{p.wifiGen}</span> GENERATION
+                  </div>
+                  <div className="bg-slate-50 p-3 rounded-xl">
+                    <span className="block text-slate-800 font-black text-[12px]">{p.mimo}</span> MIMO
+                  </div>
+                  <div className="bg-slate-50 p-3 rounded-xl">
+                    <span className="block text-slate-800 font-black text-[12px]">{p.rate}</span> RATE
+                  </div>
+                  <div className="bg-slate-50 p-3 rounded-xl">
+                    <span className="block text-slate-800 font-black text-[12px]">{p.uplink}</span> UPLINK
+                  </div>
+                  <div className="bg-slate-50 p-3 rounded-xl">
+                    <span className="block text-slate-800 font-black text-[12px]">{p.poe}</span> POE
+                  </div>
+                  <div className="bg-slate-50 p-3 rounded-xl">
+                    <span className="block text-slate-800 font-black text-[12px]">{p.type}</span> ENVIRON
+                  </div>
+                </div>
+                <button 
+                  onClick={() => handleZaloRedirect('0938888304')}
+                  className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-xs uppercase hover:bg-teal-600 transition-all mt-auto"
+                >
+                  LIÊN HỆ BÁO GIÁ <i className="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
-        
-        <h3 className="text-xl font-black text-slate-800 mb-6 group-hover:text-teal-600 transition-colors">
-          Cisco {p.model}
-        </h3>
-
-        {/* Bố cục Grid 2x3 cho thông số */}
-        <div className="grid grid-cols-2 gap-3 text-[10px] uppercase font-bold text-slate-400">
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-            <span className="block text-slate-800 font-black text-[12px]">{p.wifiGen}</span>
-            GENERATION
-          </div>
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-            <span className="block text-slate-800 font-black text-[12px]">{p.mimo}</span>
-            MIMO
-          </div>
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-            <span className="block text-slate-800 font-black text-[12px]">{p.rate}</span>
-            WIRELESS RATE
-          </div>
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-            <span className="block text-slate-800 font-black text-[12px]">{p.uplink}</span>
-            UPLINK
-          </div>
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-            <span className="block text-slate-800 font-black text-[12px]">{p.poe}</span>
-            POE
-          </div>
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-            <span className="block text-slate-800 font-black text-[12px]">{p.type}</span>
-            ENVIRON
-          </div>
-        </div>
-      </div>
-
-      <div className="p-8 pt-0 mt-auto">
-        <button 
-          onClick={() => handleZaloRedirect('0938888304')}
-          className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 group-hover:bg-teal-600 transition-all shadow-xl active:scale-95"
-        >
-          LIÊN HỆ BÁO GIÁ <i className="fa-solid fa-arrow-right"></i>
-        </button>
-      </div>
-    </div>
-  ))}
-</div>
+      );
+    };
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
