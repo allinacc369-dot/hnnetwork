@@ -166,42 +166,60 @@
                       </p>
                       
                       <div className="space-y-2 mb-8 text-[11px]">
-                        <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                          <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                            <i className="fa-solid fa-bolt text-amber-500 w-4"></i> FORWARDING
+                        {p.forwarding && (
+                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                              <i className="fa-solid fa-bolt text-amber-500 w-4"></i> FORWARDING
+                            </div>
+                            <span className="font-black text-slate-800">{p.forwarding}</span>
                           </div>
-                          <span className="font-black text-slate-800">{p.forwarding}</span>
-                        </div>
-                        <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                          <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                            <i className="fa-solid fa-microchip text-blue-500 w-4"></i> IPSEC
+                        )}
+                        
+                        {p.ips && (
+                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                              <i className="fa-solid fa-microchip text-blue-500 w-4"></i> IPSEC
+                            </div>
+                            <span className="font-black text-slate-800">{p.ips}</span>
                           </div>
-                          <span className="font-black text-slate-800">{p.ips}</span>
-                        </div>
-                        <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                          <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                            <i className="fa-solid fa-shield-virus text-red-500 w-4"></i> Threat Prot.
+                        )}
+                        
+                        {p.threat && (
+                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                              <i className="fa-solid fa-shield-virus text-red-500 w-4"></i> Threat Prot.
+                            </div>
+                            <span className="font-black text-slate-800">{p.threat}</span>
                           </div>
-                          <span className="font-black text-slate-800">{p.threat}</span>
-                        </div>
-                        <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                          <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                            <i className="fa-solid fa-shield-virus text-red-500 w-4"></i> Security (EMIX)
+                        )}
+                        
+                        {p.security && (
+                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                              <i className="fa-solid fa-shield-virus text-red-500 w-4"></i> Security (EMIX)
+                            </div>
+                            <span className="font-black text-slate-800">{p.security}</span>
                           </div>
-                          <span className="font-black text-slate-800">{p.security}</span>
-                        </div>
-                        <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                          <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                            <i className="fa-solid fa-lock text-indigo-500 w-4"></i> DRAM 
+                        )}
+                        
+                        {p.dram && (
+                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                              <i className="fa-solid fa-lock text-indigo-500 w-4"></i> DRAM 
+                            </div>
+                            <span className="font-black text-slate-800">{p.dram}</span>
                           </div>
-                          <span className="font-black text-slate-800">{p.dram}</span>
-                        </div>
-                        <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                          <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                            <i className="fa-solid fa-database text-emerald-500 w-4"></i> FLASH
+                        )}
+                        
+                        {p.flash && (
+                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                              <i className="fa-solid fa-database text-emerald-500 w-4"></i> FLASH
+                            </div>
+                            <span className="font-black text-slate-800">{p.flash}</span>
                           </div>
-                          <span className="font-black text-slate-800">{p.flash}</span>
-                        </div>
+                        )}
+                      </div>
                       </div>
                     </div>
 
