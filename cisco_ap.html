@@ -3,73 +3,358 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cisco Access Points | HN Network</title>
+  <title>Cisco Catalyst Access Points | HN Network</title>
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .product-card {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.08);
+    }
+    
+    .cisco-teal-badge {
+      background-color: #f0fdfa;
+      color: #0d9488;
+    }
+  </style>
 </head>
-<body class="bg-[#fafafa]">
+<body class="bg-[#fcfcfd] text-slate-800">
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState } = React;
+    const { useState, useEffect, useMemo } = React;
     const App = () => {
-      const apProducts = [
-        { id: 1, model: 'Catalyst 9105AXI', wifiGen: 'Wi-Fi 6', mimo: '2x2:2', rate: '1.49 Gbps', uplink: '1 x 1GE', poe: '802.3af', type: 'Indoor' },
-        { id: 2, model: 'Catalyst 9120AXI', wifiGen: 'Wi-Fi 6', mimo: '4x4:4', rate: '2.6 Gbps', uplink: '1 x 2.5GE', poe: '802.3at', type: 'Indoor' },
-        { id: 3, model: 'Catalyst 9136I', wifiGen: 'Wi-Fi 6E', mimo: '4x4:4', rate: '5.4 Gbps', uplink: '1 x 5GE', poe: '802.3bt', type: 'Indoor' },
-        { id: 4, model: 'Catalyst 9166D1', wifiGen: 'Wi-Fi 6E', mimo: '4x4:4', rate: '7.8 Gbps', uplink: '1 x 5GE', poe: '802.3bt', type: 'Indoor' },
-        { id: 5, model: 'Catalyst 9124AXI', wifiGen: 'Wi-Fi 6', mimo: '4x4:4', rate: '2.6 Gbps', uplink: '1 x 1GE', poe: '802.3at', type: 'Outdoor' }
+      const [scrolled, setScrolled] = useState(false);
+      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+      const [currentPage, setCurrentPage] = useState(() => {
+        return parseInt(localStorage.getItem('ciscoPage')) || 1;
+      });
+      const productsPerPage = 9;
+      
+      useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 20);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      // Danh sách sản phẩm Cisco Catalyst Access Point chuyên nghiệp
+      const ciscoProducts = [
+        { id: 1, model: 'Catalyst 9105AXI', generation: 'Wi-Fi 6', mimo: '2X2:2', rate: '1.49 GBPS', uplink: '1 X 1GE', poe: '802.3AF', environ: 'INDOOR' },
+        { id: 2, model: 'Catalyst 9115AXI', generation: 'Wi-Fi 6', mimo: '4X4:4', rate: '5.38 GBPS', uplink: '1 X 2.5GE', poe: '802.3AT', environ: 'INDOOR' },
+        { id: 3, model: 'Catalyst 9120AXI', generation: 'Wi-Fi 6', mimo: '4X4:4', rate: '2.6 GBPS', uplink: '1 X 2.5GE', poe: '802.3AT', environ: 'INDOOR' },
+        { id: 4, model: 'Catalyst 9130AXI', generation: 'Wi-Fi 6', mimo: '8X8:8', rate: '5.38 GBPS', uplink: '1 X 5GE', poe: '802.3AT/BT', environ: 'INDOOR' },
+        { id: 5, model: 'Catalyst 9162I', generation: 'Wi-Fi 6E', mimo: '2X2:2', rate: '3.9 GBPS', uplink: '1 X 2.5GE', poe: '802.3AT', environ: 'INDOOR' },
+        { id: 6, model: 'Catalyst 9164I', generation: 'Wi-Fi 6E', mimo: '4X4:4', rate: '7.49 GBPS', uplink: '1 X 2.5GE', poe: '802.3AT', environ: 'INDOOR' },
+        { id: 7, model: 'Catalyst 9166I', generation: 'Wi-Fi 6E', mimo: '4X4:4', rate: '7.78 GBPS', uplink: '1 X 5GE', poe: '802.3AT', environ: 'INDOOR' },
+        { id: 8, model: 'Catalyst 9124AXI', generation: 'Wi-Fi 6', mimo: '4X4:4', rate: '2.6 GBPS', uplink: '1 X 2.5GE/SFP', poe: '802.3AT', environ: 'OUTDOOR' },
+        { id: 9, model: 'Catalyst 9136I', generation: 'Wi-Fi 6E', mimo: '8X8:8', rate: '10.2 GBPS', uplink: '2 X 5GE', poe: '802.3BT', environ: 'INDOOR' },
+        { id: 10, model: 'Catalyst 9166D1', generation: 'Wi-Fi 6E', mimo: '4X4:4', rate: '7.78 GBPS', uplink: '1 X 5GE', poe: '802.3AT', environ: 'DIRECTIONAL' },
+        { id: 11, model: 'Catalyst 9105AXW', generation: 'Wi-Fi 6', mimo: '2X2:2', rate: '1.49 GBPS', uplink: '1 X 1GE', poe: '802.3AF', environ: 'WALL MOUNT' },
+        { id: 12, model: 'Catalyst CW9163E', generation: 'Wi-Fi 6E', mimo: '2X2:2', rate: '3.9 GBPS', uplink: '1 X 2.5GE', poe: '802.3AT', environ: 'OUTDOOR' }
       ];
 
+      const currentProducts = useMemo(() => {
+        const firstPageIndex = (currentPage - 1) * productsPerPage;
+        const lastPageIndex = firstPageIndex + productsPerPage;
+        return ciscoProducts.slice(firstPageIndex, lastPageIndex);
+      }, [currentPage]);
+
+      const totalPages = Math.ceil(ciscoProducts.length / productsPerPage);
+
+      useEffect(() => {
+        localStorage.setItem('ciscoPage', currentPage);
+      }, [currentPage]);
+
       const handleZaloRedirect = (phone) => {
-        window.open(`https://zalo.me/${phone.replace(/\./g, '')}`, '_blank');
+        const cleanPhone = phone.replace(/\./g, '').replace(/ /g, '');
+        window.open(`https://zalo.me/${cleanPhone}`, '_blank');
       };
 
       return (
-        <div className="container mx-auto px-6 py-20">
-          <h1 className="text-4xl font-black text-slate-900 mb-12 text-center">Cisco Access Points</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {apProducts.map((p) => (
-              <div key={p.id} className="bg-white rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/30 p-8 flex flex-col h-full hover:shadow-2xl transition-all">
-                <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 mb-6">
-                  <i className="fa-solid fa-wifi text-2xl"></i>
-                </div>
-                <h3 className="text-xl font-black text-slate-800 mb-6">{p.model}</h3>
-                <div className="grid grid-cols-2 gap-3 text-[10px] uppercase font-bold text-slate-400 mb-8">
-                  <div className="bg-slate-50 p-3 rounded-xl">
-                    <span className="block text-slate-800 font-black text-[12px]">{p.wifiGen}</span> GENERATION
-                  </div>
-                  <div className="bg-slate-50 p-3 rounded-xl">
-                    <span className="block text-slate-800 font-black text-[12px]">{p.mimo}</span> MIMO
-                  </div>
-                  <div className="bg-slate-50 p-3 rounded-xl">
-                    <span className="block text-slate-800 font-black text-[12px]">{p.rate}</span> RATE
-                  </div>
-                  <div className="bg-slate-50 p-3 rounded-xl">
-                    <span className="block text-slate-800 font-black text-[12px]">{p.uplink}</span> UPLINK
-                  </div>
-                  <div className="bg-slate-50 p-3 rounded-xl">
-                    <span className="block text-slate-800 font-black text-[12px]">{p.poe}</span> POE
-                  </div>
-                  <div className="bg-slate-50 p-3 rounded-xl">
-                    <span className="block text-slate-800 font-black text-[12px]">{p.type}</span> ENVIRON
-                  </div>
-                </div>
+        <div className="min-h-screen flex flex-col bg-[#fcfcfd]">
+          {/* Navigation - Trả lại màu xanh dương gốc */}
+          <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'glass-nav py-3 border-b border-gray-100 shadow-sm' : 'bg-transparent py-6'}`}>
+            <div className="container mx-auto px-6 flex items-center justify-between">
+              <a href="#" className="flex items-center gap-3 group">
+                <img 
+                  src="Logo_HN-04.png" 
+                  alt="HN Network Logo" 
+                  className={`transition-all duration-300 object-contain ${scrolled ? 'h-10' : 'h-14'}`}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://via.placeholder.com/150x50?text=HN+NETWORK";
+                  }}
+                />
+                <span className="font-extrabold text-xl tracking-tighter text-blue-900 hidden sm:inline text-nowrap uppercase">
+                  HN NETWORK
+                </span>
+              </a>
+              
+              <div className="hidden md:flex items-center gap-8 font-bold text-[11px] uppercase tracking-widest text-slate-600">
+                <a href="#" className="hover:text-blue-600 transition-colors">Trang chủ</a>
+                <a href="#" className="text-blue-600 border-b-2 border-blue-600 pb-1">Cisco access point</a>
+                <a href="#" className="hover:text-blue-600 transition-colors">Giải pháp</a>
+                <a href="#" className="hover:text-blue-600 transition-colors">Dịch vụ</a>
+              </div>
+
+              <div className="flex items-center gap-4">
                 <button 
                   onClick={() => handleZaloRedirect('0938888304')}
-                  className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-xs uppercase hover:bg-teal-600 transition-all mt-auto"
+                  className="bg-blue-600 text-white px-7 py-3 rounded-full text-xs font-black shadow-lg shadow-blue-200 hover:bg-blue-700 hover:shadow-blue-300 transition-all active:scale-95 uppercase tracking-widest"
                 >
-                  LIÊN HỆ BÁO GIÁ <i className="fa-solid fa-arrow-right ml-2"></i>
+                  BÁO GIÁ
+                </button>
+                <button className="md:hidden text-slate-900" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                  <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-2xl`}></i>
                 </button>
               </div>
-            ))}
-          </div>
+            </div>
+
+            {/* Mobile Menu */}
+            {mobileMenuOpen && (
+              <div className="md:hidden bg-white/95 backdrop-blur-md border-b border-slate-100 py-6 px-6 absolute top-full left-0 w-full shadow-lg flex flex-col gap-4 font-bold text-xs uppercase tracking-wider text-slate-600">
+                <a href="#" className="hover:text-blue-600 py-2">Trang chủ</a>
+                <a href="#" className="text-blue-600 py-2">Cisco Access Point</a>
+                <a href="#" className="hover:text-blue-600 py-2">Giải pháp</a>
+                <a href="#" className="hover:text-blue-600 py-2">Dịch vụ</a>
+              </div>
+            )}
+          </nav>
+
+          {/* Main Content */}
+          <main className="pt-40 pb-24 flex-grow">
+            <div className="container mx-auto px-6">
+              
+              {/* Hero Section - Đã tối ưu hóa đồng bộ tông màu của Grid View */}
+              <div className="flex flex-col items-center text-center mb-16">
+                <span className="text-[10px] font-extrabold tracking-[0.2em] text-[#0d9488] bg-[#f0fdfa] px-5 py-2 rounded-full uppercase mb-5 border border-teal-100/50">
+                  ENTERPRISE WIRELESS SOLUTION
+                </span>
+                <h1 className="text-4xl md:text-6xl font-black leading-[1.1] mb-6 tracking-tight text-slate-900">
+                  Cisco Catalyst <span className="text-blue-600">Access Point</span>
+                </h1>
+                <p className="text-slate-500 max-w-2xl font-medium text-base md:text-lg italic">
+                  Trải nghiệm hiệu suất vượt trội, bảo mật thông minh và chuẩn Wi-Fi 6/6E tiên phong thế giới.
+                </p>
+              </div>
+
+              {/* Grid Products - GIỮ NGUYÊN GRID VIEW ĐẸP của Access Point */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {currentProducts.map((p) => (
+                  <div key={p.id} className="product-card bg-white rounded-[2.5rem] border border-slate-100/90 shadow-[0_12px_36px_-12px_rgba(0,0,0,0.03)] p-8 flex flex-col h-full">
+                    
+                    {/* AP Icon Header */}
+                    <div className="w-14 h-14 cisco-teal-badge rounded-2xl flex items-center justify-center mb-7 self-start transition-colors duration-300">
+                      <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                        <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                        <path d="M8.58 16.14a5 5 0 0 1 6.84 0"></path>
+                        <circle cx="12" cy="20" r="1" fill="currentColor"></circle>
+                      </svg>
+                    </div>
+                    
+                    {/* Title */}
+                    <h3 className="text-2xl font-black text-slate-900 mb-8 tracking-tight">
+                      {p.model}
+                    </h3>
+                    
+                    {/* Information Grid: Thiết kế chuẩn theo ảnh mẫu */}
+                    <div className="grid grid-cols-2 gap-4 mb-8">
+                      {/* Generation */}
+                      <div className="bg-[#f8fafc] rounded-2xl p-4 flex flex-col justify-center min-h-[72px]">
+                        <span className="font-extrabold text-slate-900 text-sm tracking-tight">{p.generation}</span>
+                        <span className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">GENERATION</span>
+                      </div>
+                      
+                      {/* MIMO */}
+                      <div className="bg-[#f8fafc] rounded-2xl p-4 flex flex-col justify-center min-h-[72px]">
+                        <span className="font-extrabold text-slate-900 text-sm tracking-tight">{p.mimo}</span>
+                        <span className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">MIMO</span>
+                      </div>
+                      
+                      {/* Rate */}
+                      <div className="bg-[#f8fafc] rounded-2xl p-4 flex flex-col justify-center min-h-[72px]">
+                        <span className="font-extrabold text-slate-900 text-sm tracking-tight">{p.rate}</span>
+                        <span className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">RATE</span>
+                      </div>
+                      
+                      {/* Uplink */}
+                      <div className="bg-[#f8fafc] rounded-2xl p-4 flex flex-col justify-center min-h-[72px]">
+                        <span className="font-extrabold text-slate-900 text-sm tracking-tight">{p.uplink}</span>
+                        <span className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">UPLINK</span>
+                      </div>
+                      
+                      {/* PoE */}
+                      <div className="bg-[#f8fafc] rounded-2xl p-4 flex flex-col justify-center min-h-[72px]">
+                        <span className="font-extrabold text-slate-900 text-sm tracking-tight">{p.poe}</span>
+                        <span className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">POE</span>
+                      </div>
+                      
+                      {/* Environ */}
+                      <div className="bg-[#f8fafc] rounded-2xl p-4 flex flex-col justify-center min-h-[72px]">
+                        <span className="font-extrabold text-slate-900 text-sm tracking-tight">{p.environ}</span>
+                        <span className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">ENVIRON</span>
+                      </div>
+                    </div>
+
+                    {/* Button: Màu đen Navy thẫm lịch lãm */}
+                    <div className="mt-auto">
+                      <button 
+                        onClick={() => handleZaloRedirect('0938888304')}
+                        className="w-full bg-[#0f172a] hover:bg-blue-600 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-md shadow-slate-100"
+                      >
+                        LIÊN HỆ BÁO GIÁ <span className="text-sm">→</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Pagination */}
+              <div className="mt-20 flex justify-center items-center gap-4">
+                <button 
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 bg-white hover:shadow-xl transition-all disabled:opacity-50"
+                >
+                  <i className="fa-solid fa-chevron-left"></i>
+                </button>
+                <div className="flex gap-2">
+                  {[...Array(totalPages)].map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentPage(i + 1)}
+                      className={`w-12 h-12 rounded-2xl font-black text-sm transition-all ${
+                        currentPage === i + 1 
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' 
+                        : 'bg-white border border-slate-200 text-slate-400'
+                      }`}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
+                </div>
+                <button 
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 bg-white hover:shadow-xl transition-all disabled:opacity-50"
+                >
+                  <i className="fa-solid fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </main>
+
+          {/* Footer Section */}
+          <footer className="mt-auto bg-slate-900 text-white pt-20 pb-10">
+            <div className="container mx-auto px-6">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
+                
+                {/* Brand & Support */}
+                <div className="lg:col-span-4">
+                  <h4 className="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Hỗ trợ kinh doanh</h4>
+                  <div className="grid gap-4">
+                    <div 
+                      onClick={() => handleZaloRedirect('0938.888.304')}
+                      className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group cursor-pointer"
+                    >
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="text-gray-400 text-[10px] font-bold uppercase">Kinh doanh 1</span>
+                        <i className="fa fa-phone text-blue-400 text-xs group-hover:rotate-12 transition-transform"></i>
+                      </div>
+                      <p className="text-xl font-bold">0938.888.304</p>
+                    </div>
+                    <div 
+                      onClick={() => handleZaloRedirect('0974.700.952')}
+                      className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group cursor-pointer"
+                    >
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="text-gray-400 text-[10px] font-bold uppercase">Kinh doanh 2</span>
+                        <i className="fa fa-phone text-blue-400 text-xs group-hover:rotate-12 transition-transform"></i>
+                      </div>
+                      <p className="text-xl font-bold">0974.700.952</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Info */}
+                <div className="lg:col-span-4">
+                  <h4 className="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Liên hệ trực tiếp</h4>
+                  <div className="space-y-6">
+                    <div className="flex gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-blue-400 shrink-0">
+                        <i className="fa fa-map-marker-alt"></i>
+                      </div>
+                      <div>
+                        <h5 className="text-sm font-bold mb-1 uppercase tracking-wider">Trụ sở chính</h5>
+                        <p className="text-gray-400 text-sm leading-relaxed">CÔNG TY TNHH TM DV TIN HỌC HN NETWORK</p>
+                        <p className="text-gray-400 text-sm leading-relaxed">Số 2A Đường Thành Công, Phường Phú Thọ Hòa, TP. HCM</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-blue-400 shrink-0">
+                        <i className="fa fa-headset"></i>
+                      </div>
+                      <div>
+                        <h5 className="text-sm font-bold mb-1 uppercase tracking-wider">Tổng đài & Email</h5>
+                        <p className="text-gray-400 text-sm leading-relaxed">Hotline: (028) 668 42 689</p>
+                        <p className="text-gray-400 text-sm leading-relaxed">Email: info@hnnetwork.vn</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4 pt-2">
+                      <a href="https://www.facebook.com/hnnetwork.vn" target="_blank" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-blue-600 transition-all"><i className="fab fa-facebook-f"></i></a>
+                      <a href="#" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-red-600 transition-all"><i className="fab fa-youtube"></i></a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Map */}
+                <div className="lg:col-span-4">
+                   <h4 className="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Vị trí bản đồ</h4>
+                   <div className="rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 border border-white/10 shadow-2xl h-[250px]">
+                      <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2412216077746!2d106.63263728527505!3d10.792827961914577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529532c42131f%3A0xc72609f9f908c1cc!2zMkEgVGjDoG5oIEPDtG5nLCBUw6JuIFRow6BuaCwgVMOibiBQaMO6LCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1772251814694!5m2!1svi!2s" 
+                        width="100%" height="100%" frameBorder="0" style={{ border:0 }} allowFullScreen loading="lazy"
+                      ></iframe>
+                   </div>
+                </div>
+
+              </div>
+
+              <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] text-gray-500 font-black uppercase tracking-widest">
+                <p>&copy; 2026 HN Network Enterprise Solutions. All Rights Reserved.</p>
+                <div className="flex gap-8">
+                  <a href="#" className="hover:text-blue-400 transition-colors">Privacy Policy</a>
+                  <a href="#" className="hover:text-blue-400 transition-colors">Terms of Service</a>
+                </div>
+              </div>
+            </div>
+          </footer>
         </div>
       );
     };
+
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<App />);
   </script>
