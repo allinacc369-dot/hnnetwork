@@ -73,8 +73,9 @@
   { id: 13, model: 'Secure C8375-E-G2', desc: 'WAN Port: 2 x 10G SFP/SFP+, 4 x 2.5G mGig RJ45 (2x UPoE+); 1 x NIM, 1 x SM, 1 x PIM', forwarding: '38 Gbps', ips: '20 Gbps', threat: '7 Gbps', dram: '16 GB', flash: '16 GB' },
   { id: 14, model: 'Secure C8355-G2', desc: 'WAN Port: 2 x 10G SFP/SFP+, 2 x 5G mGig RJ45 (2x UPoE+); LAN Port:2 x 10G SFP/SFP+,Flex ports: 2 x 1G RJ45 Port,2 x 5G mGig RJ45 (2x UPoE+); 1 x PIM ', forwarding: '38 Gbps', ips: '20 Gbps', threat: '3.9 Gbps', dram: '16 GB', flash: '16 GB (Fixed)' },
   { id: 15, model: 'Secure C8455-G2', desc: 'WAN Ports: 8x 1 GE (SFP), 2x 1/10 GE (SFP+), 2x 10/25 GE (SFP28)', forwarding: 'Up to 67 Gbps', ips: 'Up to 31 Gbps', security: 'Up to 9.5 Gbps', dram: '32 GB', flash: '64 GB' },
-  
-      
+  { id: 16, model: 'Secure 	C8475-G2', desc: 'WAN Ports: 8x 1 GE (SFP), 8x 1/10 GE (SFP+), 4x 10/25 GE (SFP28)', forwarding: 'Up to 91 Gbps', ips: 'Up to 45 Gbps', security: 'Up to 10.9 Gbps', dram: '32 GB', flash: '64 GB' },
+  { id: 17, model: 'Secure 	C8550-G2', desc: 'WAN Ports: 12x 1/10GE (SFP+); WAN Mac: Supported in all built-in ports', forwarding: 'Up to 115 Gbps', ips: 'Up to 48 Gbps', sdwan: 'Up to 19 Gbps', dram: '32 GB', storage: '480 GB' },
+  { id: 18, model: 'Secure 	C8570-G2', desc: 'WAN Ports: 12x 1/10GE (SFP+), 2x 40GE (QSFP+), 2x 40/100GE (QSFP28), Note: max 240GE ports can be enabled simultaneously; WAN Mac: Supported in all built-in ports', forwarding: 'Up to 190 Gbps', ips: 'Up to 63 Gbps', sdwan: '	Up to 21 Gbps', dram: '32 GB', storage: '480 GB' },      
       
       ];
 
@@ -181,6 +182,22 @@
                               <i className="fa-solid fa-microchip text-blue-500 w-4"></i> IPSEC
                             </div>
                             <span className="font-black text-slate-800">{p.ips}</span>
+                          </div>
+                        )}
+                        {p.storage && (
+                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                              <i className="fa-solid fa-microchip text-blue-500 w-4"></i> STORAGE
+                            </div>
+                            <span className="font-black text-slate-800">{p.storage}</span>
+                          </div>
+                        )}
+                        {p.sdwan && (
+                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                              <i className="fa-solid fa-microchip text-blue-500 w-4"></i> SD-WAN
+                            </div>
+                            <span className="font-black text-slate-800">{p.sdwan}</span>
                           </div>
                         )}
                         
