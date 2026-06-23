@@ -4,18 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cisco Network Routers | HN Network</title>
+  <!-- Cấu hình hiển thị LOGO trên TAB trình duyệt (Favicon) -->
+  <link rel="icon" type="image/png" href="Logo_HN-04.png">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800;900&display=swap');
     
     body {
       font-family: 'Inter', sans-serif;
-      scroll-behavior: smooth;
     }
 
     .glass-nav {
@@ -24,12 +23,13 @@
       -webkit-backdrop-filter: blur(12px);
     }
 
-    .product-card:hover {
-      transform: translateY(-10px);
+    .product-card {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .footer-gradient {
-      background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.08);
     }
     
     .gradient-text {
@@ -37,363 +37,580 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+
+    /* KHÔI PHỤC LẠI HOVER MENU ĐA CẤP TRÊN DESKTOP */
+    .dropdown-submenu {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.2s ease-in-out;
+    }
+    .dropdown-parent:hover .dropdown-submenu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-sub-menu {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(10px);
+      transition: all 0.2s ease-in-out;
+    }
+    .dropdown-sub-parent:hover .dropdown-sub-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
   </style>
 </head>
-<body class="bg-[#fafafa]">
-  <div id="root"></div>
+<body class="bg-[#fafafa] text-slate-800">
 
-  <script type="text/babel">
-    const { useState, useEffect, useMemo } = React;
-    const App = () => {
-      const [scrolled, setScrolled] = useState(false);
-      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-      // Thay đổi 1: Khởi tạo trang dựa trên localStorage, nếu chưa có thì mặc định là 1
-      const [currentPage, setCurrentPage] = useState(() => {
-      return parseInt(localStorage.getItem('ciscoPage')) || 1;
-    });
-      const productsPerPage = 9;
-      
-       useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 20);
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-      }, []);
-
-      const sophosProducts = [
-  { id: 1, model: 'Integrated Services C921-4P', desc: '2 WAN ports GE, 4 LAN port GE managed switch', forwarding: '150 Mbps', ips: '250 Mbps', threat: 'N/A', dram: '1 GB', flash: '2 GB' },
-  { id: 2, model: 'Integrated Services C1111-4P', desc: '1 WAN port GE, 1 combo WAN/LAN port GE/SFP, 4 LAN port GE', forwarding: '1372 Mbps', ips: '370 Mbps', threat: 'N/A', dram: '4 GB', flash: '4 GB' },
-  { id: 3, model: 'Integrated Services C1111-8P', desc: '1 WAN port GE, 1 combo WAN/LAN port GE/SFP, 8 LAN port GE', forwarding: '1673 Mbps', ips: '468 Mbps', threat: 'N/A', dram: '4 GB', flash: '4 GB' },
-  { id: 4, model: 'Integrated Services C1111X-8P', desc: '1 WAN port GE, 1 combo WAN/LAN port GE/SFP, 8 LAN port GE', forwarding: '1673 Mbps', ips: '468 Mbps', threat: 'N/A', dram: '8 GB', flash: '8 GB' },
-  { id: 5, model: 'Secure C8130-G2', desc: 'WAN Ports:1x 1GE RJ-45, 1x 1GE RJ-45/SFP Combo; LAN Ports: 4x 1GE RJ-45', forwarding: '1.9 Gbps', ips: '1.5 Gbps', threat: 'N/A', dram: '4 GB', flash: '16 GB' },
-  { id: 6, model: 'Secure C8140-G2', desc: 'WAN Ports:2x 1GE RJ-45/SFP combo; LAN Ports: 8x 1GE RJ-45', forwarding: '5.6 Gbps', ips: '1.5 Gbps', threat: 'N/A', dram: '4 GB', flash: '16 GB' },
-  { id: 7, model: 'Secure C8151-G2', desc: 'WAN Port: 2 x GE RJ-45/SFP combo; LAN Port: 8 x GE RJ-45 ports; Optional PIM Slot – CAT 7 LTE or 5G', forwarding: '5.6 Gbps', ips: '1.5 Gbps', threat: '1 Gbps', sdwan: 'Up to 900 Mbps', dram: '8 GB', flash: '16 GB' },
-  { id: 8, model: 'Secure C8161-G2', desc: 'WAN Port: 2x 1GE RJ-45/SFP combo; LAN Port: 2 x GE RJ-45, 6 x GE RJ-45 (4PoE/2PoE+) PoE output max power 80W; Optional Pluggable Module – LTE or 5G', forwarding: '5.6 Gbps', ips: '1.5 Gbps', threat: '1 Gbps', sdwan: '900Mbps', dram: '8 GB', flash: '16 GB' },
-  { id: 9, model: 'Secure C8231-E-G2', desc: 'WAN Port: 2x10G SFP/SFP+, 2x2.5G mGig RJ-45 (2x UPoE+); 1 x NIM; 1 x PIM', forwarding: '19 Gbps', ips: '5 Gbps', threat: '1 Gbps', sdwan: 'Up to 4 Gbps', dram: '8 GB', flash: '16 GB' },
-  { id: 10, model: 'Secure C8235-E-G2', desc: 'WAN Port: 2x10G SFP/SFP+, 2x2.5G mGig RJ-45 (2x UPoE+); 1 x NIM; 1 x PIM', forwarding: '19 Gbps', ips: '5 Gbps', threat: '2.4 Gbps', sdwan: 'Up to 4 Gbps', dram: '16 GB', flash: '16 GB' },
-  { id: 11, model: 'Secure C8235-G2', desc: 'WAN Port: 2 x 10G SFP/SFP+, 2 x 2.5G mGig RJ-45 (2x UPoE+); LAN Port: 2 x 2.5G mGig RJ-45 (2x PoE+), 4 x 2.5G mGig RJ-45; 1 x PIM', forwarding: '19 Gbps', ips: '5 Gbps', threat: '2.4 Gbps', sdwan: 'Up to 4 Gbps', dram: '16 GB', flash: '16 GB' },
-  { id: 12, model: 'Secure C8231-G2', desc: 'WAN Port: 2 x 10G SFP/SFP+, 2 x 2.5G mGig RJ-45 (1x PoE+); LAN Port: 2 x 2.5G mGig RJ-45, 4 x 1G RJ-45', forwarding: '19 Gbps', ips: '5 Gbps', threat: '1 Gbps', sdwan: 'Up to 4 Gbps', dram: '8 GB', flash: '16 GB' },
-  { id: 13, model: 'Secure C8375-E-G2', desc: 'WAN Port: 2 x 10G SFP/SFP+, 4 x 2.5G mGig RJ45 (2x UPoE+); 1 x NIM, 1 x SM, 1 x PIM', forwarding: '38 Gbps', ips: '20 Gbps', threat: '7 Gbps', sdwan: '12 Gbps (IPsec + QoS + DPI + Flexible NetFlow)', dram: '16 GB', flash: '16 GB' },
-  { id: 14, model: 'Secure C8355-G2', desc: 'WAN Port: 2 x 10G SFP/SFP+, 2 x 5G mGig RJ45 (2x UPoE+); LAN Port:2 x 10G SFP/SFP+,Flex ports: 2 x 1G RJ45 Port,2 x 5G mGig RJ45 (2x UPoE+); 1 x PIM ', forwarding: '38 Gbps', ips: '20 Gbps', threat: '3.9 Gbps', sdwan: '12 Gbps', dram: '16 GB', flash: '16 GB (Fixed)' },
-  { id: 15, model: 'Secure C8455-G2', desc: 'WAN Ports: 8x 1 GE (SFP), 2x 1/10 GE (SFP+), 2x 10/25 GE (SFP28)', forwarding: 'Up to 67 Gbps', ips: 'Up to 31 Gbps', security: 'Up to 9.5 Gbps', sdwan: 'Up to 15.5 Gbps', dram: '32 GB', flash: '64 GB' },
-  { id: 16, model: 'Secure 	C8475-G2', desc: 'WAN Ports: 8x 1 GE (SFP), 8x 1/10 GE (SFP+), 4x 10/25 GE (SFP28)', forwarding: 'Up to 91 Gbps', ips: 'Up to 45 Gbps', security: 'Up to 10.9 Gbps', sdwan: 'Up to 21.7 Gbps', dram: '32 GB', flash: '64 GB' },
-  { id: 17, model: 'Secure 	C8550-G2', desc: 'WAN Ports: 12x 1/10GE (SFP+); WAN Mac: Supported in all built-in ports', forwarding: 'Up to 115 Gbps', ips: 'Up to 48 Gbps', sdwan: 'Up to 19 Gbps', dram: '32 GB', storage: '480 GB' },
-  { id: 18, model: 'Secure 	C8570-G2', desc: 'WAN Ports: 12x 1/10GE (SFP+), 2x 40GE (QSFP+), 2x 40/100GE (QSFP28), Note: max 240GE ports can be enabled simultaneously; WAN Mac: Supported in all built-in ports', forwarding: 'Up to 190 Gbps', ips: 'Up to 63 Gbps', sdwan: '	Up to 21 Gbps', dram: '32 GB', storage: '480 GB' },      
-  { id: 19, model: 'Edge C8200-1N-4T', desc: 'C8200 1RU w/ 1 NIM slot and 4x 1 Gigabit Ethernet WAN ports, 1xPIM slot', forwarding: 'Up to 3.8Gbps', ips: 'Up to 1Gbps', sdwan: 'IPsec Throughput Up to 1Gbps', dram: '8 GB', storage: '16 GB M.2 SSD' },    
-  { id: 20, model: 'Edge C8200L-1N-4T', desc: 'C8200L 1RU w/ 1 NIM slot and 4x 1 Gigabit Ethernet WAN ports, 1xPIM slot', forwarding: 'Up to 3.8Gbps', ips: 'Up to 500Mbps', sdwan: 'IPsec Throughput Up to 500Mbps', dram: '4 GB', storage: 'No' },    
-  { id: 21, model: 'Edge C8300-1N1S-6T', desc: 'C8300 1RU w/ 1G WAN (1 SM slot, 1 NIM slot, 1 PIM slot, and 6 x 1-Gigabit Ethernet ports)', forwarding: 'Up to 19.7Gbps', ips: 'Up to 1.9Gbps', sdwan: 'Up to 2Gbps', dram: '8 GB', storage: '16 GB M.2 SSD' },    
-  { id: 22, model: 'Edge C8300-2N2S-6T', desc: 'C8300 2RU w/ 1G WAN (2 SM and 2 NIM slots, 1 PIM slot, and 6 x 1-Gigabit Ethernet ports)', forwarding: 'Up to 19.7Gbps', ips: 'Up to 1.9Gbps', sdwan: 'Up to 2Gbps', dram: '8 GB', storage: '16 GB M.2 SSD' }, 
-  { id: 23, model: 'Edge C8300-1N1S-4T2X', desc: 'C8300 1RU w/ 10G WAN (1 SM slot and 1 NIM slot, 1 PIM slot, and 2 x 10-Gigabit Ethernet and 4 x 1-Gigabit Ethernet ports)', forwarding: 'Up to 19.7Gbps', ips: 'Up to 16.9Gbps', sdwan: 'Up to 17Gbps', dram: '8 GB', storage: '16 GB M.2 SSD' }, 
-  { id: 24, model: 'Edge C8300-2N2S-4T2X', desc: 'C8300 2RU w/ 10G WAN (2 SM and 2 NIM slots, 1 PIM slot, and 2 x 10-Gigabit Ethernet and 4 x 1-Gigabit Ethernet ports)', forwarding: 'Up to 19.7Gbps', ips: 'Up to 18.9Gbps', sdwan: 'Up to 18.8Gbps', dram: '8 GB', storage: '16 GB M.2 SSD' },
-  { id: 25, model: 'Edge C8500-20X6C', desc: '20-port 1/10GE, 6-port 40/100GE', forwarding: 'Up to 500Gbps', ips: 'Up to 400Gbps', sdwan: 'Up to 350Gbps', dram: '64 GB', storage: '480-GB-SSD' },      
-  { id: 26, model: 'Edge C8500-12X4QC', desc: '12-port 1/10GE, 2-port 40/100GE, 2-port 40GE', forwarding: 'Up to 197Gbps', ips: 'Up to 135Gbps', sdwan: 'Up to 96Gbps', dram: '16 GB', storage: '32-GB eUSB' },
-  { id: 27, model: 'Edge C8500-12X', desc: '12-port 1/10GE', forwarding: 'Up to 118Gbps', ips: 'Up to 84Gbps', sdwan: 'Up to 51Gbps', dram: '16 GB', storage: '32-GB eUSB' },
-  { id: 28, model: 'Edge C8500L-8S4X', desc: '4-port 1/10GE, 8-port 1GE', forwarding: 'Up to 39Gbps', ips: 'Up to 19Gbps', sdwan: 'Up to 19Gbps', dram: '16 GB', storage: '16G eUSB ' },
-
-
-
+  <div class="min-h-screen flex flex-col">
+    <!-- NAVIGATION BAR -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent py-6">
+      <div class="container mx-auto px-6 flex items-center justify-between">
         
-      ];
+        <!-- LOGO VÀ TÊN THƯƠNG HIỆU -->
+        <a href="index.html" class="flex items-center gap-3 group shrink-0">
+          <img 
+            id="nav-logo"
+            src="Logo_HN-04.png" 
+            alt="HN Network Logo" 
+            class="transition-all duration-300 object-contain h-14"
+            onerror="this.onerror=null; this.src='https://via.placeholder.com/150x50?text=HN+NETWORK';"
+          />
+          <span class="font-extrabold text-xl tracking-tighter text-blue-900 text-nowrap">
+            HN NETWORK
+          </span>
+        </a>
 
-      const currentProducts = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * productsPerPage;
-        const lastPageIndex = firstPageIndex + productsPerPage;
-        return sophosProducts.slice(firstPageIndex, lastPageIndex);
-      }, [currentPage]);
-
-      const totalPages = Math.ceil(sophosProducts.length / productsPerPage);
-
-      const handleZaloRedirect = (phone) => {
-        const cleanPhone = phone.replace(/\./g, '').replace(/ /g, '');
-        window.open(`https://zalo.me/${cleanPhone}`, '_blank');
-      };
-
-      return (
-        <div className="min-h-screen flex flex-col">
-          {/* Navigation */}
-          <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'glass-nav py-3 border-b border-gray-100 shadow-sm' : 'bg-transparent py-6'}`}>
-            <div className="container mx-auto px-6 flex items-center justify-between">
-              <a href="index.html" className="flex items-center gap-3 group">
-                <img 
-                  src="Logo_HN-04.png" 
-                  alt="HN Network Logo" 
-                  className={`transition-all duration-300 object-contain ${scrolled ? 'h-10' : 'h-14'}`}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "https://via.placeholder.com/150x50?text=HN+NETWORK";
-                  }}
-                />
-                <span className="font-extrabold text-xl tracking-tighter text-blue-900 hidden sm:inline text-nowrap uppercase">
-                  HN NETWORK
-                </span>
-              </a>
+        <!-- Desktop Menu - Tích hợp submenu 3 cấp link trực tiếp hoàn toàn đồng bộ -->
+        <div class="hidden md:flex items-center gap-8 font-medium text-sm uppercase tracking-widest text-gray-600">
+          <div class="relative group dropdown-parent">
+              <button class="hover:text-blue-600 transition-colors flex items-center gap-1 py-2 focus:outline-none">
+                Sản phẩm <i class="fa fa-chevron-down text-[10px]"></i>
+              </button>
               
-              <div className="hidden md:flex items-center gap-8 font-bold text-[11px] uppercase tracking-widest text-slate-600">
-                <a href="index.html" className="hover:text-blue-600 transition-colors">Trang chủ</a>
-                <a href="cisco_router.html" className="text-blue-600 border-b-2 border-blue-600 pb-1">Cisco network router</a>
-                <a href="#" className="hover:text-blue-600 transition-colors">Giải pháp</a>
-                <a href="#" className="hover:text-blue-600 transition-colors">Dịch vụ</a>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <button 
-                  onClick={() => handleZaloRedirect('0938888304')}
-                  className="bg-blue-600 text-white px-7 py-3 rounded-full text-xs font-black shadow-lg shadow-blue-200 hover:bg-blue-700 hover:shadow-blue-300 transition-all active:scale-95 uppercase tracking-widest"
-                >
-                  BÁO GIÁ
-                </button>
-                <button className="md:hidden text-slate-900" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-                  <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-2xl`}></i>
-                </button>
-              </div>
-            </div>
-          </nav>
-
-          {/* Main Content */}
-          <main className="pt-40 pb-24 flex-grow">
-            <div className="container mx-auto px-6">
-              <div className="flex flex-col items-center text-center mb-16">
-               <h1 className="text-5xl md:text-7xl font-extrabold leading-[1.1] mb-8 text-slate-900">
-                  Cisco Network <span className="gradient-text">Router</span>
-                </h1>
-                <p className="text-slate-500 max-w-2xl font-medium text-lg italic">
-                  "The Bridge to Possible" and "Tomorrow Starts Here"
-                </p>
-              </div>
-
-              {/* Grid Products */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {currentProducts.map((p) => (
-                  <div key={p.id} className="product-card bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/40 transition-all duration-500 group flex flex-col h-full overflow-hidden">
-                    <div className="p-8 pb-4">
-                      <div className="flex justify-between items-start mb-6">
-                        <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 shadow-inner">
-                          <i className="fa-solid fa-route text-2xl"></i>
-                        </div>
-                        <span className="text-[10px] font-black bg-blue-50 text-blue-600 px-3 py-1 rounded-full uppercase tracking-widest border border-blue-100">
-                          Cisco Router
-                        </span>
-                      </div>
-                      
-                      <h3 className="text-2xl font-black text-slate-800 mb-2 group-hover:text-blue-600 transition-colors tracking-tight">
-                        Cisco {p.model}
-                      </h3>
-                      <p className="text-slate-400 text-[10px] font-bold mb-8 uppercase tracking-wide leading-relaxed min-h-[32px]">
-                        {p.desc}
-                      </p>
-                      
-                      <div className="space-y-2 mb-8 text-[11px]">
-                        {p.forwarding && (
-                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                              <i className="fa-solid fa-bolt text-amber-500 w-4"></i> FORWARDING
-                            </div>
-                            <span className="font-black text-slate-800">{p.forwarding}</span>
-                          </div>
-                        )}
-                        
-                        {p.ips && (
-                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                              <i className="fa-solid fa-network-wired text-blue-500 w-4"></i> IPSEC
-                            </div>
-                            <span className="font-black text-slate-800">{p.ips}</span>
-                          </div>
-                        )}
-
-                        {p.sdwan && (
-                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                              <i className="fa-solid fa-network-wired text-blue-500 w-4"></i> SD-WAN
-                            </div>
-                            <span className="font-black text-slate-800">{p.sdwan}</span>
-                          </div>
-                        )}
-                        
-                        {p.threat && (
-                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                              <i className="fa-solid fa-shield-halved text-red-500 w-4"></i> Threat Prot.
-                            </div>
-                            <span className="font-black text-slate-800">{p.threat}</span>
-                          </div>
-                        )}
-                        
-                        {p.security && (
-                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                              <i className="fa-solid fa-shield-halved text-red-500 w-4"></i> Security (EMIX)
-                            </div>
-                            <span className="font-black text-slate-800">{p.security}</span>
-                          </div>
-                        )}
-                        
-                        {p.dram && (
-                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                              <i className="fa-solid fa-memory text-indigo-500 w-4"></i> DRAM 
-                            </div>
-                            <span className="font-black text-slate-800">{p.dram}</span>
-                          </div>
-                        )}
-
-                        {p.storage && (
-                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                              <i className="fa-solid fa-database text-emerald-500 w-4"></i> STORAGE
-                            </div>
-                            <span className="font-black text-slate-800">{p.storage}</span>
-                          </div>
-                        )}
-                        
-                        {p.flash && (
-                          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                            <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                              <i className="fa-solid fa-database text-emerald-500 w-4"></i> FLASH
-                            </div>
-                            <span className="font-black text-slate-800">{p.flash}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="p-8 pt-0 mt-auto">
-                      <button 
-                        onClick={() => handleZaloRedirect('0938888304')}
-                        className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 group-hover:bg-blue-600 transition-all shadow-xl shadow-slate-200 active:scale-95"
-                      >
-                        LIÊN HỆ BÁO GIÁ <i className="fa-solid fa-arrow-right"></i>
-                      </button>
+              <!-- MENU CẤP 2 -->
+              <div class="dropdown-submenu absolute top-full left-0 mt-2 w-56 bg-white shadow-xl rounded-xl py-2 transition-all border border-gray-100 z-50">
+                  <a href="sophos.html" class="block px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-gray-700">Sophos Firewall</a>
+                  
+                  <!-- MENU CẤP 3: Cisco Networking -->
+                  <div class="relative dropdown-sub-parent">
+                    <button class="w-full text-left px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-gray-700 flex justify-between items-center focus:outline-none">
+                      <span>Cisco Networking</span>
+                      <i class="fa fa-chevron-right text-[10px] text-gray-400"></i>
+                    </button>
+                    
+                    <!-- Menu con cấp 3 -->
+                    <div class="dropdown-sub-menu absolute left-full top-0 ml-1 w-48 bg-white shadow-xl rounded-xl py-2 border border-gray-100">
+                      <a href="cisco_switch.html" class="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600 font-medium text-gray-600">Switch cisco</a>
+                      <a href="cisco_router.html" class="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600 font-medium text-blue-600">Router cisco</a>
+                      <a href="cisco_firewall.html" class="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600 font-medium text-gray-600">Firewall cisco</a>
+                      <a href="cisco_ap.html" class="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600 font-medium text-gray-600">Access point cisco</a>
                     </div>
                   </div>
-                ))}
+                  
+                  <a href="synology-storage.html" class="block px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-gray-700">Synology Storage</a>
               </div>
-
-              {/* Pagination */}
-              <div className="mt-20 flex justify-center items-center gap-4">
-                  <button 
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                    disabled={currentPage === 1}
-                    className="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-white hover:shadow-xl disabled:opacity-50"
-                  >
-                    <i className="fa-solid fa-chevron-left"></i>
-                  </button>
-                  <div className="flex gap-2">
-                    {[...Array(totalPages)].map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setCurrentPage(i + 1)}
-                        className={`w-12 h-12 rounded-2xl font-black text-sm transition-all ${
-                          currentPage === i + 1 
-                          ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' 
-                          : 'bg-white border border-slate-200 text-slate-400'
-                        }`}
-                      >
-                        {i + 1}
-                      </button>
-                    ))}
-                  </div>
-                  <button 
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                    disabled={currentPage === totalPages}
-                    className="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-white hover:shadow-xl disabled:opacity-50"
-                  >
-                    <i className="fa-solid fa-chevron-right"></i>
-                  </button>
-              </div>
-            </div>
-          </main>
-
-          {/* Footer Section */}
-          <footer className="mt-auto bg-slate-900 text-white pt-20 pb-10">
-            <div className="container mx-auto px-6">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
-                
-                {/* Brand & Support */}
-                <div className="lg:col-span-4">
-                  <h4 className="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Hỗ trợ kinh doanh</h4>
-                  <div className="grid gap-4">
-                    <div 
-                      onClick={() => handleZaloRedirect('0938.888.304')}
-                      className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group cursor-pointer"
-                    >
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-gray-400 text-[10px] font-bold uppercase">Kinh doanh 1</span>
-                        <i className="fa fa-phone text-blue-400 text-xs group-hover:rotate-12 transition-transform"></i>
-                      </div>
-                      <p className="text-xl font-bold">0938.888.304</p>
-                    </div>
-                    <div 
-                      onClick={() => handleZaloRedirect('0974.700.952')}
-                      className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group cursor-pointer"
-                    >
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-gray-400 text-[10px] font-bold uppercase">Kinh doanh 2</span>
-                        <i className="fa fa-phone text-blue-400 text-xs group-hover:rotate-12 transition-transform"></i>
-                      </div>
-                      <p className="text-xl font-bold">0974.700.952</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Info */}
-                <div className="lg:col-span-4">
-                  <h4 className="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Liên hệ trực tiếp</h4>
-                  <div className="space-y-6">
-                    <div className="flex gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-blue-400 shrink-0">
-                        <i className="fa fa-map-marker-alt"></i>
-                      </div>
-                      <div>
-                        <h5 className="text-sm font-bold mb-1 uppercase tracking-wider">Trụ sở chính</h5>
-                        <p className="text-gray-400 text-sm leading-relaxed">CÔNG TY TNHH TM DV TIN HỌC HN NETWORK</p>
-                        <p className="text-gray-400 text-sm leading-relaxed">Số 2A Đường Thành Công, Phường Phú Thọ Hòa, TP. HCM</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-blue-400 shrink-0">
-                        <i className="fa fa-headset"></i>
-                      </div>
-                      <div>
-                        <h5 className="text-sm font-bold mb-1 uppercase tracking-wider">Tổng đài & Email</h5>
-                        <p className="text-gray-400 text-sm leading-relaxed">Hotline: (028) 668 42 689</p>
-                        <p className="text-gray-400 text-sm leading-relaxed">Email: info@hnnetwork.vn</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-4 pt-2">
-                      <a href="https://www.facebook.com/hnnetwork.vn" target="_blank" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-blue-600 transition-all"><i className="fab fa-facebook-f"></i></a>
-                      <a href="#" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-red-600 transition-all"><i className="fab fa-youtube"></i></a>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Map */}
-                <div className="lg:col-span-4">
-                   <h4 className="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Vị trí bản đồ</h4>
-                   <div className="rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 border border-white/10 shadow-2xl h-[250px]">
-                      <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2412216077746!2d106.63263728527505!3d10.792827961914577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529532c42131f%3A0xc72609f9f908c1cc!2zMkEgVGjDoG5oIEPDtG5nLCBUw6JuIFRow6BuaCwgVMOibiBQaMO6LCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1772251814694!5m2!1svi!2s" 
-                        width="100%" height="100%" frameBorder="0" style={{ border:0 }} allowFullScreen loading="lazy"
-                      ></iframe>
-                   </div>
-                </div>
-
-              </div>
-
-              <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] text-gray-600 font-black uppercase tracking-widest">
-                <p>&copy; 2026 HN Network Enterprise Solutions. All Rights Reserved.</p>
-                <div className="flex gap-8">
-                  <a href="#" className="hover:text-blue-400 transition-colors">Privacy Policy</a>
-                  <a href="#" className="hover:text-blue-400 transition-colors">Terms of Service</a>
-                </div>
-              </div>
-            </div>
-          </footer>
+          </div>
+          <a href="#" class="hover:text-blue-600 transition-colors">Giải pháp</a>
+          <a href="#" class="hover:text-blue-600 transition-colors">Dịch vụ</a>
+          <a href="#" class="hover:text-blue-600 transition-colors">Về chúng tôi</a>
         </div>
-      );
-    };
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
+        <div class="flex items-center gap-4">
+          <div class="hidden lg:flex flex-col items-end mr-4">
+              <span class="text-[10px] text-gray-400 font-bold uppercase tracking-tighter text-nowrap">Hotline 24/7</span>
+              <span class="text-blue-600 font-bold text-nowrap">0938.888.304</span>
+          </div>
+          
+          <!-- Mobile Hamburger Toggle -->
+          <button 
+            id="mobile-menu-toggle"
+            class="md:hidden w-10 h-10 flex items-center justify-center text-gray-600 focus:outline-none"
+          >
+            <i id="mobile-menu-icon" class="fa-solid fa-bars text-xl"></i>
+          </button>
+
+          <button 
+            onclick="handleZaloRedirect('0938888304')"
+            class="hidden sm:block bg-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all text-nowrap"
+          >
+            Báo giá ngay
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Content -->
+      <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute top-full left-0 w-full shadow-2xl max-h-[85vh] overflow-y-auto">
+        <div class="flex flex-col p-6 space-y-4 font-bold text-sm uppercase tracking-widest text-gray-700">
+          <div class="border-b border-gray-50 pb-2">
+            <button 
+              id="mobile-products-toggle"
+              class="flex justify-between items-center w-full mb-2 text-blue-900 font-extrabold focus:outline-none"
+            >
+              <span>Sản phẩm</span>
+              <i id="mobile-products-icon" class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
+            </button>
+            
+            <!-- Danh sách Sản Phẩm cấp 2 di động -->
+            <div id="mobile-products-menu" class="hidden pl-4 space-y-3 mt-2 normal-case font-medium tracking-normal text-gray-500">
+              <a href="sophos.html" class="block hover:text-blue-600 py-1 font-semibold">Sophos Firewall</a>
+              
+              <!-- Mục Cisco Networking cấp 3 di động -->
+              <div class="py-1">
+                <button 
+                  id="mobile-cisco-toggle"
+                  class="flex justify-between items-center w-full font-semibold text-gray-700 mb-1.5 focus:outline-none"
+                >
+                  <span>Cisco Networking</span>
+                  <i id="mobile-cisco-icon" class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
+                </button>
+                
+                <div id="mobile-cisco-menu" class="hidden pl-3 space-y-2 border-l border-blue-100">
+                  <a href="cisco_switch.html" class="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Switch cisco</a>
+                  <a href="cisco_router.html" class="block text-left w-full hover:text-blue-600 text-xs text-blue-600 py-1">Router cisco</a>
+                  <a href="cisco_firewall.html" class="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Firewall cisco</a>
+                  <a href="cisco_ap.html" class="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Access point cisco</a>
+                </div>
+              </div>
+              
+              <a href="synology-storage.html" class="block hover:text-blue-600 py-1 font-semibold">Synology Storage</a>
+            </div>
+          </div>
+          <a href="#" class="border-b border-gray-50 pb-4 hover:text-blue-600 transition-colors">Giải pháp</a>
+          <a href="#" class="border-b border-gray-50 pb-4 hover:text-blue-600 transition-colors">Dịch vụ</a>
+          <a href="#" class="border-b border-gray-50 pb-4 hover:text-blue-600 transition-colors">Về chúng tôi</a>
+          <div class="pt-4 flex flex-col gap-4">
+             <div class="flex items-center gap-3">
+                <i class="fa fa-phone text-blue-600"></i>
+                <span class="text-blue-600 tracking-normal">0938.888.304</span>
+             </div>
+             <button 
+              onclick="handleZaloRedirect('0938888304')"
+              class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold"
+            >
+              Liên hệ Báo giá
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="pt-40 pb-24 flex-grow">
+      <div class="container mx-auto px-6">
+        
+        <!-- Hero Section -->
+        <div class="flex flex-col items-center text-center mb-16">
+          <h1 class="text-5xl md:text-7xl font-extrabold leading-[1.1] mb-8 text-slate-900">
+            Cisco Network <span class="gradient-text">Router</span>
+          </h1>
+          <p class="text-slate-500 max-w-2xl font-medium text-lg italic">
+            "The Bridge to Possible" and "Tomorrow Starts Here"
+          </p>
+        </div>
+
+        <!-- Grid Products Container -->
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Dynamic products injected here -->
+        </div>
+
+        <!-- Pagination Controls -->
+        <div id="pagination-controls" class="mt-20 flex justify-center items-center gap-4">
+          <!-- Dynamic pagination buttons injected here -->
+        </div>
+
+      </div>
+    </main>
+
+    <!-- FOOTER AREA -->
+    <footer class="mt-auto bg-slate-900 text-white pt-20 pb-10">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
+          
+          <!-- Brand & Support -->
+          <div class="lg:col-span-4">
+            <h4 class="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Hỗ trợ kinh doanh</h4>
+            <div class="grid gap-4">
+              <div 
+                onclick="handleZaloRedirect('0938.888.304')"
+                class="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group cursor-pointer"
+              >
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-gray-400 text-[10px] font-bold uppercase">Kinh doanh 1</span>
+                  <i class="fa fa-phone text-blue-400 text-xs group-hover:rotate-12 transition-transform"></i>
+                </div>
+                <p class="text-xl font-bold">0938.888.304</p>
+              </div>
+              <div 
+                onclick="handleZaloRedirect('0974.700.952')"
+                class="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group cursor-pointer"
+              >
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-gray-400 text-[10px] font-bold uppercase">Kinh doanh 2</span>
+                  <i class="fa fa-phone text-blue-400 text-xs group-hover:rotate-12 transition-transform"></i>
+                </div>
+                <p class="text-xl font-bold">0974.700.952</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Info -->
+          <div class="lg:col-span-4">
+            <h4 class="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Liên hệ trực tiếp</h4>
+            <div class="space-y-6">
+              <div class="flex gap-4">
+                <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-blue-400 shrink-0">
+                  <i class="fa fa-map-marker-alt"></i>
+                </div>
+                <div>
+                  <h5 class="text-sm font-bold mb-1 uppercase tracking-wider">Trụ sở chính</h5>
+                  <p class="text-gray-400 text-sm leading-relaxed">CÔNG TY TNHH TM DV TIN HỌC HN NETWORK</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Số 2A Đường Thành Công, Phường Phú Thọ Hòa, TP. HCM</p>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-blue-400 shrink-0">
+                  <i class="fa fa-headset"></i>
+                </div>
+                <div>
+                  <h5 class="text-sm font-bold mb-1 uppercase tracking-wider">Tổng đài & Email</h5>
+                  <p class="text-gray-400 text-sm leading-relaxed">Hotline: (028) 668 42 689</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Email: info@hnnetwork.vn</p>
+                </div>
+              </div>
+              <div class="flex gap-4 pt-2">
+                <a href="https://www.facebook.com/hnnetwork.vn" target="_blank" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-blue-600 transition-all"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-red-600 transition-all"><i class="fab fa-youtube"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Map -->
+          <div class="lg:col-span-4">
+             <h4 class="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Vị trí bản đồ</h4>
+             <div class="rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 border border-white/10 shadow-2xl h-[250px]">
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2412216077746!2d106.63263728527505!3d10.792827961914577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529532c42131f%3A0xc72609f9f908c1cc!2zMkEgVGjDoG5oIEPDtG5nLCBUw6JuIFRow6BuaCwgVMOibiBQaMO6LCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1772251814694!5m2!1svi!2s" 
+                  width="100%" height="100%" frameBorder="0" style="border:0" allowfullscreen="" loading="lazy"
+                ></iframe>
+             </div>
+          </div>
+
+        </div>
+
+        <div class="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] text-gray-500 font-black uppercase tracking-widest">
+          <p>&copy; 2026 HN Network Enterprise Solutions. All Rights Reserved.</p>
+          <div class="flex gap-8">
+            <a href="#" class="hover:text-blue-400 transition-colors">Privacy Policy</a>
+            <a href="#" class="hover:text-blue-400 transition-colors">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- SCRIPT XỬ LÝ GIAO DIỆN & DỮ LIỆU TĨNH BẰNG VANILLA JS -->
+  <script>
+    // 1. Dữ liệu sản phẩm Cisco Network Routers Chuyên nghiệp
+    const routerProducts = [
+      { id: 1, model: 'Integrated Services C921-4P', desc: '2 WAN ports GE, 4 LAN port GE managed switch', forwarding: '150 Mbps', ips: '250 Mbps', threat: 'N/A', dram: '1 GB', flash: '2 GB' },
+      { id: 2, model: 'Integrated Services C1111-4P', desc: '1 WAN port GE, 1 combo WAN/LAN port GE/SFP, 4 LAN port GE', forwarding: '1372 Mbps', ips: '370 Mbps', threat: 'N/A', dram: '4 GB', flash: '4 GB' },
+      { id: 3, model: 'Integrated Services C1111-8P', desc: '1 WAN port GE, 1 combo WAN/LAN port GE/SFP, 8 LAN port GE', forwarding: '1673 Mbps', ips: '468 Mbps', threat: 'N/A', dram: '4 GB', flash: '4 GB' },
+      { id: 4, model: 'Integrated Services C1111X-8P', desc: '1 WAN port GE, 1 combo WAN/LAN port GE/SFP, 8 LAN port GE', forwarding: '1673 Mbps', ips: '468 Mbps', threat: 'N/A', dram: '8 GB', flash: '8 GB' },
+      { id: 5, model: 'Secure C8130-G2', desc: 'WAN Ports:1x 1GE RJ-45, 1x 1GE RJ-45/SFP Combo; LAN Ports: 4x 1GE RJ-45', forwarding: '1.9 Gbps', ips: '1.5 Gbps', threat: 'N/A', dram: '4 GB', flash: '16 GB' },
+      { id: 6, model: 'Secure C8140-G2', desc: 'WAN Ports:2x 1GE RJ-45/SFP combo; LAN Ports: 8x 1GE RJ-45', forwarding: '5.6 Gbps', ips: '1.5 Gbps', threat: 'N/A', dram: '4 GB', flash: '16 GB' },
+      { id: 7, model: 'Secure C8151-G2', desc: 'WAN Port: 2 x GE RJ-45/SFP combo; LAN Port: 8 x GE RJ-45 ports; Optional PIM Slot – CAT 7 LTE or 5G', forwarding: '5.6 Gbps', ips: '1.5 Gbps', threat: '1 Gbps', sdwan: 'Up to 900 Mbps', dram: '8 GB', flash: '16 GB' },
+      { id: 8, model: 'Secure C8161-G2', desc: 'WAN Port: 2x 1GE RJ-45/SFP combo; LAN Port: 2 x GE RJ-45, 6 x GE RJ-45 (4PoE/2PoE+) PoE output max power 80W; Optional Pluggable Module – LTE or 5G', forwarding: '5.6 Gbps', ips: '1.5 Gbps', threat: '1 Gbps', sdwan: '900Mbps', dram: '8 GB', flash: '16 GB' },
+      { id: 9, model: 'Secure C8231-E-G2', desc: 'WAN Port: 2x10G SFP/SFP+, 2x2.5G mGig RJ-45 (2x UPoE+); 1 x NIM; 1 x PIM', forwarding: '19 Gbps', ips: '5 Gbps', threat: '1 Gbps', sdwan: 'Up to 4 Gbps', dram: '8 GB', flash: '16 GB' },
+      { id: 10, model: 'Secure C8235-E-G2', desc: 'WAN Port: 2x10G SFP/SFP+, 2x2.5G mGig RJ-45 (2x UPoE+); 1 x NIM; 1 x PIM', forwarding: '19 Gbps', ips: '5 Gbps', threat: '2.4 Gbps', sdwan: 'Up to 4 Gbps', dram: '16 GB', flash: '16 GB' },
+      { id: 11, model: 'Secure C8235-G2', desc: 'WAN Port: 2 x 10G SFP/SFP+, 2 x 2.5G mGig RJ-45 (2x UPoE+); LAN Port: 2 x 2.5G mGig RJ-45 (2x PoE+), 4 x 2.5G mGig RJ-45; 1 x PIM', forwarding: '19 Gbps', ips: '5 Gbps', threat: '2.4 Gbps', sdwan: 'Up to 4 Gbps', dram: '16 GB', flash: '16 GB' },
+      { id: 12, model: 'Secure C8231-G2', desc: 'WAN Port: 2 x 10G SFP/SFP+, 2 x 2.5G mGig RJ-45 (1x PoE+); LAN Port: 2 x 2.5G mGig RJ-45, 4 x 1G RJ-45', forwarding: '19 Gbps', ips: '5 Gbps', threat: '1 Gbps', sdwan: 'Up to 4 Gbps', dram: '8 GB', flash: '16 GB' },
+      { id: 13, model: 'Secure C8375-E-G2', desc: 'WAN Port: 2 x 10G SFP/SFP+, 4 x 2.5G mGig RJ45 (2x UPoE+); 1 x NIM, 1 x SM, 1 x PIM', forwarding: '38 Gbps', ips: '20 Gbps', threat: '7 Gbps', sdwan: '12 Gbps (IPsec + QoS + DPI + Flexible NetFlow)', dram: '16 GB', flash: '16 GB' },
+      { id: 14, model: 'Secure C8355-G2', desc: 'WAN Port: 2 x 10G SFP/SFP+, 2 x 5G mGig RJ45 (2x UPoE+); LAN Port:2 x 10G SFP/SFP+,Flex ports: 2 x 1G RJ45 Port,2 x 5G mGig RJ45 (2x UPoE+); 1 x PIM', forwarding: '38 Gbps', ips: '20 Gbps', threat: '3.9 Gbps', sdwan: '12 Gbps', dram: '16 GB', flash: '16 GB (Fixed)' },
+      { id: 15, model: 'Secure C8455-G2', desc: 'WAN Ports: 8x 1 GE (SFP), 2x 1/10 GE (SFP+), 2x 10/25 GE (SFP28)', forwarding: 'Up to 67 Gbps', ips: 'Up to 31 Gbps', security: 'Up to 9.5 Gbps', sdwan: 'Up to 15.5 Gbps', dram: '32 GB', flash: '64 GB' },
+      { id: 16, model: 'Secure C8475-G2', desc: 'WAN Ports: 8x 1 GE (SFP), 8x 1/10 GE (SFP+), 4x 10/25 GE (SFP28)', forwarding: 'Up to 91 Gbps', ips: 'Up to 45 Gbps', security: 'Up to 10.9 Gbps', sdwan: 'Up to 21.7 Gbps', dram: '32 GB', flash: '64 GB' },
+      { id: 17, model: 'Secure C8550-G2', desc: 'WAN Ports: 12x 1/10GE (SFP+); WAN Mac: Supported in all built-in ports', forwarding: 'Up to 115 Gbps', ips: 'Up to 48 Gbps', sdwan: 'Up to 19 Gbps', dram: '32 GB', storage: '480 GB' },
+      { id: 18, model: 'Secure C8570-G2', desc: 'WAN Ports: 12x 1/10GE (SFP+), 2x 40GE (QSFP+), 2x 40/100GE (QSFP28), Note: max 240GE ports can be enabled simultaneously; WAN Mac: Supported in all built-in ports', forwarding: 'Up to 190 Gbps', ips: 'Up to 63 Gbps', sdwan: 'Up to 21 Gbps', dram: '32 GB', storage: '480 GB' },
+      { id: 19, model: 'Edge C8200-1N-4T', desc: 'C8200 1RU w/ 1 NIM slot and 4x 1 Gigabit Ethernet WAN ports, 1xPIM slot', forwarding: 'Up to 3.8Gbps', ips: 'Up to 1Gbps', sdwan: 'IPsec Throughput Up to 1Gbps', dram: '8 GB', storage: '16 GB M.2 SSD' },
+      { id: 20, model: 'Edge C8200L-1N-4T', desc: 'C8200L 1RU w/ 1 NIM slot and 4x 1 Gigabit Ethernet WAN ports, 1xPIM slot', forwarding: 'Up to 3.8Gbps', ips: 'Up to 500Mbps', sdwan: 'IPsec Throughput Up to 500Mbps', dram: '4 GB', storage: 'No' },
+      { id: 21, model: 'Edge C8300-1N1S-6T', desc: 'C8300 1RU w/ 1G WAN (1 SM slot, 1 NIM slot, 1 PIM slot, and 6 x 1-Gigabit Ethernet ports)', forwarding: 'Up to 19.7Gbps', ips: 'Up to 1.9Gbps', sdwan: 'Up to 2Gbps', dram: '8 GB', storage: '16 GB M.2 SSD' },
+      { id: 22, model: 'Edge C8300-2N2S-6T', desc: 'C8300 2RU w/ 1G WAN (2 SM and 2 NIM slots, 1 PIM slot, and 6 x 1-Gigabit Ethernet ports)', forwarding: 'Up to 19.7Gbps', ips: 'Up to 1.9Gbps', sdwan: 'Up to 2Gbps', dram: '8 GB', storage: '16 GB M.2 SSD' },
+      { id: 23, model: 'Edge C8300-1N1S-4T2X', desc: 'C8300 1RU w/ 10G WAN (1 SM slot and 1 NIM slot, 1 PIM slot, and 2 x 10-Gigabit Ethernet and 4 x 1-Gigabit Ethernet ports)', forwarding: 'Up to 19.7Gbps', ips: 'Up to 16.9Gbps', sdwan: 'Up to 17Gbps', dram: '8 GB', storage: '16 GB M.2 SSD' },
+      { id: 24, model: 'Edge C8300-2N2S-4T2X', desc: 'C8300 2RU w/ 10G WAN (2 SM and 2 NIM slots, 1 PIM slot, and 2 x 10-Gigabit Ethernet and 4 x 1-Gigabit Ethernet ports)', forwarding: 'Up to 19.7Gbps', ips: 'Up to 18.9Gbps', sdwan: 'Up to 18.8Gbps', dram: '8 GB', storage: '16 GB M.2 SSD' },
+      { id: 25, model: 'Edge C8500-20X6C', desc: '20-port 1/10GE, 6-port 40/100GE', forwarding: 'Up to 500Gbps', ips: 'Up to 400Gbps', sdwan: 'Up to 350Gbps', dram: '64 GB', storage: '480-GB-SSD' },
+      { id: 26, model: 'Edge C8500-12X4QC', desc: '12-port 1/10GE, 2-port 40/100GE, 2-port 40GE', forwarding: 'Up to 197Gbps', ips: 'Up to 135Gbps', sdwan: 'Up to 96Gbps', dram: '16 GB', storage: '32-GB eUSB' },
+      { id: 27, model: 'Edge C8500-12X', desc: '12-port 1/10GE', forwarding: 'Up to 118Gbps', ips: 'Up to 84Gbps', sdwan: 'Up to 51Gbps', dram: '16 GB', storage: '32-GB eUSB' },
+      { id: 28, model: 'Edge C8500L-8S4X', desc: '4-port 1/10GE, 8-port 1GE', forwarding: 'Up to 39Gbps', ips: 'Up to 19Gbps', sdwan: 'Up to 19Gbps', dram: '16 GB', storage: '16G eUSB' }
+    ];
+
+    const productsPerPage = 9;
+    let currentPage = parseInt(localStorage.getItem('ciscoPage')) || 1;
+
+    // 2. Element Selectors
+    const productGrid = document.getElementById('product-grid');
+    const paginationControls = document.getElementById('pagination-controls');
+    const navbar = document.getElementById('navbar');
+    const navLogo = document.getElementById('nav-logo');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+    const mobileProductsToggle = document.getElementById('mobile-products-toggle');
+    const mobileProductsMenu = document.getElementById('mobile-products-menu');
+    const mobileProductsIcon = document.getElementById('mobile-products-icon');
+    const mobileCiscoToggle = document.getElementById('mobile-cisco-toggle');
+    const mobileCiscoMenu = document.getElementById('mobile-cisco-menu');
+    const mobileCiscoIcon = document.getElementById('mobile-cisco-icon');
+
+    // 3. Render sản phẩm theo trang
+    function renderProducts() {
+      const startIndex = (currentPage - 1) * productsPerPage;
+      const endIndex = startIndex + productsPerPage;
+      const currentProducts = routerProducts.slice(startIndex, endIndex);
+
+      productGrid.innerHTML = currentProducts.map(p => {
+        // Tạo khối thông số kỹ thuật linh động dựa trên việc tham số có tồn tại hay không
+        let specsHtml = '';
+        
+        if (p.forwarding) {
+          specsHtml += `
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+              <div class="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                <i class="fa-solid fa-bolt text-amber-500 w-4"></i> FORWARDING
+              </div>
+              <span class="font-black text-slate-800 text-right ml-2">${p.forwarding}</span>
+            </div>
+          `;
+        }
+
+        if (p.ips) {
+          specsHtml += `
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+              <div class="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                <i class="fa-solid fa-network-wired text-blue-500 w-4"></i> IPSEC
+              </div>
+              <span class="font-black text-slate-800 text-right ml-2">${p.ips}</span>
+            </div>
+          `;
+        }
+
+        if (p.sdwan) {
+          specsHtml += `
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+              <div class="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                <i class="fa-solid fa-network-wired text-blue-500 w-4"></i> SD-WAN
+              </div>
+              <span class="font-black text-slate-800 text-right ml-2">${p.sdwan}</span>
+            </div>
+          `;
+        }
+
+        if (p.threat && p.threat !== 'N/A') {
+          specsHtml += `
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+              <div class="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                <i class="fa-solid fa-shield-halved text-red-500 w-4"></i> Threat Prot.
+              </div>
+              <span class="font-black text-slate-800 text-right ml-2">${p.threat}</span>
+            </div>
+          `;
+        }
+
+        if (p.security) {
+          specsHtml += `
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+              <div class="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                <i class="fa-solid fa-shield-halved text-red-500 w-4"></i> Security (EMIX)
+              </div>
+              <span class="font-black text-slate-800 text-right ml-2">${p.security}</span>
+            </div>
+          `;
+        }
+
+        if (p.dram) {
+          specsHtml += `
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+              <div class="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                <i class="fa-solid fa-memory text-indigo-500 w-4"></i> DRAM
+              </div>
+              <span class="font-black text-slate-800 text-right ml-2">${p.dram}</span>
+            </div>
+          `;
+        }
+
+        if (p.storage) {
+          specsHtml += `
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+              <div class="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                <i class="fa-solid fa-database text-emerald-500 w-4"></i> STORAGE
+              </div>
+              <span class="font-black text-slate-800 text-right ml-2">${p.storage}</span>
+            </div>
+          `;
+        }
+
+        if (p.flash) {
+          specsHtml += `
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+              <div class="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                <i class="fa-solid fa-database text-emerald-500 w-4"></i> FLASH
+              </div>
+              <span class="font-black text-slate-800 text-right ml-2">${p.flash}</span>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="product-card bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/40 transition-all duration-500 group flex flex-col h-full overflow-hidden">
+            <div class="p-8 pb-4 flex-grow flex flex-col">
+              <div class="flex justify-between items-start mb-6">
+                <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 shadow-inner">
+                  <i class="fa-solid fa-route text-2xl"></i>
+                </div>
+                <span class="text-[10px] font-black bg-blue-50 text-blue-600 px-3 py-1 rounded-full uppercase tracking-widest border border-blue-100">
+                  Cisco Router
+                </span>
+              </div>
+              
+              <h3 class="text-2xl font-black text-slate-800 mb-2 group-hover:text-blue-600 transition-colors tracking-tight">
+                Cisco ${p.model}
+              </h3>
+              <p class="text-slate-400 text-[10px] font-bold mb-8 uppercase tracking-wide leading-relaxed min-h-[32px]">
+                ${p.desc}
+              </p>
+              
+              <div class="space-y-2 mb-8 text-[11px] mt-auto">
+                ${specsHtml}
+              </div>
+            </div>
+
+            <div class="p-8 pt-0 mt-auto">
+              <button 
+                onclick="handleZaloRedirect('0938888304')"
+                class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 group-hover:bg-blue-600 transition-all shadow-xl shadow-slate-200 active:scale-95"
+              >
+                LIÊN HỆ BÁO GIÁ <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      renderPagination();
+    }
+
+    // 4. Render thanh chuyển trang (Pagination)
+    function renderPagination() {
+      const totalPages = Math.ceil(routerProducts.length / productsPerPage);
+      let html = '';
+
+      // Back Button
+      html += `
+        <button 
+          onclick="changePage(${currentPage - 1})"
+          ${currentPage === 1 ? 'disabled' : ''}
+          class="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 bg-white hover:shadow-xl transition-all disabled:opacity-50"
+        >
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+      `;
+
+      // Page Numbers
+      html += `<div class="flex gap-2">`;
+      for (let i = 1; i <= totalPages; i++) {
+        html += `
+          <button
+            onclick="changePage(${i})"
+            class="w-12 h-12 rounded-2xl font-black text-sm transition-all ${
+              currentPage === i 
+              ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' 
+              : 'bg-white border border-slate-200 text-slate-400'
+            }"
+          >
+            ${i}
+          </button>
+        `;
+      }
+      html += `</div>`;
+
+      // Next Button
+      html += `
+        <button 
+          onclick="changePage(${currentPage + 1})"
+          ${currentPage === totalPages ? 'disabled' : ''}
+          class="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 bg-white hover:shadow-xl transition-all disabled:opacity-50"
+        >
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      `;
+
+      paginationControls.innerHTML = html;
+    }
+
+    // 5. Hàm chuyển trang mượt mà
+    window.changePage = function(page) {
+      const totalPages = Math.ceil(routerProducts.length / productsPerPage);
+      if (page < 1 || page > totalPages) return;
+      currentPage = page;
+      localStorage.setItem('ciscoPage', currentPage);
+      renderProducts();
+      
+      // Cuộn mượt mà lên đầu danh sách sản phẩm
+      document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // 6. Xử lý đổi giao diện Header khi cuộn trang
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navbar.className = "fixed top-0 w-full z-50 transition-all duration-300 glass-nav py-3 border-b border-gray-100 shadow-sm";
+        navLogo.className = "transition-all duration-300 object-contain h-10";
+      } else {
+        navbar.className = "fixed top-0 w-full z-50 transition-all duration-300 bg-transparent py-6";
+        navLogo.className = "transition-all duration-300 object-contain h-14";
+      }
+    });
+
+    // 7. Xử lý bật/tắt Mobile Menu
+    mobileMenuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      if (mobileMenu.classList.contains('hidden')) {
+        mobileMenuIcon.className = "fa-solid fa-bars text-xl";
+      } else {
+        mobileMenuIcon.className = "fa-solid fa-xmark text-2xl";
+      }
+    });
+
+    // 8. Bật/tắt thư mục Sản Phẩm trên mobile
+    mobileProductsToggle.addEventListener('click', () => {
+      mobileProductsMenu.classList.toggle('hidden');
+      if (mobileProductsMenu.classList.contains('hidden')) {
+        mobileProductsIcon.className = "fa-solid fa-chevron-right text-[10px] text-gray-400";
+      } else {
+        mobileProductsIcon.className = "fa-solid fa-chevron-down text-[10px] text-gray-400";
+      }
+    });
+
+    // 9. Bật/tắt thư mục Cisco trên mobile
+    mobileCiscoToggle.addEventListener('click', () => {
+      mobileCiscoMenu.classList.toggle('hidden');
+      if (mobileCiscoMenu.classList.contains('hidden')) {
+        mobileCiscoIcon.className = "fa-solid fa-chevron-right text-[10px] text-gray-400";
+      } else {
+        mobileCiscoIcon.className = "fa-solid fa-chevron-down text-[10px] text-gray-400";
+      }
+    });
+
+    // 10. Hàm chuyển tiếp Zalo
+    window.handleZaloRedirect = function(phone) {
+      const cleanPhone = phone.replace(/\./g, '').replace(/ /g, '');
+      window.open(`https://zalo.me/${cleanPhone}`, '_blank');
+    }
+
+    // Khởi chạy kết xuất ban đầu
+    renderProducts();
   </script>
 </body>
 </html>
