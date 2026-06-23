@@ -4,18 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sophos XGS Series | HN Network</title>
+  <!-- Cấu hình hiển thị LOGO trên TAB trình duyệt (Favicon) -->
+  <link rel="icon" type="image/png" href="Logo_HN-04.png">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800;900&display=swap');
     
     body {
       font-family: 'Inter', sans-serif;
-      scroll-behavior: smooth;
     }
 
     .glass-nav {
@@ -24,12 +23,13 @@
       -webkit-backdrop-filter: blur(12px);
     }
 
-    .product-card:hover {
-      transform: translateY(-10px);
+    .product-card {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .footer-gradient {
-      background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.08);
     }
     
     .gradient-text {
@@ -37,303 +37,503 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+
+    /* KHÔI PHỤC LẠI HOVER MENU ĐA CẤP TRÊN DESKTOP */
+    .dropdown-submenu {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.2s ease-in-out;
+    }
+    .dropdown-parent:hover .dropdown-submenu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-sub-menu {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(10px);
+      transition: all 0.2s ease-in-out;
+    }
+    .dropdown-sub-parent:hover .dropdown-sub-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
   </style>
 </head>
-<body class="bg-[#fafafa]">
-  <div id="root"></div>
+<body class="bg-[#fafafa] text-slate-800">
 
-  <script type="text/babel">
-    const { useState, useEffect, useMemo } = React;
+  <div class="min-h-screen flex flex-col">
+    <!-- NAVIGATION BAR -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent py-6">
+      <div class="container mx-auto px-6 flex items-center justify-between">
+        
+        <!-- LOGO VÀ TÊN THƯƠNG HIỆU -->
+        <a href="index.html" class="flex items-center gap-3 group shrink-0">
+          <img 
+            id="nav-logo"
+            src="Logo_HN-04.png" 
+            alt="HN Network Logo" 
+            class="transition-all duration-300 object-contain h-14"
+            onerror="this.onerror=null; this.src='https://via.placeholder.com/150x50?text=HN+NETWORK';"
+          />
+          <span class="font-extrabold text-xl tracking-tighter text-blue-900 text-nowrap">
+            HN NETWORK
+          </span>
+        </a>
 
-    const App = () => {
-      const [scrolled, setScrolled] = useState(false);
-      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-      const [currentPage, setCurrentPage] = useState(1);
-      const productsPerPage = 9;
-
-      useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 20);
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-      }, []);
-
-      const sophosProducts = [
-        { id: 1, model: 'XGS 88', desc: 'Hardware Appliance with 4 x 2.5 GE copper', firewall: '9.9 Gbps', ips: '2 Gbps', threat: '2 Gbps', vpn: '6 Gbps', storage: '16 GB eMMC' },
-        { id: 2, model: 'XGS 108', desc: 'Hardware Appliance with 6 x 2.5 GE copper; 1 x SFP fiber', firewall: '12.5 Gbps', ips: '2.5 Gbps', threat: '2.5 Gbps', vpn: '8.25 Gbps', storage: '64 GB UFS 2.1' },
-        { id: 3, model: 'XGS 118', desc: 'Hardware Appliance with 9 x 2.5 GE copper; 1 x SFP fiber', firewall: '15.5 Gbps', ips: '3.5 Gbps', threat: '3.25 Gbps', vpn: '13 Gbps', storage: '64 GB UFS 2.1' },
-        { id: 4, model: 'XGS 128', desc: 'Hardware Appliance with 9 x 2.5 GE copper; 1 x SFP fiber', firewall: '19.1 Gbps', ips: '4.65 Gbps', threat: '4 Gbps', vpn: '15.05 Gbps', storage: '64 GB UFS 2.1' },
-        { id: 5, model: 'XGS 138', desc: 'Hardware Appliance with 4 x GE copper; 2 x 2.5 GE copper; 2 x SFP+ 10GE fiber', firewall: '19.1 Gbps', ips: '5.85 Gbps', threat: '4.75 Gbps', vpn: '6.6 Gbps', storage: '64 GB M.2' },
-        { id: 6, model: 'XGS 2100', desc: 'Hardware Appliance with 8 x GE copper; 2 x SFP fiber', firewall: '30 Gbps', ips: '6 Gbps', threat: '5 Gbps', vpn: '17 Gbps', storage: 'Integrated min. 120 GB SATA-III SSD' },
-        { id: 7, model: 'XGS 2300', desc: 'Hardware Appliance with 8 x GE copper; 2 x SFP fiber', firewall: '39 Gbps', ips: '7 Gbps', threat: '5.5 Gbps', vpn: '20.5 Gbps', storage: 'Integrated min. 120 GB SATA-III SSD' },
-        { id: 8, model: 'XGS 3100', desc: 'Hardware Appliance with 8 x GE copper; 2 x SFP fiber; 2 x SFP+ 10 GE fiber', firewall: '47 Gbps', ips: '10.5 Gbps', threat: '7.4 Gbps', vpn: '25 Gbps', storage: 'Integrated min. 240 GB SATA-III SSD' },
-        { id: 9, model: 'XGS 3300', desc: 'Hardware Appliance with 8 x GE copper; 2 x SFP fiber; 2 x SFP+ 10 GE fiber', firewall: '58 Gbps', ips: '14 Gbps', threat: '10 Gbps', vpn: '31.1 Gbps', storage: 'Integrated min. 240 GB SATA-III SSD' },
-        { id: 10, model: 'XGS 4300', desc: 'Hardware Appliance with 4 x GE copper; 4 x 2.5 GE copper; 4 x SFP+ 10 GE fiber', firewall: '75 Gbps', ips: '29.5 Gbps', threat: '25.2 Gbps', vpn: '62.5 Gbps', storage: '1 x min. 240 GB SATA-III SSD' },
-        { id: 11, model: 'XGS 4500', desc: 'Hardware Appliance with 4 x GE copper; 4 x 2.5 GE copper; 4 x SFP+ 10 GE fiber', firewall: '80 Gbps', ips: '36.5 Gbps', threat: '31.85 Gbps', vpn: '75.55 Gbps', storage: '2 x min. 240 GB SATA-III SSD SW RAID-1' },
-        { id: 12, model: 'XGS 5500', desc: 'Hardware Appliance with 8 x GE copper; 8 x SFP+ 10 GE fiber', firewall: '100 Gbps', ips: '40 Gbps', threat: '46 Gbps', vpn: '92.5 Gbps', storage: '2 x min. 480 GB SATA-III SSD HW RAID built into CPU' },
-        { id: 13, model: 'XGS 6500', desc: 'Hardware Appliance with 8 x GE copper; 12 x SFP+ 10 GE fiber', firewall: '120 Gbps', ips: '50.75 Gbps', threat: ' 53.5 Gbps', vpn: '109.8 Gbps', storage: '2 x min. 480 GB SATA-III SSD HW RAID built into CPU' },
-        { id: 14, model: 'XGS 7500', desc: 'Hardware Appliance with 8 x GbE copper; 12 x SFP+ 10 GbE fiber; 2 x QSFP28 up to 40 Gbps', firewall: '160 Gbps', ips: '71.5 Gbps', threat: '70 Gbps', vpn: '117 Gbps', storage: '2 x min. 960 GB NVMe SSD HW RAID built into CPU' },
-        { id: 15, model: 'XGS 8500', desc: 'Hardware Appliance with 8 x GE copper; 12 x SFP+ 10 GE fiber; 2 x QSFP28 up to 100 Gbps', firewall: '190 Gbps', ips: '93 Gbps', threat: '92.5 Gbps', vpn: '141 Gbps', storage: '2 x min. 960 GB NVMe SSD HW RAID built into CPU' }
-      ];
-
-      const currentProducts = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * productsPerPage;
-        const lastPageIndex = firstPageIndex + productsPerPage;
-        return sophosProducts.slice(firstPageIndex, lastPageIndex);
-      }, [currentPage]);
-
-      const totalPages = Math.ceil(sophosProducts.length / productsPerPage);
-
-      const handleZaloRedirect = (phone) => {
-        const cleanPhone = phone.replace(/\./g, '').replace(/ /g, '');
-        window.open(`https://zalo.me/${cleanPhone}`, '_blank');
-      };
-
-      return (
-        <div className="min-h-screen flex flex-col">
-          {/* Navigation */}
-          <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'glass-nav py-3 border-b border-gray-100 shadow-sm' : 'bg-transparent py-6'}`}>
-            <div className="container mx-auto px-6 flex items-center justify-between">
-              <a href="index.html" className="flex items-center gap-3 group">
-                <img 
-                  src="Logo_HN-04.png" 
-                  alt="HN Network Logo" 
-                  className={`transition-all duration-300 object-contain ${scrolled ? 'h-10' : 'h-14'}`}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "https://via.placeholder.com/150x50?text=HN+NETWORK";
-                  }}
-                />
-                <span className="font-extrabold text-xl tracking-tighter text-blue-900 hidden sm:inline text-nowrap uppercase">
-                  HN NETWORK
-                </span>
-              </a>
+        <!-- Desktop Menu - Tích hợp submenu 3 cấp link trực tiếp hoàn toàn đồng bộ -->
+        <div class="hidden md:flex items-center gap-8 font-medium text-sm uppercase tracking-widest text-gray-600">
+          <div class="relative group dropdown-parent">
+              <button class="hover:text-blue-600 transition-colors flex items-center gap-1 py-2 focus:outline-none">
+                Sản phẩm <i class="fa fa-chevron-down text-[10px]"></i>
+              </button>
               
-              <div className="hidden md:flex items-center gap-8 font-bold text-[11px] uppercase tracking-widest text-slate-600">
-                <a href="index.html" className="hover:text-blue-600 transition-colors">Trang chủ</a>
-                <a href="#" className="text-blue-600 border-b-2 border-blue-600 pb-1">Sản phẩm Sophos</a>
-                <a href="#" className="hover:text-blue-600 transition-colors">Giải pháp</a>
-                <a href="#" className="hover:text-blue-600 transition-colors">Dịch vụ</a>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <button 
-                  onClick={() => handleZaloRedirect('0938888304')}
-                  className="bg-blue-600 text-white px-7 py-3 rounded-full text-xs font-black shadow-lg shadow-blue-200 hover:bg-blue-700 hover:shadow-blue-300 transition-all active:scale-95 uppercase tracking-widest"
-                >
-                  BÁO GIÁ
-                </button>
-                <button className="md:hidden text-slate-900" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-                  <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-2xl`}></i>
-                </button>
-              </div>
-            </div>
-          </nav>
-
-          {/* Main Content */}
-          <main className="pt-40 pb-24 flex-grow">
-            <div className="container mx-auto px-6">
-              <div className="flex flex-col items-center text-center mb-16">
-               <h1 className="text-5xl md:text-7xl font-extrabold leading-[1.1] mb-8 text-slate-900">
-                  Sophos Firewall <span className="gradient-text">XGS Series</span>
-                </h1>
-                <p className="text-slate-500 max-w-2xl font-medium text-lg italic">
-                  "Giải pháp bảo mật mạng thế hệ mới cho doanh nghiệp"
-                </p>
-              </div>
-
-              {/* Grid Products */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {currentProducts.map((p) => (
-                  <div key={p.id} className="product-card bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/40 transition-all duration-500 group flex flex-col h-full overflow-hidden">
-                    <div className="p-8 pb-4">
-                      <div className="flex justify-between items-start mb-6">
-                        <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 shadow-inner">
-                          <i className="fa-solid fa-shield-halved text-2xl"></i>
-                        </div>
-                        <span className="text-[10px] font-black bg-blue-50 text-blue-600 px-3 py-1 rounded-full uppercase tracking-widest border border-blue-100">
-                          Next-Gen FW
-                        </span>
-                      </div>
-                      
-                      <h3 className="text-2xl font-black text-slate-800 mb-2 group-hover:text-blue-600 transition-colors tracking-tight">
-                        Sophos {p.model}
-                      </h3>
-                      <p className="text-slate-400 text-[10px] font-bold mb-8 uppercase tracking-wide leading-relaxed min-h-[32px]">
-                        {p.desc}
-                      </p>
-                      
-                      <div className="space-y-2 mb-8 text-[11px]">
-                        <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                          <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                            <i className="fa-solid fa-bolt text-amber-500 w-4"></i> Firewall
-                          </div>
-                          <span className="font-black text-slate-800">{p.firewall}</span>
-                        </div>
-                        <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                          <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                            <i className="fa-solid fa-microchip text-blue-500 w-4"></i> IPS
-                          </div>
-                          <span className="font-black text-slate-800">{p.ips}</span>
-                        </div>
-                        <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                          <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                            <i className="fa-solid fa-shield-virus text-red-500 w-4"></i> Threat Prot.
-                          </div>
-                          <span className="font-black text-slate-800">{p.threat}</span>
-                        </div>
-                        <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                          <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                            <i className="fa-solid fa-lock text-indigo-500 w-4"></i> IPsec VPN
-                          </div>
-                          <span className="font-black text-slate-800">{p.vpn}</span>
-                        </div>
-                        <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
-                          <div className="flex items-center gap-2 text-slate-500 font-bold uppercase">
-                            <i className="fa-solid fa-database text-emerald-500 w-4"></i> Storage
-                          </div>
-                          <span className="font-black text-slate-800">{p.storage}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="p-8 pt-0 mt-auto">
-                      <button 
-                        onClick={() => handleZaloRedirect('0938888304')}
-                        className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 group-hover:bg-blue-600 transition-all shadow-xl shadow-slate-200 active:scale-95"
-                      >
-                        LIÊN HỆ BÁO GIÁ <i className="fa-solid fa-arrow-right"></i>
-                      </button>
+              <!-- MENU CẤP 2 -->
+              <div class="dropdown-submenu absolute top-full left-0 mt-2 w-56 bg-white shadow-xl rounded-xl py-2 transition-all border border-gray-100 z-50">
+                  <a href="sophos.html" class="block px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-blue-600">Sophos Firewall</a>
+                  
+                  <!-- MENU CẤP 3: Cisco Networking -->
+                  <div class="relative dropdown-sub-parent">
+                    <button class="w-full text-left px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-gray-700 flex justify-between items-center focus:outline-none">
+                      <span>Cisco Networking</span>
+                      <i class="fa fa-chevron-right text-[10px] text-gray-400"></i>
+                    </button>
+                    
+                    <!-- Menu con cấp 3 -->
+                    <div class="dropdown-sub-menu absolute left-full top-0 ml-1 w-48 bg-white shadow-xl rounded-xl py-2 border border-gray-100">
+                      <a href="cisco_switch.html" class="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600 font-medium text-gray-600">Switch cisco</a>
+                      <a href="cisco_router.html" class="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600 font-medium text-gray-600">Router cisco</a>
+                      <a href="cisco_firewall.html" class="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600 font-medium text-gray-600">Firewall cisco</a>
+                      <a href="cisco_ap.html" class="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600 font-medium text-gray-600">Access point cisco</a>
                     </div>
                   </div>
-                ))}
+                  
+                  <a href="synology-storage.html" class="block px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-gray-700">Synology Storage</a>
               </div>
-
-              {/* Pagination */}
-              <div className="mt-20 flex justify-center items-center gap-4">
-                  <button 
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                    disabled={currentPage === 1}
-                    className="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-white hover:shadow-xl disabled:opacity-50"
-                  >
-                    <i className="fa-solid fa-chevron-left"></i>
-                  </button>
-                  <div className="flex gap-2">
-                    {[...Array(totalPages)].map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setCurrentPage(i + 1)}
-                        className={`w-12 h-12 rounded-2xl font-black text-sm transition-all ${
-                          currentPage === i + 1 
-                          ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' 
-                          : 'bg-white border border-slate-200 text-slate-400'
-                        }`}
-                      >
-                        {i + 1}
-                      </button>
-                    ))}
-                  </div>
-                  <button 
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                    disabled={currentPage === totalPages}
-                    className="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-white hover:shadow-xl disabled:opacity-50"
-                  >
-                    <i className="fa-solid fa-chevron-right"></i>
-                  </button>
-              </div>
-            </div>
-          </main>
-
-          {/* Footer Section */}
-          <footer className="mt-auto bg-slate-900 text-white pt-20 pb-10">
-            <div className="container mx-auto px-6">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
-                
-                {/* Brand & Support */}
-                <div className="lg:col-span-4">
-                  <h4 className="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Hỗ trợ kinh doanh</h4>
-                  <div className="grid gap-4">
-                    <div 
-                      onClick={() => handleZaloRedirect('0938.888.304')}
-                      className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group cursor-pointer"
-                    >
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-gray-400 text-[10px] font-bold uppercase">Kinh doanh 1</span>
-                        <i className="fa fa-phone text-blue-400 text-xs group-hover:rotate-12 transition-transform"></i>
-                      </div>
-                      <p className="text-xl font-bold">0938.888.304</p>
-                    </div>
-                    <div 
-                      onClick={() => handleZaloRedirect('0974.700.952')}
-                      className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group cursor-pointer"
-                    >
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-gray-400 text-[10px] font-bold uppercase">Kinh doanh 2</span>
-                        <i className="fa fa-phone text-blue-400 text-xs group-hover:rotate-12 transition-transform"></i>
-                      </div>
-                      <p className="text-xl font-bold">0974.700.952</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Info */}
-                <div className="lg:col-span-4">
-                  <h4 className="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Liên hệ trực tiếp</h4>
-                  <div className="space-y-6">
-                    <div className="flex gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-blue-400 shrink-0">
-                        <i className="fa fa-map-marker-alt"></i>
-                      </div>
-                      <div>
-                        <h5 className="text-sm font-bold mb-1 uppercase tracking-wider">Trụ sở chính</h5>
-                        <p className="text-gray-400 text-sm leading-relaxed">CÔNG TY TNHH TM DV TIN HỌC HN NETWORK</p>
-                        <p className="text-gray-400 text-sm leading-relaxed">Số 2A Đường Thành Công, Phường Phú Thọ Hòa, TP. HCM</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-blue-400 shrink-0">
-                        <i className="fa fa-headset"></i>
-                      </div>
-                      <div>
-                        <h5 className="text-sm font-bold mb-1 uppercase tracking-wider">Tổng đài & Email</h5>
-                        <p className="text-gray-400 text-sm leading-relaxed">Hotline: (028) 668 42 689</p>
-                        <p className="text-gray-400 text-sm leading-relaxed">Email: info@hnnetwork.vn</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-4 pt-2">
-                      <a href="https://www.facebook.com/hnnetwork.vn" target="_blank" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-blue-600 transition-all"><i className="fab fa-facebook-f"></i></a>
-                      <a href="#" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-red-600 transition-all"><i className="fab fa-youtube"></i></a>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Map */}
-                <div className="lg:col-span-4">
-                   <h4 className="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Vị trí bản đồ</h4>
-                   <div className="rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 border border-white/10 shadow-2xl h-[250px]">
-                      <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2412216077746!2d106.63263728527505!3d10.792827961914577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529532c42131f%3A0xc72609f9f908c1cc!2zMkEgVGjDoG5oIEPDtG5nLCBUw6JuIFRow6BuaCwgVMOibiBQaMO6LCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1772251814694!5m2!1svi!2s" 
-                        width="100%" height="100%" frameBorder="0" style={{ border:0 }} allowFullScreen loading="lazy"
-                      ></iframe>
-                   </div>
-                </div>
-
-              </div>
-
-              <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] text-gray-600 font-black uppercase tracking-widest">
-                <p>&copy; 2026 HN Network Enterprise Solutions. All Rights Reserved.</p>
-                <div className="flex gap-8">
-                  <a href="#" className="hover:text-blue-400 transition-colors">Privacy Policy</a>
-                  <a href="#" className="hover:text-blue-400 transition-colors">Terms of Service</a>
-                </div>
-              </div>
-            </div>
-          </footer>
+          </div>
+          <a href="#" class="hover:text-blue-600 transition-colors">Giải pháp</a>
+          <a href="#" class="hover:text-blue-600 transition-colors">Dịch vụ</a>
+          <a href="#" class="hover:text-blue-600 transition-colors">Về chúng tôi</a>
         </div>
-      );
-    };
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
+        <div class="flex items-center gap-4">
+          <div class="hidden lg:flex flex-col items-end mr-4">
+              <span class="text-[10px] text-gray-400 font-bold uppercase tracking-tighter text-nowrap">Hotline 24/7</span>
+              <span class="text-blue-600 font-bold text-nowrap">0938.888.304</span>
+          </div>
+          
+          <!-- Mobile Hamburger Toggle -->
+          <button 
+            id="mobile-menu-toggle"
+            class="md:hidden w-10 h-10 flex items-center justify-center text-gray-600 focus:outline-none"
+          >
+            <i id="mobile-menu-icon" class="fa-solid fa-bars text-xl"></i>
+          </button>
+
+          <button 
+            onclick="handleZaloRedirect('0938888304')"
+            class="hidden sm:block bg-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all text-nowrap"
+          >
+            Báo giá ngay
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Content -->
+      <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute top-full left-0 w-full shadow-2xl max-h-[85vh] overflow-y-auto">
+        <div class="flex flex-col p-6 space-y-4 font-bold text-sm uppercase tracking-widest text-gray-700">
+          <div class="border-b border-gray-50 pb-2">
+            <button 
+              id="mobile-products-toggle"
+              class="flex justify-between items-center w-full mb-2 text-blue-900 font-extrabold focus:outline-none"
+            >
+              <span>Sản phẩm</span>
+              <i id="mobile-products-icon" class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
+            </button>
+            
+            <!-- Danh sách Sản Phẩm cấp 2 di động -->
+            <div id="mobile-products-menu" class="hidden pl-4 space-y-3 mt-2 normal-case font-medium tracking-normal text-gray-500">
+              <a href="sophos.html" class="block text-blue-600 py-1 font-semibold">Sophos Firewall</a>
+              
+              <!-- Mục Cisco Networking cấp 3 di động -->
+              <div class="py-1">
+                <button 
+                  id="mobile-cisco-toggle"
+                  class="flex justify-between items-center w-full font-semibold text-gray-700 mb-1.5 focus:outline-none"
+                >
+                  <span>Cisco Networking</span>
+                  <i id="mobile-cisco-icon" class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
+                </button>
+                
+                <div id="mobile-cisco-menu" class="hidden pl-3 space-y-2 border-l border-blue-100">
+                  <a href="cisco_switch.html" class="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Switch cisco</a>
+                  <a href="cisco_router.html" class="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Router cisco</a>
+                  <a href="cisco_firewall.html" class="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Firewall cisco</a>
+                  <a href="cisco_ap.html" class="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Access point cisco</a>
+                </div>
+              </div>
+              
+              <a href="synology-storage.html" class="block hover:text-blue-600 py-1 font-semibold">Synology Storage</a>
+            </div>
+          </div>
+          <a href="#" class="border-b border-gray-50 pb-4 hover:text-blue-600 transition-colors">Giải pháp</a>
+          <a href="#" class="border-b border-gray-50 pb-4 hover:text-blue-600 transition-colors">Dịch vụ</a>
+          <a href="#" class="border-b border-gray-50 pb-4 hover:text-blue-600 transition-colors">Về chúng tôi</a>
+          <div class="pt-4 flex flex-col gap-4">
+             <div class="flex items-center gap-3">
+                <i class="fa fa-phone text-blue-600"></i>
+                <span class="text-blue-600 tracking-normal">0938.888.304</span>
+             </div>
+             <button 
+              onclick="handleZaloRedirect('0938888304')"
+              class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold"
+            >
+              Liên hệ Báo giá
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="pt-40 pb-24 flex-grow">
+      <div class="container mx-auto px-6">
+        
+        <!-- Hero Section -->
+        <div class="flex flex-col items-center text-center mb-16">
+          <h1 class="text-5xl md:text-7xl font-extrabold leading-[1.1] mb-8 text-slate-900">
+            Sophos Firewall <span class="gradient-text">XGS Series</span>
+          </h1>
+          <p class="text-slate-500 max-w-2xl font-medium text-lg italic">
+            "Giải pháp bảo mật mạng thế hệ mới cho doanh nghiệp"
+          </p>
+        </div>
+
+        <!-- Grid Products Container -->
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Dynamic products injected here -->
+        </div>
+
+        <!-- Pagination Controls -->
+        <div id="pagination-controls" class="mt-20 flex justify-center items-center gap-4">
+          <!-- Dynamic pagination buttons injected here -->
+        </div>
+
+      </div>
+    </main>
+
+    <!-- FOOTER AREA -->
+    <footer class="mt-auto bg-slate-900 text-white pt-20 pb-10">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
+          
+          <!-- Brand & Support -->
+          <div class="lg:col-span-4">
+            <h4 class="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Hỗ trợ kinh doanh</h4>
+            <div class="grid gap-4">
+              <div 
+                onclick="handleZaloRedirect('0938.888.304')"
+                class="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group cursor-pointer"
+              >
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-gray-400 text-[10px] font-bold uppercase">Kinh doanh 1</span>
+                  <i class="fa fa-phone text-blue-400 text-xs group-hover:rotate-12 transition-transform"></i>
+                </div>
+                <p class="text-xl font-bold">0938.888.304</p>
+              </div>
+              <div 
+                onclick="handleZaloRedirect('0974.700.952')"
+                class="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group cursor-pointer"
+              >
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-gray-400 text-[10px] font-bold uppercase">Kinh doanh 2</span>
+                  <i class="fa fa-phone text-blue-400 text-xs group-hover:rotate-12 transition-transform"></i>
+                </div>
+                <p class="text-xl font-bold">0974.700.952</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Info -->
+          <div class="lg:col-span-4">
+            <h4 class="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Liên hệ trực tiếp</h4>
+            <div class="space-y-6">
+              <div class="flex gap-4">
+                <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-blue-400 shrink-0">
+                  <i class="fa fa-map-marker-alt"></i>
+                </div>
+                <div>
+                  <h5 class="text-sm font-bold mb-1 uppercase tracking-wider">Trụ sở chính</h5>
+                  <p class="text-gray-400 text-sm leading-relaxed">CÔNG TY TNHH TM DV TIN HỌC HN NETWORK</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Số 2A Đường Thành Công, Phường Phú Thọ Hòa, TP. HCM</p>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-blue-400 shrink-0">
+                  <i class="fa fa-headset"></i>
+                </div>
+                <div>
+                  <h5 class="text-sm font-bold mb-1 uppercase tracking-wider">Tổng đài & Email</h5>
+                  <p class="text-gray-400 text-sm leading-relaxed">Hotline: (028) 668 42 689</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Email: info@hnnetwork.vn</p>
+                </div>
+              </div>
+              <div class="flex gap-4 pt-2">
+                <a href="https://www.facebook.com/hnnetwork.vn" target="_blank" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-blue-600 transition-all"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-red-600 transition-all"><i class="fab fa-youtube"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Map -->
+          <div class="lg:col-span-4">
+             <h4 class="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Vị trí bản đồ</h4>
+             <div class="rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 border border-white/10 shadow-2xl h-[250px]">
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2412216077746!2d106.63263728527505!3d10.792827961914577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529532c42131f%3A0xc72609f9f908c1cc!2zMkEgVGjDoG5oIEPDtG5nLCBUw6JuIFRow6BuaCwgVMOibiBQaMO6LCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1772251814694!5m2!1svi!2s" 
+                  width="100%" height="100%" frameBorder="0" style="border:0" allowfullscreen="" loading="lazy"
+                ></iframe>
+             </div>
+          </div>
+
+        </div>
+
+        <div class="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] text-gray-500 font-black uppercase tracking-widest">
+          <p>&copy; 2026 HN Network Enterprise Solutions. All Rights Reserved.</p>
+          <div class="flex gap-8">
+            <a href="#" class="hover:text-blue-400 transition-colors">Privacy Policy</a>
+            <a href="#" class="hover:text-blue-400 transition-colors">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- SCRIPT XỬ LÝ GIAO DIỆN & DỮ LIỆU TĨNH BẰNG VANILLA JS -->
+  <script>
+    // 1. Dữ liệu sản phẩm Sophos Firewall XGS Series Chuyên nghiệp
+    const sophosProducts = [
+      { id: 1, model: 'XGS 88', desc: 'Hardware Appliance with 4 x 2.5 GE copper', firewall: '9.9 Gbps', ips: '2 Gbps', threat: '2 Gbps', vpn: '6 Gbps', storage: '16 GB eMMC' },
+      { id: 2, model: 'XGS 108', desc: 'Hardware Appliance with 6 x 2.5 GE copper; 1 x SFP fiber', firewall: '12.5 Gbps', ips: '2.5 Gbps', threat: '2.5 Gbps', vpn: '8.25 Gbps', storage: '64 GB UFS 2.1' },
+      { id: 3, model: 'XGS 118', desc: 'Hardware Appliance with 9 x 2.5 GE copper; 1 x SFP fiber', firewall: '15.5 Gbps', ips: '3.5 Gbps', threat: '3.25 Gbps', vpn: '13 Gbps', storage: '64 GB UFS 2.1' },
+      { id: 4, model: 'XGS 128', desc: 'Hardware Appliance with 9 x 2.5 GE copper; 1 x SFP fiber', firewall: '19.1 Gbps', ips: '4.65 Gbps', threat: '4 Gbps', vpn: '15.05 Gbps', storage: '64 GB UFS 2.1' },
+      { id: 5, model: 'XGS 138', desc: 'Hardware Appliance with 4 x GE copper; 2 x 2.5 GE copper; 2 x SFP+ 10GE fiber', firewall: '19.1 Gbps', ips: '5.85 Gbps', threat: '4.75 Gbps', vpn: '6.6 Gbps', storage: '64 GB M.2' },
+      { id: 6, model: 'XGS 2100', desc: 'Hardware Appliance with 8 x GE copper; 2 x SFP fiber', firewall: '30 Gbps', ips: '6 Gbps', threat: '5 Gbps', vpn: '17 Gbps', storage: 'Integrated min. 120 GB SATA-III SSD' },
+      { id: 7, model: 'XGS 2300', desc: 'Hardware Appliance with 8 x GE copper; 2 x SFP fiber', firewall: '39 Gbps', ips: '7 Gbps', threat: '5.5 Gbps', vpn: '20.5 Gbps', storage: 'Integrated min. 120 GB SATA-III SSD' },
+      { id: 8, model: 'XGS 3100', desc: 'Hardware Appliance with 8 x GE copper; 2 x SFP fiber; 2 x SFP+ 10 GE fiber', firewall: '47 Gbps', ips: '10.5 Gbps', threat: '7.4 Gbps', vpn: '25 Gbps', storage: 'Integrated min. 240 GB SATA-III SSD' },
+      { id: 9, model: 'XGS 3300', desc: 'Hardware Appliance with 8 x GE copper; 2 x SFP fiber; 2 x SFP+ 10 GE fiber', firewall: '58 Gbps', ips: '14 Gbps', threat: '10 Gbps', vpn: '31.1 Gbps', storage: 'Integrated min. 240 GB SATA-III SSD' },
+      { id: 10, model: 'XGS 4300', desc: 'Hardware Appliance with 4 x GE copper; 4 x 2.5 GE copper; 4 x SFP+ 10 GE fiber', firewall: '75 Gbps', ips: '29.5 Gbps', threat: '25.2 Gbps', vpn: '62.5 Gbps', storage: '1 x min. 240 GB SATA-III SSD' },
+      { id: 11, model: 'XGS 4500', desc: 'Hardware Appliance with 4 x GE copper; 4 x 2.5 GE copper; 4 x SFP+ 10 GE fiber', firewall: '80 Gbps', ips: '36.5 Gbps', threat: '31.85 Gbps', vpn: '75.55 Gbps', storage: '2 x min. 240 GB SATA-III SSD SW RAID-1' },
+      { id: 12, model: 'XGS 5500', desc: 'Hardware Appliance with 8 x GE copper; 8 x SFP+ 10 GE fiber', firewall: '100 Gbps', ips: '40 Gbps', threat: '46 Gbps', vpn: '92.5 Gbps', storage: '2 x min. 480 GB SATA-III SSD HW RAID built into CPU' },
+      { id: 13, model: 'XGS 6500', desc: 'Hardware Appliance with 8 x GE copper; 12 x SFP+ 10 GE fiber', firewall: '120 Gbps', ips: '50.75 Gbps', threat: ' 53.5 Gbps', vpn: '109.8 Gbps', storage: '2 x min. 480 GB SATA-III SSD HW RAID built into CPU' },
+      { id: 14, model: 'XGS 7500', desc: 'Hardware Appliance with 8 x GbE copper; 12 x SFP+ 10 GbE fiber; 2 x QSFP28 up to 40 Gbps', firewall: '160 Gbps', ips: '71.5 Gbps', threat: '70 Gbps', vpn: '117 Gbps', storage: '2 x min. 960 GB NVMe SSD HW RAID built into CPU' },
+      { id: 15, model: 'XGS 8500', desc: 'Hardware Appliance with 8 x GE copper; 12 x SFP+ 10 GE fiber; 2 x QSFP28 up to 100 Gbps', firewall: '190 Gbps', ips: '93 Gbps', threat: '92.5 Gbps', vpn: '141 Gbps', storage: '2 x min. 960 GB NVMe SSD HW RAID built into CPU' }
+    ];
+
+    const productsPerPage = 9;
+    let currentPage = parseInt(localStorage.getItem('sophosPage')) || 1;
+
+    // 2. Element Selectors
+    const productGrid = document.getElementById('product-grid');
+    const paginationControls = document.getElementById('pagination-controls');
+    const navbar = document.getElementById('navbar');
+    const navLogo = document.getElementById('nav-logo');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+    const mobileProductsToggle = document.getElementById('mobile-products-toggle');
+    const mobileProductsMenu = document.getElementById('mobile-products-menu');
+    const mobileProductsIcon = document.getElementById('mobile-products-icon');
+    const mobileCiscoToggle = document.getElementById('mobile-cisco-toggle');
+    const mobileCiscoMenu = document.getElementById('mobile-cisco-menu');
+    const mobileCiscoIcon = document.getElementById('mobile-cisco-icon');
+
+    // 3. Render sản phẩm theo trang
+    function renderProducts() {
+      const startIndex = (currentPage - 1) * productsPerPage;
+      const endIndex = startIndex + productsPerPage;
+      const currentProducts = sophosProducts.slice(startIndex, endIndex);
+
+      productGrid.innerHTML = currentProducts.map(p => `
+        <div class="product-card bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/40 transition-all duration-500 group flex flex-col h-full overflow-hidden">
+          <div class="p-8 pb-4">
+            <div class="flex justify-between items-start mb-6">
+              <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 shadow-inner">
+                <i class="fa-solid fa-shield-halved text-2xl"></i>
+              </div>
+              <span class="text-[10px] font-black bg-blue-50 text-blue-600 px-3 py-1 rounded-full uppercase tracking-widest border border-blue-100">
+                Next-Gen FW
+              </span>
+            </div>
+            
+            <h3 class="text-2xl font-black text-slate-800 mb-2 group-hover:text-blue-600 transition-colors tracking-tight">
+              Sophos ${p.model}
+            </h3>
+            <p class="text-slate-400 text-[10px] font-bold mb-8 uppercase tracking-wide leading-relaxed min-h-[32px]">
+              ${p.desc}
+            </p>
+            
+            <div class="space-y-2 mb-8 text-[11px]">
+              <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+                <div class="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                  <i class="fa-solid fa-bolt text-amber-500 w-4"></i> Firewall
+                </div>
+                <span class="font-black text-slate-800">${p.firewall}</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+                <div class="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                  <i class="fa-solid fa-microchip text-blue-500 w-4"></i> IPS
+                </div>
+                <span class="font-black text-slate-800">${p.ips}</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+                <div class="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                  <i class="fa-solid fa-shield-virus text-red-500 w-4"></i> Threat Prot.
+                </div>
+                <span class="font-black text-slate-800">${p.threat}</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+                <div class="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                  <i class="fa-solid fa-lock text-indigo-500 w-4"></i> IPsec VPN
+                </div>
+                <span class="font-black text-slate-800">${p.vpn}</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50/50">
+                <div class="flex items-center gap-2 text-slate-500 font-bold uppercase">
+                  <i class="fa-solid fa-database text-emerald-500 w-4"></i> Storage
+                </div>
+                <span class="font-black text-slate-800">${p.storage}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-8 pt-0 mt-auto">
+            <button 
+              onclick="handleZaloRedirect('0938888304')"
+              class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 group-hover:bg-blue-600 transition-all shadow-xl shadow-slate-200 active:scale-95"
+            >
+              LIÊN HỆ BÁO GIÁ <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      renderPagination();
+    }
+
+    // 4. Render thanh chuyển trang (Pagination)
+    function renderPagination() {
+      const totalPages = Math.ceil(sophosProducts.length / productsPerPage);
+      let html = '';
+
+      // Back Button
+      html += `
+        <button 
+          onclick="changePage(${currentPage - 1})"
+          ${currentPage === 1 ? 'disabled' : ''}
+          class="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 bg-white hover:shadow-xl transition-all disabled:opacity-50"
+        >
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+      `;
+
+      // Page Numbers
+      html += `<div class="flex gap-2">`;
+      for (let i = 1; i <= totalPages; i++) {
+        html += `
+          <button
+            onclick="changePage(${i})"
+            class="w-12 h-12 rounded-2xl font-black text-sm transition-all ${
+              currentPage === i 
+              ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' 
+              : 'bg-white border border-slate-200 text-slate-400'
+            }"
+          >
+            ${i}
+          </button>
+        `;
+      }
+      html += `</div>`;
+
+      // Next Button
+      html += `
+        <button 
+          onclick="changePage(${currentPage + 1})"
+          ${currentPage === totalPages ? 'disabled' : ''}
+          class="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 bg-white hover:shadow-xl transition-all disabled:opacity-50"
+        >
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      `;
+
+      paginationControls.innerHTML = html;
+    }
+
+    // 5. Hàm chuyển trang mượt mà
+    window.changePage = function(page) {
+      const totalPages = Math.ceil(sophosProducts.length / productsPerPage);
+      if (page < 1 || page > totalPages) return;
+      currentPage = page;
+      localStorage.setItem('sophosPage', currentPage);
+      renderProducts();
+      
+      // Cuộn mượt mà lên đầu danh sách sản phẩm
+      document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // 6. Xử lý đổi giao diện Header khi cuộn trang
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navbar.className = "fixed top-0 w-full z-50 transition-all duration-300 glass-nav py-3 border-b border-gray-100 shadow-sm";
+        navLogo.className = "transition-all duration-300 object-contain h-10";
+      } else {
+        navbar.className = "fixed top-0 w-full z-50 transition-all duration-300 bg-transparent py-6";
+        navLogo.className = "transition-all duration-300 object-contain h-14";
+      }
+    });
+
+    // 7. Xử lý bật/tắt Mobile Menu
+    mobileMenuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      if (mobileMenu.classList.contains('hidden')) {
+        mobileMenuIcon.className = "fa-solid fa-bars text-xl";
+      } else {
+        mobileMenuIcon.className = "fa-solid fa-xmark text-2xl";
+      }
+    });
+
+    // 8. Bật/tắt thư mục Sản Phẩm trên mobile
+    mobileProductsToggle.addEventListener('click', () => {
+      mobileProductsMenu.classList.toggle('hidden');
+      if (mobileProductsMenu.classList.contains('hidden')) {
+        mobileProductsIcon.className = "fa-solid fa-chevron-right text-[10px] text-gray-400";
+      } else {
+        mobileProductsIcon.className = "fa-solid fa-chevron-down text-[10px] text-gray-400";
+      }
+    });
+
+    // 9. Bật/tắt thư mục Cisco trên mobile
+    mobileCiscoToggle.addEventListener('click', () => {
+      mobileCiscoMenu.classList.toggle('hidden');
+      if (mobileCiscoMenu.classList.contains('hidden')) {
+        mobileCiscoIcon.className = "fa-solid fa-chevron-right text-[10px] text-gray-400";
+      } else {
+        mobileCiscoIcon.className = "fa-solid fa-chevron-down text-[10px] text-gray-400";
+      }
+    });
+
+    // 10. Hàm chuyển tiếp Zalo
+    window.handleZaloRedirect = function(phone) {
+      const cleanPhone = phone.replace(/\./g, '').replace(/ /g, '');
+      window.open(`https://zalo.me/${cleanPhone}`, '_blank');
+    }
+
+    // Khởi chạy kết xuất ban đầu
+    renderProducts();
   </script>
 </body>
 </html>
