@@ -9,12 +9,25 @@
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <!-- THAY THẾ SANG CDN CLOUDFLARE SIÊU ỔN ĐỊNH, TRÁNH LỖI CHẶN IFRAME TRÊN PREVIEW -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.12/babel.min.js"></script>
+
+  <script>
+    // Khởi tạo Preset tùy chỉnh buộc Babel luôn biên dịch về Classic Runtime (React.createElement)
+    if (window.Babel) {
+      Babel.registerPreset('react-classic', {
+        presets: [
+          [Babel.availablePresets['react'], { runtime: 'classic' }]
+        ]
+      });
+    }
+  </script>
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght=300;400;600;700;800&display=swap');
     body {
       font-family: 'Inter', sans-serif;
     }
@@ -94,7 +107,8 @@
 <body class="bg-[#fafafa] text-[#1a1a1a] selection:bg-blue-100 selection:text-blue-900">
   <div id="root"></div>
 
-  <script type="text/babel">
+  <!-- SỬ DỤNG CHÍNH XÁC PRESET ĐÃ ĐĂNG KÝ PHÍA TRÊN -->
+  <script type="text/babel" data-presets="react-classic">
     const { useState, useEffect } = React;
 
     const App = () => {
@@ -124,7 +138,7 @@
           name: 'Cisco Catalyst 9200L Switch 24-port Data, 4 x 10G uplinks',
           desc: 'Nền tảng chuyển mạch hàng đầu với khả năng bảo mật và hiệu năng vượt trội cho doanh nghiệp.',
           price: 'Liên hệ báo giá',
-          link: 'cisco-switch.html',
+          link: 'cisco_switch.html',
           image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=800'
         },
         {
