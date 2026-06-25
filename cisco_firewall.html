@@ -319,25 +319,27 @@
     // Dữ liệu thiết bị Cisco Secure Firewall chính hãng chất lượng cao
     const ciscoFirewallProducts = [
       // Cisco 1000 Series (Nhỏ và vừa)
-      { id: 1, model: 'Firewall 1010', desc: 'Secure Firewall 1010 with NGFW features, 8 x RJ45 ports', throughput: '2.3 Gbps', ips: '1.0 Gbps', threat: '650 Mbps', vpn: '1.4 Gbps', ports: '8 x RJ-45' },
-      { id: 2, model: 'Firewall 1120', desc: 'Secure Firewall 1120 with NGFW features, 8 x RJ45, 4 x SFP', throughput: '4.5 Gbps', ips: '2.5 Gbps', threat: '1.5 Gbps', vpn: '3.5 Gbps', ports: '8 x RJ45, 4 x SFP' },
-      { id: 3, model: 'Firewall 1140', desc: 'Secure Firewall 1140 with NGFW features, 8 x RJ45, 4 x SFP', throughput: '6.0 Gbps', ips: '4.5 Gbps', threat: '2.2 Gbps', vpn: '4.0 Gbps', ports: '8 x RJ45, 4 x SFP' },
-      { id: 4, model: 'Firewall 1150', desc: 'Secure Firewall 1150 with NGFW features, 8 x RJ45, 4 x SFP', throughput: '7.6 Gbps', ips: '6.0 Gbps', threat: '3.0 Gbps', vpn: '5.5 Gbps', ports: '8 x RJ45, 4 x SFP' },
+      { id: 1, model: 'CSF220-ASA-K9', desc: 'Cisco Secure Firewall 220 Appliance, ASA, 4x 1000BASE-T, 1x1G SFP', throughput: 'Stateful inspection firewall throughput (1500 B UDP): 2 Gbps', ips: 'Stateful inspection firewall throughput (HTTP 1024 Byte): 2 Gbps', threat: 'N/A', vpn: '(450B UDP L2L test): 1.8 Gbps', ports: '4x 1000BASE-T, 1x1G SFP' },
+      { id: 2, model: 'CSF220-TD-K9', desc: 'Cisco Secure Firewall 220 Appliance, Threat Defense, 4x 1000BASE-T, 1x1G SFP', throughput: '(1024B): 1.5 Gbps', ips: '(1024B): 1.5 Gbps', threat: 'N/A', vpn: '(1024B TCP w/Fastpath): 1.2 Gbps', ports: '4x 1000BASE-T, 1x1G SFP' },
+      { id: 3, model: 'Firewall 1010', desc: 'Secure Firewall 1010 with NGFW features, 8 x RJ45 ports', throughput: '2.3 Gbps', ips: '1.0 Gbps', threat: '650 Mbps', vpn: '1.4 Gbps', ports: '8 x RJ-45' },
+      { id: 4, model: 'Firewall 1120', desc: 'Secure Firewall 1120 with NGFW features, 8 x RJ45, 4 x SFP', throughput: '4.5 Gbps', ips: '2.5 Gbps', threat: '1.5 Gbps', vpn: '3.5 Gbps', ports: '8 x RJ45, 4 x SFP' },
+      { id: 5, model: 'Firewall 1140', desc: 'Secure Firewall 1140 with NGFW features, 8 x RJ45, 4 x SFP', throughput: '6.0 Gbps', ips: '4.5 Gbps', threat: '2.2 Gbps', vpn: '4.0 Gbps', ports: '8 x RJ45, 4 x SFP' },
+      { id: 6, model: 'Firewall 1150', desc: 'Secure Firewall 1150 with NGFW features, 8 x RJ45, 4 x SFP', throughput: '7.6 Gbps', ips: '6.0 Gbps', threat: '3.0 Gbps', vpn: '5.5 Gbps', ports: '8 x RJ45, 4 x SFP' },
       
       // Cisco 3100 Series (Tối ưu cho chi nhánh, văn phòng trung tâm)
-      { id: 5, model: 'Firewall 3105', desc: 'Secure Firewall 3105 with multi-gig interface, 8 x 1/10G SFP+', throughput: '10 Gbps', ips: '10 Gbps', threat: '10 Gbps', vpn: '4.8 Gbps', ports: '8 x 1/10G SFP+' },
-      { id: 6, model: 'Firewall 3110', desc: 'Secure Firewall 3110 with high-availability, 8 x 1/10G SFP+', throughput: '18 Gbps', ips: '17 Gbps', threat: '17 Gbps', vpn: '9.8 Gbps', ports: '8 x 1/10G SFP+' },
-      { id: 7, model: 'Firewall 3120', desc: 'Secure Firewall 3120 high performance, 8 x 1/10G SFP+', throughput: '38 Gbps', ips: '36 Gbps', threat: '36 Gbps', vpn: '18.2 Gbps', ports: '8 x 1/10G SFP+' },
-      { id: 8, model: 'Firewall 3130', desc: 'Secure Firewall 3130 scalability, 16 x 1/10G SFP+', throughput: '49 Gbps', ips: '48 Gbps', threat: '46 Gbps', vpn: '24.5 Gbps', ports: '16 x 1/10G SFP+' },
-      { id: 9, model: 'Firewall 3140', desc: 'Secure Firewall 3140 carrier-grade, 16 x 1/10G SFP+', throughput: '69 Gbps', ips: '68 Gbps', threat: '65 Gbps', vpn: '35 Gbps', ports: '16 x 1/10G SFP+' },
+      { id: 7, model: 'Firewall 3105', desc: 'Secure Firewall 3105 with multi-gig interface, 8 x 1/10G SFP+', throughput: '10 Gbps', ips: '10 Gbps', threat: '10 Gbps', vpn: '4.8 Gbps', ports: '8 x 1/10G SFP+' },
+      { id: 8, model: 'Firewall 3110', desc: 'Secure Firewall 3110 with high-availability, 8 x 1/10G SFP+', throughput: '18 Gbps', ips: '17 Gbps', threat: '17 Gbps', vpn: '9.8 Gbps', ports: '8 x 1/10G SFP+' },
+      { id: 9, model: 'Firewall 3120', desc: 'Secure Firewall 3120 high performance, 8 x 1/10G SFP+', throughput: '38 Gbps', ips: '36 Gbps', threat: '36 Gbps', vpn: '18.2 Gbps', ports: '8 x 1/10G SFP+' },
+      { id: 10, model: 'Firewall 3130', desc: 'Secure Firewall 3130 scalability, 16 x 1/10G SFP+', throughput: '49 Gbps', ips: '48 Gbps', threat: '46 Gbps', vpn: '24.5 Gbps', ports: '16 x 1/10G SFP+' },
+      { id: 11, model: 'Firewall 3140', desc: 'Secure Firewall 3140 carrier-grade, 16 x 1/10G SFP+', throughput: '69 Gbps', ips: '68 Gbps', threat: '65 Gbps', vpn: '35 Gbps', ports: '16 x 1/10G SFP+' },
       
       // Cisco 4200 Series (Dành cho Data Center và Enterprise lớn)
-      { id: 10, model: 'Firewall 4210', desc: 'Secure Firewall 4210 high performance, 8 x 1/10/25G SFP28', throughput: '80 Gbps', ips: '75 Gbps', threat: '75 Gbps', vpn: '42 Gbps', ports: '8 x 1/10/25G SFP28' },
-      { id: 11, model: 'Firewall 4215', desc: 'Secure Firewall 4215 advanced threat defense, 8 x 1/10/25G SFP28', throughput: '110 Gbps', ips: '100 Gbps', threat: '100 Gbps', vpn: '52 Gbps', ports: '8 x 1/10/25G SFP28' },
-      { id: 12, model: 'Firewall 4220', desc: 'Secure Firewall 4220 data-center grade, 8 x 1/10/25G SFP28', throughput: '130 Gbps', ips: '120 Gbps', threat: '120 Gbps', vpn: '68 Gbps', ports: '8 x 1/10/25G SFP28' },
-      { id: 13, model: 'Firewall 4225', desc: 'Secure Firewall 4225 carrier throughput, 16 x 1/10/25G SFP28', throughput: '195 Gbps', ips: '185 Gbps', threat: '180 Gbps', vpn: '90 Gbps', ports: '16 x 1/10/25G SFP28' },
-      { id: 14, model: 'Firewall 4240', desc: 'Secure Firewall 4240 high clustering, 16 x 1/10/25G SFP28', throughput: '260 Gbps', ips: '250 Gbps', threat: '240 Gbps', vpn: '135 Gbps', ports: '16 x 1/10/25G SFP28' },
-      { id: 15, model: 'Hardware Catalyst 9300 Integration', desc: 'Cisco Firepower 9300 Series high scalability enterprise core security', throughput: 'Up to 350 Gbps', ips: 'Up to 330 Gbps', threat: 'Up to 310 Gbps', vpn: 'Up to 180 Gbps', ports: 'Highly Modular SFP28 / QSFP28' }
+      { id: 12, model: 'Firewall 4210', desc: 'Secure Firewall 4210 high performance, 8 x 1/10/25G SFP28', throughput: '80 Gbps', ips: '75 Gbps', threat: '75 Gbps', vpn: '42 Gbps', ports: '8 x 1/10/25G SFP28' },
+      { id: 13, model: 'Firewall 4215', desc: 'Secure Firewall 4215 advanced threat defense, 8 x 1/10/25G SFP28', throughput: '110 Gbps', ips: '100 Gbps', threat: '100 Gbps', vpn: '52 Gbps', ports: '8 x 1/10/25G SFP28' },
+      { id: 14, model: 'Firewall 4220', desc: 'Secure Firewall 4220 data-center grade, 8 x 1/10/25G SFP28', throughput: '130 Gbps', ips: '120 Gbps', threat: '120 Gbps', vpn: '68 Gbps', ports: '8 x 1/10/25G SFP28' },
+      { id: 15, model: 'Firewall 4225', desc: 'Secure Firewall 4225 carrier throughput, 16 x 1/10/25G SFP28', throughput: '195 Gbps', ips: '185 Gbps', threat: '180 Gbps', vpn: '90 Gbps', ports: '16 x 1/10/25G SFP28' },
+      { id: 16, model: 'Firewall 4240', desc: 'Secure Firewall 4240 high clustering, 16 x 1/10/25G SFP28', throughput: '260 Gbps', ips: '250 Gbps', threat: '240 Gbps', vpn: '135 Gbps', ports: '16 x 1/10/25G SFP28' },
+      { id: 17, model: 'Hardware Catalyst 9300 Integration', desc: 'Cisco Firepower 9300 Series high scalability enterprise core security', throughput: 'Up to 350 Gbps', ips: 'Up to 330 Gbps', threat: 'Up to 310 Gbps', vpn: 'Up to 180 Gbps', ports: 'Highly Modular SFP28 / QSFP28' }
     ];
 
     const productsPerPage = 9;
