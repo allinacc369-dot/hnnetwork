@@ -221,7 +221,7 @@
             Cisco Catalyst <span class="text-blue-600">Switch</span>
           </h1>
           <p class="text-slate-500 max-w-2xl font-medium text-base md:text-lg italic">
-            Giải pháp chuyển mạch cốt lõi cho mọi hạ tầng mạng doanh nghiệp. Hiệu suất tối đa, tính năng bảo mật tuyệt đối, hoạt động bền bỉ 24/7.
+            Giải pháp chuyển mạch cốt lõi cho mọi hạ tầng mạng doanh nghiệp. Hiệu suất tối đa, bảo mật toàn vẹn từ lõi tới biên, hỗ trợ quản lý on-premises và Cloud.
           </p>
         </div>
 
@@ -237,12 +237,12 @@
               <input 
                 type="text" 
                 id="search-input" 
-                placeholder="Tìm kiếm dòng Switch, Model (vd: 9200L, 24T)..." 
+                placeholder="Tìm kiếm dòng Switch, Model (vd: C1200, C1300, 9300, MS225)..." 
                 class="w-full pl-11 pr-4 py-3.5 bg-slate-50/80 hover:bg-slate-50 border border-slate-100 rounded-2xl text-slate-800 placeholder-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm"
               >
             </div>
 
-            <!-- Bộ lọc Switch Series -->
+            <!-- Bộ lọc Switch Series mở rộng -->
             <div class="md:col-span-3">
               <select 
                 id="filter-series" 
@@ -250,9 +250,14 @@
               >
                 <option value="ALL">Tất cả Series</option>
                 <option value="Catalyst 1000">Catalyst 1000 Series</option>
+                <option value="Catalyst 1200">Catalyst 1200 Series</option>
+                <option value="Catalyst 1300">Catalyst 1300 Series</option>
                 <option value="Catalyst 9200">Catalyst 9200/9200L</option>
-                <option value="Catalyst 9300">Catalyst 9300/9300L</option>
+                <option value="Catalyst 9300">Catalyst 9300/9300L/9300X</option>
+                <option value="Catalyst 9350">Catalyst 9350 Smart</option>
+                <option value="Catalyst 9400">Catalyst 9400 Chassis</option>
                 <option value="Catalyst 9500">Core Switch Catalyst 9500</option>
+                <option value="Meraki MS">Cisco Meraki MS Series</option>
               </select>
             </div>
 
@@ -263,7 +268,7 @@
                 class="w-full px-4 py-3.5 bg-slate-50/80 hover:bg-slate-50 border border-slate-100 rounded-2xl text-slate-700 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm"
               >
                 <option value="ALL">Mọi nguồn cấp</option>
-                <option value="PoE">Có hỗ trợ PoE/PoE+</option>
+                <option value="PoE">Có hỗ trợ PoE/PoE+/UPOE</option>
                 <option value="Non-PoE">Không PoE (Data Only)</option>
               </select>
             </div>
@@ -386,13 +391,13 @@
 
   <!-- SCRIPT XỬ LÝ GIAO DIỆN & DỮ LIỆU TĨNH SWITCH CISCO -->
   <script>
-    // Dữ liệu sản phẩm Switch Cisco chính xác, chi tiết từ dòng Catalyst 1000 đến Catalyst 9000
     const ciscoSwitches = [
+      // === DÒNG CISCO CATALYST 1000 SERIES (Đầy đủ 23 Part Numbers chính hãng) ===
       { 
         id: 1, 
         model: 'Catalyst C1000-8T-2G-L', 
         series: 'Catalyst 1000',
-        layer: 'Layer 2', 
+        layer: 'Layer 2 Switch', 
         ports: '8 X 10/100/1000M RJ45', 
         uplink: '2 X 1G SFP/RJ-45 combo', 
         poeBudget: 'Không hỗ trợ (Data Only)', 
@@ -401,61 +406,397 @@
       },
       { 
         id: 2, 
-        model: 'Catalyst C1000-8FP-2G-L', 
+        model: 'Catalyst C1000-8T-E-2G-L', 
         series: 'Catalyst 1000',
-        layer: 'Layer 2', 
-        ports: '8 X 10/100/1000M PoE+', 
+        layer: 'Layer 2 Switch', 
+        ports: '8 X 10/100/1000M RJ45', 
         uplink: '2 X 1G SFP/RJ-45 combo', 
-        poeBudget: '120W PoE budget', 
-        stacking: 'Virtual Stacking',
-        poeType: 'PoE'
-      },
-      { 
-        id: 3, 
-        model: 'Catalyst C1000-24T-4G-L', 
-        series: 'Catalyst 1000',
-        layer: 'Layer 2', 
-        ports: '24 X 10/100/1000M RJ45', 
-        uplink: '4 X 1G SFP', 
-        poeBudget: 'Không hỗ trợ (Data Only)', 
+        poeBudget: 'External Power Supply', 
         stacking: 'Virtual Stacking (Up to 8)',
         poeType: 'Non-PoE'
       },
       { 
-        id: 4, 
-        model: 'Catalyst C1000-24FP-4G-L', 
+        id: 3, 
+        model: 'Catalyst C1000-8P-2G-L', 
         series: 'Catalyst 1000',
-        layer: 'Layer 2', 
-        ports: '24 X 10/100/1000M PoE+', 
-        uplink: '4 X 1G SFP', 
-        poeBudget: '370W PoE budget', 
+        layer: 'Layer 2 Switch', 
+        ports: '8 X 10/100/1000M PoE+', 
+        uplink: '2 X 1G SFP/RJ-45 combo', 
+        poeBudget: '67W PoE budget', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 4, 
+        model: 'Catalyst C1000-8P-E-2G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '8 X 10/100/1000M PoE+', 
+        uplink: '2 X 1G SFP/RJ-45 combo', 
+        poeBudget: '67W PoE (External PS)', 
         stacking: 'Virtual Stacking (Up to 8)',
         poeType: 'PoE'
       },
       { 
         id: 5, 
-        model: 'Catalyst C1000-48T-4G-L', 
+        model: 'Catalyst C1000-8FP-2G-L', 
         series: 'Catalyst 1000',
-        layer: 'Layer 2', 
-        ports: '48 X 10/100/1000M RJ45', 
-        uplink: '4 X 1G SFP', 
-        poeBudget: 'Không hỗ trợ (Data Only)', 
-        stacking: 'Virtual Stacking',
-        poeType: 'Non-PoE'
+        layer: 'Layer 2 Switch', 
+        ports: '8 X 10/100/1000M PoE+', 
+        uplink: '2 X 1G SFP/RJ-45 combo', 
+        poeBudget: '120W PoE budget', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'PoE'
       },
       { 
         id: 6, 
-        model: 'Catalyst C1000-48FP-4G-L', 
+        model: 'Catalyst C1000-8FP-E-2G-L', 
         series: 'Catalyst 1000',
-        layer: 'Layer 2', 
-        ports: '48 X 10/100/1000M PoE+', 
-        uplink: '4 X 1G SFP', 
-        poeBudget: '370W PoE budget', 
-        stacking: 'Virtual Stacking',
+        layer: 'Layer 2 Switch', 
+        ports: '8 X 10/100/1000M PoE+', 
+        uplink: '2 X 1G SFP/RJ-45 combo', 
+        poeBudget: '120W PoE (External PS)', 
+        stacking: 'Virtual Stacking (Up to 8)',
         poeType: 'PoE'
       },
       { 
         id: 7, 
+        model: 'Catalyst C1000-16T-2G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '16 X 10/100/1000M RJ45', 
+        uplink: '2 X 1G SFP fixed', 
+        poeBudget: 'Không hỗ trợ (Data Only)', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 8, 
+        model: 'Catalyst C1000-16T-E-2G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '16 X 10/100/1000M RJ45', 
+        uplink: '2 X 1G SFP (External PS)', 
+        poeBudget: 'Không hỗ trợ (Data Only)', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 9, 
+        model: 'Catalyst C1000-16P-2G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '16 X 10/100/1000M PoE+', 
+        uplink: '2 X 1G SFP fixed', 
+        poeBudget: '120W PoE budget', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 10, 
+        model: 'Catalyst C1000-16P-E-2G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '16 X 10/100/1000M PoE+', 
+        uplink: '2 X 1G SFP (External PS)', 
+        poeBudget: '120W PoE budget', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 11, 
+        model: 'Catalyst C1000-16FP-2G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '16 X 10/100/1000M PoE+', 
+        uplink: '2 X 1G SFP fixed', 
+        poeBudget: '240W PoE budget', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 12, 
+        model: 'Catalyst C1000-24T-4G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '24 X 10/100/1000M RJ45', 
+        uplink: '4 X 1G SFP fixed', 
+        poeBudget: 'Không hỗ trợ (Data Only)', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 13, 
+        model: 'Catalyst C1000-24P-4G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '24 X 10/100/1000M PoE+', 
+        uplink: '4 X 1G SFP fixed', 
+        poeBudget: '195W PoE budget', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 14, 
+        model: 'Catalyst C1000-24FP-4G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '24 X 10/100/1000M PoE+', 
+        uplink: '4 X 1G SFP fixed', 
+        poeBudget: '370W PoE budget', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 15, 
+        model: 'Catalyst C1000-48T-4G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '48 X 10/100/1000M RJ45', 
+        uplink: '4 X 1G SFP fixed', 
+        poeBudget: 'Không hỗ trợ (Data Only)', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 16, 
+        model: 'Catalyst C1000-48P-4G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '48 X 10/100/1000M PoE+', 
+        uplink: '4 X 1G SFP fixed', 
+        poeBudget: '370W PoE budget', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 17, 
+        model: 'Catalyst C1000-48FP-4G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '48 X 10/100/1000M PoE+', 
+        uplink: '4 X 1G SFP fixed', 
+        poeBudget: '740W PoE budget', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 18, 
+        model: 'Catalyst C1000-24T-4X-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '24 X 10/100/1000M RJ45', 
+        uplink: '4 X 10G SFP+ fixed', 
+        poeBudget: 'Không hỗ trợ (Data Only)', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 19, 
+        model: 'Catalyst C1000-24P-4X-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '24 X 10/100/1000M PoE+', 
+        uplink: '4 X 10G SFP+ fixed', 
+        poeBudget: '195W PoE budget', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 20, 
+        model: 'Catalyst C1000-24FP-4X-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '24 X 10/100/1000M PoE+', 
+        uplink: '4 X 10G SFP+ fixed', 
+        poeBudget: '370W PoE budget', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 21, 
+        model: 'Catalyst C1000-48T-4X-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '48 X 10/100/1000M RJ45', 
+        uplink: '4 X 10G SFP+ fixed', 
+        poeBudget: 'Không hỗ trợ (Data Only)', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 22, 
+        model: 'Catalyst C1000-48P-4X-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '48 X 10/100/1000M PoE+', 
+        uplink: '4 X 10G SFP+ fixed', 
+        poeBudget: '370W PoE budget', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 23, 
+        model: 'Catalyst C1000-48FP-4X-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2 Switch', 
+        ports: '48 X 10/100/1000M PoE+', 
+        uplink: '4 X 10G SFP+ fixed', 
+        poeBudget: '740W PoE budget', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'PoE'
+      },
+
+      // === DÒNG CISCO CATALYST 1200 SERIES (Smart managed, 1G/10G Uplinks) ===
+      {
+        id: 24,
+        model: 'Catalyst C1200-8T-2G',
+        series: 'Catalyst 1200',
+        layer: 'L3 Static Routing (Smart)',
+        ports: '8 X 10/100/1000M RJ45',
+        uplink: '2 X 1G SFP fixed',
+        poeBudget: 'Không hỗ trợ (Fanless)',
+        stacking: 'Virtual Stacking (Up to 16)',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 25,
+        model: 'Catalyst C1200-8P-2G',
+        series: 'Catalyst 1200',
+        layer: 'L3 Static Routing (Smart)',
+        ports: '8 X 10/100/1000M PoE+',
+        uplink: '2 X 1G SFP fixed',
+        poeBudget: '67W PoE budget (Fanless)',
+        stacking: 'Virtual Stacking (Up to 16)',
+        poeType: 'PoE'
+      },
+      {
+        id: 26,
+        model: 'Catalyst C1200-24T-4G',
+        series: 'Catalyst 1200',
+        layer: 'L3 Static Routing (Smart)',
+        ports: '24 X 10/100/1000M RJ45',
+        uplink: '4 X 1G SFP fixed',
+        poeBudget: 'Không hỗ trợ (Fanless)',
+        stacking: 'Virtual Stacking (Up to 16)',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 27,
+        model: 'Catalyst C1200-24P-4G',
+        series: 'Catalyst 1200',
+        layer: 'L3 Static Routing (Smart)',
+        ports: '24 X 10/100/1000M PoE+',
+        uplink: '4 X 1G SFP fixed',
+        poeBudget: '195W PoE budget',
+        stacking: 'Virtual Stacking (Up to 16)',
+        poeType: 'PoE'
+      },
+      {
+        id: 28,
+        model: 'Catalyst C1200-24FP-4X',
+        series: 'Catalyst 1200',
+        layer: 'L3 Static Routing (Smart)',
+        ports: '24 X 10/100/1000M PoE+',
+        uplink: '4 X 10G SFP+ fixed',
+        poeBudget: '370W PoE budget',
+        stacking: 'Virtual Stacking (Up to 16)',
+        poeType: 'PoE'
+      },
+      {
+        id: 29,
+        model: 'Catalyst C1200-48T-4X',
+        series: 'Catalyst 1200',
+        layer: 'L3 Static Routing (Smart)',
+        ports: '48 X 10/100/1000M RJ45',
+        uplink: '4 X 10G SFP+ fixed',
+        poeBudget: 'Không hỗ trợ',
+        stacking: 'Virtual Stacking (Up to 16)',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 30,
+        model: 'Catalyst C1200-48P-4X',
+        series: 'Catalyst 1200',
+        layer: 'L3 Static Routing (Smart)',
+        ports: '48 X 10/100/1000M PoE+',
+        uplink: '4 X 10G SFP+ fixed',
+        poeBudget: '370W PoE budget',
+        stacking: 'Virtual Stacking (Up to 16)',
+        poeType: 'PoE'
+      },
+
+      // === DÒNG CISCO CATALYST 1300 SERIES (Advanced Smart managed, Advanced L3 Routing) ===
+      {
+        id: 31,
+        model: 'Catalyst C1300-8T-2G',
+        series: 'Catalyst 1300',
+        layer: 'Advanced L3 Routing',
+        ports: '8 X 10/100/1000M RJ45',
+        uplink: '2 X 1G SFP fixed',
+        poeBudget: 'Không hỗ trợ (Fanless)',
+        stacking: 'Virtual Stacking (Up to 16)',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 32,
+        model: 'Catalyst C1300-8FP-2G',
+        series: 'Catalyst 1300',
+        layer: 'Advanced L3 Routing',
+        ports: '8 X 10/100/1000M PoE+',
+        uplink: '2 X 1G SFP fixed',
+        poeBudget: '120W PoE budget (Fanless)',
+        stacking: 'Virtual Stacking (Up to 16)',
+        poeType: 'PoE'
+      },
+      {
+        id: 33,
+        model: 'Catalyst C1300-24T-4G',
+        series: 'Catalyst 1300',
+        layer: 'Advanced L3 Routing',
+        ports: '24 X 10/100/1000M RJ45',
+        uplink: '4 X 1G SFP fixed',
+        poeBudget: 'Không hỗ trợ (Fanless)',
+        stacking: 'Virtual Stacking (Up to 16)',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 34,
+        model: 'Catalyst C1300-24P-4X',
+        series: 'Catalyst 1300',
+        layer: 'Advanced L3 Routing',
+        ports: '24 X 10/100/1000M PoE+',
+        uplink: '4 X 10G SFP+ fixed',
+        poeBudget: '195W PoE budget',
+        stacking: 'Virtual Stacking (Up to 16)',
+        poeType: 'PoE'
+      },
+      {
+        id: 35,
+        model: 'Catalyst C1300-48T-4X',
+        series: 'Catalyst 1300',
+        layer: 'Advanced L3 Routing',
+        ports: '48 X 10/100/1000M RJ45',
+        uplink: '4 X 10G SFP+ fixed',
+        poeBudget: 'Không hỗ trợ',
+        stacking: 'Virtual Stacking (Up to 16)',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 36,
+        model: 'Catalyst C1300-48FP-4X',
+        series: 'Catalyst 1300',
+        layer: 'Advanced L3 Routing',
+        ports: '48 X 10/100/1000M PoE+',
+        uplink: '4 X 10G SFP+ fixed',
+        poeBudget: '740W PoE budget',
+        stacking: 'Virtual Stacking (Up to 16)',
+        poeType: 'PoE'
+      },
+
+      // === DÒNG CISCO CATALYST 9200 SERIES ===
+      { 
+        id: 37, 
         model: 'Catalyst C9200L-24T-4G-E', 
         series: 'Catalyst 9200',
         layer: 'Layer 3 Lite (Ess.)', 
@@ -466,7 +807,7 @@
         poeType: 'Non-PoE'
       },
       { 
-        id: 8, 
+        id: 38, 
         model: 'Catalyst C9200L-24P-4G-E', 
         series: 'Catalyst 9200',
         layer: 'Layer 3 Lite (Ess.)', 
@@ -477,7 +818,7 @@
         poeType: 'PoE'
       },
       { 
-        id: 9, 
+        id: 39, 
         model: 'Catalyst C9200L-24T-4X-E', 
         series: 'Catalyst 9200',
         layer: 'Layer 3 Lite (Ess.)', 
@@ -488,7 +829,7 @@
         poeType: 'Non-PoE'
       },
       { 
-        id: 10, 
+        id: 40, 
         model: 'Catalyst C9200L-24P-4X-E', 
         series: 'Catalyst 9200',
         layer: 'Layer 3 Lite (Ess.)', 
@@ -499,7 +840,7 @@
         poeType: 'PoE'
       },
       { 
-        id: 11, 
+        id: 41, 
         model: 'Catalyst C9200L-48T-4X-E', 
         series: 'Catalyst 9200',
         layer: 'Layer 3 Lite (Ess.)', 
@@ -510,7 +851,7 @@
         poeType: 'Non-PoE'
       },
       { 
-        id: 12, 
+        id: 42, 
         model: 'Catalyst C9200L-48P-4X-E', 
         series: 'Catalyst 9200',
         layer: 'Layer 3 Lite (Ess.)', 
@@ -521,7 +862,7 @@
         poeType: 'PoE'
       },
       { 
-        id: 13, 
+        id: 43, 
         model: 'Catalyst C9200-24T-A', 
         series: 'Catalyst 9200',
         layer: 'Layer 3 (Advantage)', 
@@ -532,7 +873,20 @@
         poeType: 'Non-PoE'
       },
       { 
-        id: 14, 
+        id: 44, 
+        model: 'Catalyst C9200-48P-A', 
+        series: 'Catalyst 9200',
+        layer: 'Layer 3 (Advantage)', 
+        ports: '48 X 1G PoE+ ports', 
+        uplink: 'Modular (up to 4x10G / 2x40G)', 
+        poeBudget: '740W PoE budget', 
+        stacking: 'StackWise-160 (Up to 160G)',
+        poeType: 'PoE'
+      },
+
+      // === DÒNG CISCO CATALYST 9300 SERIES ===
+      { 
+        id: 45, 
         model: 'Catalyst C9300L-24T-4X-E', 
         series: 'Catalyst 9300',
         layer: 'Layer 3 (Enterprise)', 
@@ -543,7 +897,7 @@
         poeType: 'Non-PoE'
       },
       { 
-        id: 15, 
+        id: 46, 
         model: 'Catalyst C9300L-48P-4X-A', 
         series: 'Catalyst 9300',
         layer: 'Layer 3 (Enterprise)', 
@@ -554,7 +908,7 @@
         poeType: 'PoE'
       },
       { 
-        id: 16, 
+        id: 47, 
         model: 'Catalyst C9300-24T-E', 
         series: 'Catalyst 9300',
         layer: 'Layer 3 (UADP 2.0)', 
@@ -565,7 +919,7 @@
         poeType: 'Non-PoE'
       },
       { 
-        id: 17, 
+        id: 48, 
         model: 'Catalyst C9300-48P-E', 
         series: 'Catalyst 9300',
         layer: 'Layer 3 (UADP 2.0)', 
@@ -576,7 +930,7 @@
         poeType: 'PoE'
       },
       { 
-        id: 18, 
+        id: 49, 
         model: 'Catalyst C9300-48UXM-A', 
         series: 'Catalyst 9300',
         layer: 'Layer 3 Multi-Gigabit', 
@@ -586,8 +940,124 @@
         stacking: 'StackWise-480 (Up to 480G)',
         poeType: 'PoE'
       },
+      {
+        id: 50,
+        model: 'Catalyst C9300X-24Y-A',
+        series: 'Catalyst 9300',
+        layer: 'L3 Aggregation (25G)',
+        ports: '24 X 1G/10G/25G SFP28 Fiber',
+        uplink: 'Modular (Up to 100G QSFP28)',
+        poeBudget: 'Không hỗ trợ (Data/Fiber)',
+        stacking: 'StackWise-1T (Up to 1 Tbps)',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 51,
+        model: 'Catalyst C9300X-48HX-A',
+        series: 'Catalyst 9300',
+        layer: 'L3 Multi-Gigabit (10G)',
+        ports: '48 X 10G mGig (100M/1G/2.5G/5G/10G)',
+        uplink: 'Modular (Up to 100G QSFP28)',
+        poeBudget: '90W UPOE+ per port (790W default)',
+        stacking: 'StackWise-1T (Up to 1 Tbps)',
+        poeType: 'PoE'
+      },
+
+      // === DÒNG CISCO CATALYST 9350 SMART SWITCHES (Silicon One, Cloud-Ready, 1.6T Stacking) ===
+      {
+        id: 52,
+        model: 'Catalyst C9350-24T',
+        series: 'Catalyst 9350',
+        layer: 'Next-Gen Smart Stackable (L3)',
+        ports: '24 X 10/100/1000M RJ45',
+        uplink: 'Modular (Dual 100G/40G, Quad 25G)',
+        poeBudget: 'Không hỗ trợ (Data-Only)',
+        stacking: 'StackWise-1.6T (Up to 1.6 Tbps)',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 53,
+        model: 'Catalyst C9350-24P',
+        series: 'Catalyst 9350',
+        layer: 'Next-Gen Smart Stackable (L3)',
+        ports: '24 X 10/100/1000M PoE+',
+        uplink: 'Modular (Dual 100G/40G, Quad 25G)',
+        poeBudget: '30W PoE budget (Up to 570W max)',
+        stacking: 'StackWise-1.6T (Up to 1.6 Tbps)',
+        poeType: 'PoE'
+      },
+      {
+        id: 54,
+        model: 'Catalyst C9350-24U',
+        series: 'Catalyst 9350',
+        layer: 'Next-Gen Smart Stackable (L3)',
+        ports: '24 X 10/100/1000M UPOE',
+        uplink: 'Modular (Dual 100G/40G, Quad 25G)',
+        poeBudget: '60W UPOE per port (Up to 570W default)',
+        stacking: 'StackWise-1.6T (Up to 1.6 Tbps)',
+        poeType: 'PoE'
+      },
+      {
+        id: 55,
+        model: 'Catalyst C9350-48P',
+        series: 'Catalyst 9350',
+        layer: 'Next-Gen Smart Stackable (L3)',
+        ports: '48 X 10/100/1000M PoE+',
+        uplink: 'Modular (Dual 100G/40G, Quad 25G)',
+        poeBudget: '30W PoE budget (Up to 740W max)',
+        stacking: 'StackWise-1.6T (Up to 1.6 Tbps)',
+        poeType: 'PoE'
+      },
+      {
+        id: 56,
+        model: 'Catalyst C9350-48HX',
+        series: 'Catalyst 9350',
+        layer: 'Next-Gen Smart Stackable (L3)',
+        ports: '48 X mGig (1/2.5/5/10G)',
+        uplink: 'Modular (Dual 100G/40G, Quad 25G)',
+        poeBudget: '90W UPOE+ high power (Up to 1440W max)',
+        stacking: 'StackWise-1.6T (Up to 1.6 Tbps)',
+        poeType: 'PoE'
+      },
+
+      // === DÒNG CISCO CATALYST 9400 SERIES (Modular Access Chassis) ===
+      {
+        id: 57,
+        model: 'Catalyst C9404R',
+        series: 'Catalyst 9400',
+        layer: 'Modular Core/Agg. Chassis',
+        ports: 'Up to 96 ports (4-Slot Chassis)',
+        uplink: 'Supervisor Modular Uplinks',
+        poeBudget: 'Up to 960W PoE per Slot',
+        stacking: 'Virtual StackWise / SVL',
+        poeType: 'PoE'
+      },
+      {
+        id: 58,
+        model: 'Catalyst C9407R',
+        series: 'Catalyst 9400',
+        layer: 'Modular Core/Agg. Chassis',
+        ports: 'Up to 240 ports (7-Slot Chassis)',
+        uplink: 'Supervisor Modular Uplinks',
+        poeBudget: 'Redundant Power Up to 960W/slot',
+        stacking: 'Virtual StackWise / SVL',
+        poeType: 'PoE'
+      },
+      {
+        id: 59,
+        model: 'Catalyst C9410R',
+        series: 'Catalyst 9400',
+        layer: 'Modular Core/Agg. Chassis',
+        ports: 'Up to 384 ports (10-Slot Chassis)',
+        uplink: 'Supervisor Modular Uplinks',
+        poeBudget: 'Highly Redundant PSU options',
+        stacking: 'Virtual StackWise / SVL',
+        poeType: 'PoE'
+      },
+
+      // === DÒNG CISCO CATALYST 9500 SERIES (CORE SWITCH) ===
       { 
-        id: 19, 
+        id: 60, 
         model: 'Catalyst C9500-16X-A', 
         series: 'Catalyst 9500',
         layer: 'Core Switch / L3', 
@@ -598,7 +1068,7 @@
         poeType: 'Non-PoE'
       },
       { 
-        id: 20, 
+        id: 61, 
         model: 'Catalyst C9500-24Y4C-A', 
         series: 'Catalyst 9500',
         layer: 'Core Switch / High-Density', 
@@ -607,6 +1077,85 @@
         poeBudget: 'Không hỗ trợ (Core)', 
         stacking: 'StackWise Virtual (SVL)',
         poeType: 'Non-PoE'
+      },
+
+      // === DÒNG CISCO MERAKI MS SERIES (Cloud-Managed Switches) ===
+      {
+        id: 62,
+        model: 'Meraki MS120-8',
+        series: 'Meraki MS',
+        layer: 'Cloud-Managed Layer 2',
+        ports: '8 X 10/100/1000M RJ45',
+        uplink: '2 X 1G SFP fixed',
+        poeBudget: 'Không hỗ trợ (Fanless)',
+        stacking: 'Virtual Stacking Only',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 63,
+        model: 'Meraki MS120-24P',
+        series: 'Meraki MS',
+        layer: 'Cloud-Managed Layer 2',
+        ports: '24 X 10/100/1000M PoE+',
+        uplink: '4 X 1G SFP fixed',
+        poeBudget: '370W PoE budget',
+        stacking: 'Virtual Stacking Only',
+        poeType: 'PoE'
+      },
+      {
+        id: 64,
+        model: 'Meraki MS210-48LP',
+        series: 'Meraki MS',
+        layer: 'L2 Cloud-Mngd + Static Routing',
+        ports: '48 X 10/100/1000M PoE+',
+        uplink: '4 X 1G SFP fixed',
+        poeBudget: '370W PoE budget',
+        stacking: 'Physical Stacking (Up to 80G)',
+        poeType: 'PoE'
+      },
+      {
+        id: 65,
+        model: 'Meraki MS225-24P',
+        series: 'Meraki MS',
+        layer: 'L2 Cloud-Mngd + Static Routing',
+        ports: '24 X 10/100/1000M PoE+',
+        uplink: '4 X 10G SFP+ fixed',
+        poeBudget: '370W PoE budget',
+        stacking: 'Physical Stacking (Up to 80G)',
+        poeType: 'PoE'
+      },
+      {
+        id: 66,
+        model: 'Meraki MS225-48FP',
+        series: 'Meraki MS',
+        layer: 'L2 Cloud-Mngd + Static Routing',
+        ports: '48 X 10/100/1000M PoE+',
+        uplink: '4 X 10G SFP+ fixed',
+        poeBudget: '740W PoE budget',
+        stacking: 'Physical Stacking (Up to 80G)',
+        poeType: 'PoE'
+      },
+      {
+        id: 67,
+        model: 'Meraki MS250-48LP',
+        series: 'Meraki MS',
+        layer: 'L3 Cloud-Mngd + Dyn. Routing',
+        ports: '48 X 10/100/1000M PoE+',
+        uplink: '4 X 10G SFP+ fixed',
+        poeBudget: '370W PoE budget',
+        stacking: 'Physical Stacking (Up to 80G)',
+        poeType: 'PoE'
+      },
+      {
+        id: 68,
+        model: 'Meraki MS355-24X',
+        series: 'Meraki MS',
+        layer: 'L3 mGig Cloud-Managed',
+        ports: '16x 1G + 8x mGig (up to 10G)',
+        uplink: '2x 40G QSFP+ / 4x 10G SFP+',
+        poeBudget: 'UPoE high power budget',
+        stacking: 'Physical Stacking (Up to 400G)',
+        poeType: 'PoE'
       }
     ];
 
@@ -618,7 +1167,7 @@
     let seriesFilter = 'ALL';
     let poeFilter = 'ALL';
 
-    // 2. Element Selectors
+    // Element Selectors
     const productGrid = document.getElementById('product-grid');
     const paginationControls = document.getElementById('pagination-controls');
     const resultsCount = document.getElementById('results-count');
@@ -642,7 +1191,6 @@
     const mobileCiscoMenu = document.getElementById('mobile-cisco-menu');
     const mobileCiscoIcon = document.getElementById('mobile-cisco-icon');
 
-    // 3. Hàm lấy danh sách sản phẩm sau lọc
     function getFilteredProducts() {
       return ciscoSwitches.filter(item => {
         // Tìm kiếm theo từ khóa
@@ -660,7 +1208,6 @@
       });
     }
 
-    // 4. Render sản phẩm theo trang có kèm bộ lọc
     function renderProducts() {
       const filtered = getFilteredProducts();
       const totalProducts = filtered.length;
@@ -700,7 +1247,7 @@
         <div class="product-card bg-white rounded-[2.5rem] border border-slate-100/90 shadow-[0_12px_36px_-12px_rgba(0,0,0,0.03)] p-8 flex flex-col h-full">
           <!-- Switch Cisco Icon Header -->
           <div class="w-14 h-14 cisco-switch-badge rounded-2xl flex items-center justify-center mb-7 self-start transition-colors duration-300">
-            <!-- Thiết kế biểu tượng Switch Switch Chassis mạ điện rực rỡ -->
+            <!-- Thiết kế biểu tượng Switch Chassis mạ điện rực rỡ -->
             <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
               <line x1="6" y1="12" x2="10" y2="12"></line>
@@ -720,7 +1267,7 @@
           </div>
           <h3 class="text-2xl font-black text-slate-900 mb-8 tracking-tight">${p.model}</h3>
           
-          <!-- Thuộc tính Switch (Chuyển đổi hoàn toàn cho Switch) -->
+          <!-- Thuộc tính Switch -->
           <div class="grid grid-cols-2 gap-4 mb-8">
             <div class="bg-[#f8fafc] rounded-2xl p-4 flex flex-col justify-center min-h-[72px]">
               <span class="font-extrabold text-slate-900 text-xs tracking-tight line-clamp-2">${p.layer}</span>
@@ -763,7 +1310,6 @@
       renderPagination(totalProducts);
     }
 
-    // 5. Render thanh chuyển trang linh hoạt dựa theo kết quả lọc
     function renderPagination(totalProducts) {
       const totalPages = Math.ceil(totalProducts / productsPerPage);
       if (totalPages <= 1) {
@@ -816,7 +1362,6 @@
       paginationControls.innerHTML = html;
     }
 
-    // 6. Hàm chuyển trang mượt mà
     window.changePage = function(page) {
       const filtered = getFilteredProducts();
       const totalPages = Math.ceil(filtered.length / productsPerPage);
@@ -829,7 +1374,7 @@
       document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // 7. Gắn bộ lắng nghe sự kiện lọc thời gian thực
+    // Gắn bộ lắng nghe sự kiện lọc thời gian thực
     searchInput.addEventListener('input', (e) => {
       searchFilter = e.target.value;
       currentPage = 1;
@@ -861,7 +1406,7 @@
       renderProducts();
     });
 
-    // 8. Đổi giao diện thanh điều hướng Header khi cuộn trang
+    // Đổi giao diện thanh điều hướng Header khi cuộn trang
     window.addEventListener('scroll', () => {
       if (window.scrollY > 20) {
         navbar.className = "fixed top-0 w-full z-50 transition-all duration-300 glass-nav py-3 border-b border-gray-100 shadow-sm";
@@ -872,7 +1417,7 @@
       }
     });
 
-    // 9. Bật/tắt Mobile Menu
+    // Bật/tắt Mobile Menu
     mobileMenuToggle.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
       if (mobileMenu.classList.contains('hidden')) {
@@ -882,7 +1427,7 @@
       }
     });
 
-    // 10. Bật/tắt thư mục Sản Phẩm trên mobile
+    // Bật/tắt thư mục Sản Phẩm trên mobile
     mobileProductsToggle.addEventListener('click', () => {
       mobileProductsMenu.classList.toggle('hidden');
       if (mobileProductsMenu.classList.contains('hidden')) {
@@ -892,7 +1437,7 @@
       }
     });
 
-    // 11. Bật/tắt thư mục Cisco trên mobile
+    // Bật/tắt thư mục Cisco trên mobile
     mobileCiscoToggle.addEventListener('click', () => {
       mobileCiscoMenu.classList.toggle('hidden');
       if (mobileCiscoMenu.classList.contains('hidden')) {
@@ -902,7 +1447,7 @@
       }
     });
 
-    // 12. Hàm chuyển tiếp liên kết Zalo mượt mà không dùng Alert
+    // Hàm chuyển tiếp liên kết Zalo mượt mà không dùng Alert
     window.handleZaloRedirect = function(phone) {
       const cleanPhone = phone.replace(/\./g, '').replace(/ /g, '');
       window.open(`https://zalo.me/${cleanPhone}`, '_blank');
