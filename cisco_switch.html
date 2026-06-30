@@ -218,10 +218,10 @@
             ENTERPRISE SWITCHING SOLUTION
           </span>
           <h1 class="text-4xl md:text-6xl font-black leading-[1.1] mb-6 tracking-tight text-slate-900">
-            Cisco Catalyst <span class="text-blue-600">Switch</span>
+            Cisco Catalyst & <span class="text-blue-600">Nexus Switch</span>
           </h1>
           <p class="text-slate-500 max-w-2xl font-medium text-base md:text-lg italic">
-            Giải pháp chuyển mạch cốt lõi cho mọi hạ tầng mạng doanh nghiệp. Hiệu suất tối đa, bảo mật toàn vẹn từ lõi tới biên, hỗ trợ quản lý on-premises và Cloud.
+            Giải pháp chuyển mạch mạng doanh nghiệp & Trung tâm dữ liệu hàng đầu thế giới. Khả năng bảo mật thông minh, hỗ trợ quản lý on-premises, Hybrid và Cloud-Managed.
           </p>
         </div>
 
@@ -237,7 +237,7 @@
               <input 
                 type="text" 
                 id="search-input" 
-                placeholder="Tìm kiếm dòng Switch, Model (vd: C1200, C1300, 9300, MS225)..." 
+                placeholder="Tìm kiếm dòng Switch, Model (vd: C1200, C9300, Nexus, MS225)..." 
                 class="w-full pl-11 pr-4 py-3.5 bg-slate-50/80 hover:bg-slate-50 border border-slate-100 rounded-2xl text-slate-800 placeholder-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm"
               >
             </div>
@@ -257,6 +257,12 @@
                 <option value="Catalyst 9350">Catalyst 9350 Smart</option>
                 <option value="Catalyst 9400">Catalyst 9400 Chassis</option>
                 <option value="Catalyst 9500">Core Switch Catalyst 9500</option>
+                <option value="Catalyst 9600">Core Catalyst 9600 Chassis</option>
+                <option value="Catalyst 9610">Catalyst 9610 Smart Core</option>
+                <option value="Nexus 7000">Data Center Nexus 7000</option>
+                <option value="Nexus 9000">Spine-Leaf Nexus 9000</option>
+                <option value="Nexus 3000">ToR Datacenter Nexus 3000</option>
+                <option value="Nexus 3550">Ultra Low Latency FPGA 3550</option>
                 <option value="Meraki MS">Cisco Meraki MS Series</option>
               </select>
             </div>
@@ -1076,6 +1082,271 @@
         uplink: '4 X 40G/100G QSFP28', 
         poeBudget: 'Không hỗ trợ (Core)', 
         stacking: 'StackWise Virtual (SVL)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 6101, 
+        model: 'Catalyst C9500-32C', 
+        series: 'Catalyst 9500',
+        layer: 'Core Switch / L3 100G', 
+        ports: '32 X 100G QSFP28', 
+        uplink: 'Hỗ trợ Splitter Cables', 
+        poeBudget: 'Không hỗ trợ (Core)', 
+        stacking: 'StackWise Virtual (SVL)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 6102, 
+        model: 'Catalyst C9500-48Y4C', 
+        series: 'Catalyst 9500',
+        layer: 'Core Switch / Ultra Density', 
+        ports: '48 X 25G SFP28', 
+        uplink: '4 X 100G QSFP28', 
+        poeBudget: 'Không hỗ trợ (Core)', 
+        stacking: 'StackWise Virtual (SVL)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 6103, 
+        model: 'Catalyst C9500-24Q', 
+        series: 'Catalyst 9500',
+        layer: 'Core Switch / L3 40G', 
+        ports: '24 X 40G QSFP', 
+        uplink: 'Modular Upgrades', 
+        poeBudget: 'Không hỗ trợ (Core)', 
+        stacking: 'StackWise Virtual (SVL)',
+        poeType: 'Non-PoE'
+      },
+
+      // === DÒNG CISCO CATALYST 9600 SERIES (MODULAR CORE CHASSIS) ===
+      {
+        id: 70,
+        model: 'Catalyst C9606R Chassis',
+        series: 'Catalyst 9600',
+        layer: 'Core Modular Enterprise L3',
+        ports: 'Up to 192 X 10G/25G / 32 X 100G',
+        uplink: 'Highly Flexible Dual Supervisor Slots',
+        poeBudget: 'Không hỗ trợ / Tùy chọn Line Card',
+        stacking: 'StackWise Virtual (SVL)',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 71,
+        model: 'Catalyst C9606R-C9600-LC-48YL',
+        series: 'Catalyst 9600',
+        layer: 'Core Modular High-Density Fiber',
+        ports: '48 X 10G/25G SFP28 Base',
+        uplink: 'Supervisor 1 / Supervisor 2 Opt.',
+        poeBudget: 'Không hỗ trợ (Data-Only Core)',
+        stacking: 'StackWise Virtual (SVL)',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 72,
+        model: 'Catalyst C9606R-C9600-LC-24C',
+        series: 'Catalyst 9600',
+        layer: 'Core Modular High-Density 100G',
+        ports: '24 X 40G/100G QSFP28 Base',
+        uplink: 'Supervisor redundant capability',
+        poeBudget: 'Không hỗ trợ (Data-Only Core)',
+        stacking: 'StackWise Virtual (SVL)',
+        poeType: 'Non-PoE'
+      },
+
+      // === DÒNG CISCO CATALYST 9610 SERIES SMART SWITCHES ===
+      {
+        id: 75,
+        model: 'Catalyst C9610-24S Smart',
+        series: 'Catalyst 9610',
+        layer: 'Smart Core Stackable L3',
+        ports: '24 X 10G SFP+ Fiber',
+        uplink: 'Modular (Up to 100G)',
+        poeBudget: 'Không hỗ trợ',
+        stacking: 'Smart-Wise Stacking Stackable',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 76,
+        model: 'Catalyst C9610-48S Smart',
+        series: 'Catalyst 9610',
+        layer: 'Smart Core Stackable L3',
+        ports: '48 X 10G SFP+ Fiber',
+        uplink: 'Modular (Up to 100G)',
+        poeBudget: 'Không hỗ trợ',
+        stacking: 'Smart-Wise Stacking Stackable',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 77,
+        model: 'Catalyst C9610-24T Smart',
+        series: 'Catalyst 9610',
+        layer: 'Smart Core Stackable L3 Copper',
+        ports: '24 X 10G Multi-gigabit RJ45',
+        uplink: 'Modular High Performance Uplinks',
+        poeBudget: 'PoE+ Supported Up to 740W',
+        stacking: 'Smart-Wise Stacking Stackable',
+        poeType: 'PoE'
+      },
+
+      // === DÒNG CISCO NEXUS 7000 SERIES (Modular Data Center Core) ===
+      {
+        id: 80,
+        model: 'Nexus 7004 Modular Chassis',
+        series: 'Nexus 7000',
+        layer: 'Carrier-Class DC Core (NX-OS)',
+        ports: 'Up to 96 X 10G Ports (4-Slot)',
+        uplink: 'Flexible I/O Modules option',
+        poeBudget: 'Không hỗ trợ (Data Center Core)',
+        stacking: 'Virtual Port Channel (vPC)',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 81,
+        model: 'Nexus 7009 Modular Chassis',
+        series: 'Nexus 7000',
+        layer: 'Carrier-Class DC Core (NX-OS)',
+        ports: 'Up to 336 X 10G Ports (9-Slot)',
+        uplink: 'High density modular fabric',
+        poeBudget: 'Không hỗ trợ (Data Center Core)',
+        stacking: 'Virtual Port Channel (vPC)',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 82,
+        model: 'Nexus 7010 Modular Chassis',
+        series: 'Nexus 7000',
+        layer: 'Carrier-Class DC Core (NX-OS)',
+        ports: 'Up to 384 X 10G / 64 X 40G (10-Slot)',
+        uplink: 'Supervisors and redundant fabric',
+        poeBudget: 'Không hỗ trợ (Data Center Core)',
+        stacking: 'Virtual Port Channel (vPC)',
+        poeType: 'Non-PoE'
+      },
+
+      // === DÒNG CISCO NEXUS 9000/9300 SERIES (Spine-Leaf DC Cloud) ===
+      {
+        id: 85,
+        model: 'Nexus 93180YC-FX3',
+        series: 'Nexus 9000',
+        layer: 'ToR Spine-Leaf Cloud Switch',
+        ports: '48 X 1/10/25G SFP28 Fiber',
+        uplink: '6 X 40/100G QSFP28 Uplinks',
+        poeBudget: 'Không hỗ trợ (Data Center ToR)',
+        stacking: 'vPC / EVPN-VXLAN Fabric',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 86,
+        model: 'Nexus 93360YC-FX2',
+        series: 'Nexus 9000',
+        layer: 'Ultra-High Density ToR Leaf',
+        ports: '96 X 10/25G SFP28 Fiber',
+        uplink: '12 X 40/100G QSFP28 Uplinks',
+        poeBudget: 'Không hỗ trợ (Data Center ToR)',
+        stacking: 'vPC / EVPN-VXLAN Fabric',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 87,
+        model: 'Nexus 93108TC-FX3',
+        series: 'Nexus 9000',
+        layer: 'ToR Spine-Leaf Copper Switch',
+        ports: '48 X 10G BASE-T RJ45',
+        uplink: '6 X 40/100G QSFP28 Uplinks',
+        poeBudget: 'Không hỗ trợ (Data Center ToR)',
+        stacking: 'vPC / EVPN-VXLAN Fabric',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 88,
+        model: 'Nexus 9364C-GX Spine',
+        series: 'Nexus 9000',
+        layer: 'High-Density Spine Switch 100G',
+        ports: '64 X 100G QSFP28',
+        uplink: 'Dense Backbone Interconnect',
+        poeBudget: 'Không hỗ trợ (Spine Switch)',
+        stacking: 'vPC / ACI Enabled Mode',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 89,
+        model: 'Nexus 9348D-GX2A Ultra Core',
+        series: 'Nexus 9000',
+        layer: 'Next-Gen High Speed Spine 400G',
+        ports: '48 X 400G QSFP-DD ports',
+        uplink: '400G Line-Rate Performance',
+        poeBudget: 'Không hỗ trợ (Super-Core)',
+        stacking: 'vPC / ACI fabric multi-site',
+        poeType: 'Non-PoE'
+      },
+
+      // === DÒNG CISCO NEXUS 3550 SERIES (Ultra Low Latency FPGA Platform) ===
+      {
+        id: 92,
+        model: 'Nexus 3550-F Ultra Platform',
+        series: 'Nexus 3550',
+        layer: 'L1 Switch / Programmable FPGA',
+        ports: '48 X 10G SFP+ Ultra low-latency',
+        uplink: 'Sub-nanosecond switching fabric',
+        poeBudget: 'Không hỗ trợ (HFT / Trading)',
+        stacking: 'Direct Fiber Interconnect',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 93,
+        model: 'Nexus 3550-T Low-Latency',
+        series: 'Nexus 3550',
+        layer: 'L2/L3 Low Latency Switch',
+        ports: '48 X 10G SFP+ + 4 X 100G QSFP28',
+        uplink: 'High Frequency Trading Low Latency',
+        poeBudget: 'Không hỗ trợ (Financial Core)',
+        stacking: 'Direct Fiber Interconnect',
+        poeType: 'Non-PoE'
+      },
+
+      // === DÒNG CISCO NEXUS 3000 SERIES (Data Center ToR Edge) ===
+      {
+        id: 95,
+        model: 'Nexus 3064-X Datacenter',
+        series: 'Nexus 3000',
+        layer: 'ToR low-latency L2/L3',
+        ports: '48 X 10G SFP+ ports',
+        uplink: '4 X 40G QSFP+ Uplinks',
+        poeBudget: 'Không hỗ trợ (Data Center)',
+        stacking: 'vPC / Direct Stack Link',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 96,
+        model: 'Nexus 31108PC-V ToR',
+        series: 'Nexus 3000',
+        layer: 'High-Density ToR L2/L3',
+        ports: '48 X 10G SFP+ ports',
+        uplink: '6 X 100G QSFP28 Uplinks',
+        poeBudget: 'Không hỗ trợ (Data Center)',
+        stacking: 'vPC / VXLAN-EVPN',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 97,
+        model: 'Nexus 3232C High Density',
+        series: 'Nexus 3000',
+        layer: 'ToR Backbone Interconnect',
+        ports: '32 X 100G QSFP28 ports',
+        uplink: 'Flexible Splitter Cable Support',
+        poeBudget: 'Không hỗ trợ (Data Center)',
+        stacking: 'vPC / VXLAN-EVPN Spine-Leaf',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 98,
+        model: 'Nexus 34180YC Programmable',
+        series: 'Nexus 3000',
+        layer: 'Smart Programmable ToR Leaf',
+        ports: '48 X 10/25G SFP28 Base',
+        uplink: '6 X 40/100G QSFP28 Uplinks',
+        poeBudget: 'Không hỗ trợ (Programmable Core)',
+        stacking: 'vPC / VXLAN EVPN',
         poeType: 'Non-PoE'
       },
 
