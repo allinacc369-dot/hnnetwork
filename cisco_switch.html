@@ -1,1 +1,915 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cisco Catalyst Switches | HN Network</title>
+  <!-- Cấu hình hiển thị LOGO trên TAB trình duyệt (Favicon) -->
+  <link rel="icon" type="image/png" href="Logo_HN-04.png">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800;900&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+    }
 
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* Thiết lập hiệu ứng chuyển động cho thẻ sản phẩm Switch */
+    .product-card {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px -15px rgba(30, 41, 59, 0.12);
+      border-color: #3b82f6;
+    }
+    
+    /* Màu nhận diện chuyên biệt dành cho Switch Cisco (Xanh hoàng gia/Cobalt) */
+    .cisco-switch-badge {
+      background-color: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    /* Dropdown đa cấp mượt mà trên Desktop */
+    .dropdown-submenu {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.2s ease-in-out;
+    }
+    .dropdown-parent:hover .dropdown-submenu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-sub-menu {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(10px);
+      transition: all 0.2s ease-in-out;
+    }
+    .dropdown-sub-parent:hover .dropdown-sub-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+
+    /* Hiệu ứng focus cho thanh tìm kiếm */
+    .search-glow:focus-within {
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+      border-color: #3b82f6;
+    }
+  </style>
+</head>
+<body class="bg-[#fcfcfd] text-slate-800">
+
+  <div class="min-h-screen flex flex-col bg-[#fcfcfd]">
+    
+    <!-- NAVIGATION BAR -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent py-6">
+      <div class="container mx-auto px-6 flex items-center justify-between">
+        
+        <!-- LOGO VÀ TÊN THƯƠNG HIỆU -->
+        <a href="index.html" class="flex items-center gap-3 group shrink-0">
+          <img 
+            id="nav-logo"
+            src="Logo_HN-04.png" 
+            alt="HN Network Logo" 
+            class="transition-all duration-300 object-contain h-14"
+            onerror="this.onerror=null; this.src='https://placehold.co/150x50/1e293b/ffffff?text=HN+NETWORK';"
+          />
+          <span class="font-extrabold text-xl tracking-tighter text-blue-900 text-nowrap">
+            HN NETWORK
+          </span>
+        </a>
+
+        <!-- Desktop Menu - Thừa kế đồng bộ, làm nổi bật Switch Cisco -->
+        <div class="hidden md:flex items-center gap-8 font-medium text-sm uppercase tracking-widest text-gray-600">
+          <div class="relative group dropdown-parent">
+              <button class="hover:text-blue-600 transition-colors flex items-center gap-1 py-2 focus:outline-none">
+                Sản phẩm <i class="fa fa-chevron-down text-[10px]"></i>
+              </button>
+              
+              <!-- MENU CẤP 2 -->
+              <div class="dropdown-submenu absolute top-full left-0 mt-2 w-56 bg-white shadow-xl rounded-xl py-2 transition-all border border-gray-100 z-50">
+                  <a href="sophos.html" class="block px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-gray-700">Sophos Firewall</a>
+                  
+                  <!-- MENU CẤP 3: Cisco Networking (Nổi bật Switch) -->
+                  <div class="relative dropdown-sub-parent">
+                    <button class="w-full text-left px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-gray-700 flex justify-between items-center focus:outline-none">
+                      <span class="text-blue-600">Cisco Networking</span>
+                      <i class="fa fa-chevron-right text-[10px] text-gray-400"></i>
+                    </button>
+                    
+                    <!-- Danh sách danh mục con Cisco -->
+                    <div class="dropdown-sub-menu absolute left-full top-0 ml-1 w-48 bg-white shadow-xl rounded-xl py-2 border border-gray-100">
+                      <a href="cisco_switch.html" class="block px-4 py-2 text-xs bg-blue-50 hover:bg-blue-100 font-bold text-blue-700">Switch cisco</a>
+                      <a href="cisco_router.html" class="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600 font-medium text-gray-600">Router cisco</a>
+                      <a href="cisco_firewall.html" class="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600 font-medium text-gray-600">Firewall cisco</a>
+                      <a href="cisco_ap.html" class="block px-4 py-2 text-xs hover:bg-blue-50 hover:text-blue-600 font-medium text-gray-600">Access point cisco</a>
+                    </div>
+                  </div>
+                  
+                  <a href="synology-storage.html" class="block px-4 py-2.5 text-xs hover:bg-blue-50 hover:text-blue-600 font-semibold text-gray-700">Synology Storage</a>
+              </div>
+          </div>
+          <a href="#" class="hover:text-blue-600 transition-colors">Giải pháp</a>
+          <a href="#" class="hover:text-blue-600 transition-colors">Dịch vụ</a>
+          <a href="#" class="hover:text-blue-600 transition-colors">Về chúng tôi</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div class="hidden lg:flex flex-col items-end mr-4">
+              <span class="text-[10px] text-gray-400 font-bold uppercase tracking-tighter text-nowrap">Hotline 24/7</span>
+              <span class="text-blue-600 font-bold text-nowrap">0938.888.304</span>
+          </div>
+          
+          <!-- Mobile Hamburger Toggle -->
+          <button 
+            id="mobile-menu-toggle"
+            class="md:hidden w-10 h-10 flex items-center justify-center text-gray-600 focus:outline-none"
+          >
+            <i id="mobile-menu-icon" class="fa-solid fa-bars text-xl"></i>
+          </button>
+
+          <button 
+            onclick="handleZaloRedirect('0938888304')"
+            class="hidden sm:block bg-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all text-nowrap"
+          >
+            Báo giá ngay
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Content -->
+      <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute top-full left-0 w-full shadow-2xl max-h-[85vh] overflow-y-auto">
+        <div class="flex flex-col p-6 space-y-4 font-bold text-sm uppercase tracking-widest text-gray-700">
+          <div class="border-b border-gray-50 pb-2">
+            <button 
+              id="mobile-products-toggle"
+              class="flex justify-between items-center w-full mb-2 text-blue-900 font-extrabold focus:outline-none"
+            >
+              <span>Sản phẩm</span>
+              <i id="mobile-products-icon" class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
+            </button>
+            
+            <!-- Danh sách Sản Phẩm cấp 2 di động -->
+            <div id="mobile-products-menu" class="hidden pl-4 space-y-3 mt-2 normal-case font-medium tracking-normal text-gray-500">
+              <a href="sophos.html" class="block hover:text-blue-600 py-1 font-semibold">Sophos Firewall</a>
+              
+              <!-- Mục Cisco Networking cấp 3 di động -->
+              <div class="py-1">
+                <button 
+                  id="mobile-cisco-toggle"
+                  class="flex justify-between items-center w-full font-semibold text-gray-700 mb-1.5 focus:outline-none"
+                >
+                  <span class="text-blue-600">Cisco Networking</span>
+                  <i id="mobile-cisco-icon" class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
+                </button>
+                
+                <div id="mobile-cisco-menu" class="hidden pl-3 space-y-2 border-l border-blue-100">
+                  <a href="cisco_switch.html" class="block text-left w-full text-blue-600 font-bold text-xs py-1">Switch cisco</a>
+                  <a href="cisco_router.html" class="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Router cisco</a>
+                  <a href="cisco_firewall.html" class="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Firewall cisco</a>
+                  <a href="cisco_ap.html" class="block text-left w-full hover:text-blue-600 text-xs text-gray-600 py-1">Access point cisco</a>
+                </div>
+              </div>
+              
+              <a href="synology-storage.html" class="block hover:text-blue-600 py-1 font-semibold">Synology Storage</a>
+            </div>
+          </div>
+          <a href="#" class="border-b border-gray-50 pb-4 hover:text-blue-600 transition-colors">Giải pháp</a>
+          <a href="#" class="border-b border-gray-50 pb-4 hover:text-blue-600 transition-colors">Dịch vụ</a>
+          <a href="#" class="border-b border-gray-50 pb-4 hover:text-blue-600 transition-colors">Về chúng tôi</a>
+          <div class="pt-4 flex flex-col gap-4">
+             <div class="flex items-center gap-3">
+                <i class="fa fa-phone text-blue-600"></i>
+                <span class="text-blue-600 tracking-normal">0938.888.304</span>
+             </div>
+             <button 
+              onclick="handleZaloRedirect('0938888304')"
+              class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold"
+            >
+              Liên hệ Báo giá
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="pt-36 pb-24 flex-grow">
+      <div class="container mx-auto px-6">
+        
+        <!-- Hero Section -->
+        <div class="flex flex-col items-center text-center mb-12">
+          <span class="text-[10px] font-extrabold tracking-[0.2em] text-[#1d4ed8] bg-[#eff6ff] px-5 py-2 rounded-full uppercase mb-5 border border-blue-100/50">
+            ENTERPRISE SWITCHING SOLUTION
+          </span>
+          <h1 class="text-4xl md:text-6xl font-black leading-[1.1] mb-6 tracking-tight text-slate-900">
+            Cisco Catalyst <span class="text-blue-600">Switch</span>
+          </h1>
+          <p class="text-slate-500 max-w-2xl font-medium text-base md:text-lg italic">
+            Giải pháp chuyển mạch cốt lõi cho mọi hạ tầng mạng doanh nghiệp. Hiệu suất tối đa, tính năng bảo mật tuyệt đối, hoạt động bền bỉ 24/7.
+          </p>
+        </div>
+
+        <!-- BỘ LỌC TÌM KIẾM SẢN PHẨM (Search & Interactive Filters) -->
+        <div class="bg-white border border-slate-100 rounded-3xl p-6 shadow-[0_10px_30px_rgba(0,0,0,0.02)] mb-10">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+            
+            <!-- Thanh tìm kiếm -->
+            <div class="md:col-span-5 relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </span>
+              <input 
+                type="text" 
+                id="search-input" 
+                placeholder="Tìm kiếm dòng Switch, Model (vd: 9200L, 24T)..." 
+                class="w-full pl-11 pr-4 py-3.5 bg-slate-50/80 hover:bg-slate-50 border border-slate-100 rounded-2xl text-slate-800 placeholder-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm"
+              >
+            </div>
+
+            <!-- Bộ lọc Switch Series -->
+            <div class="md:col-span-3">
+              <select 
+                id="filter-series" 
+                class="w-full px-4 py-3.5 bg-slate-50/80 hover:bg-slate-50 border border-slate-100 rounded-2xl text-slate-700 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm"
+              >
+                <option value="ALL">Tất cả Series</option>
+                <option value="Catalyst 1000">Catalyst 1000 Series</option>
+                <option value="Catalyst 9200">Catalyst 9200/9200L</option>
+                <option value="Catalyst 9300">Catalyst 9300/9300L</option>
+                <option value="Catalyst 9500">Core Switch Catalyst 9500</option>
+              </select>
+            </div>
+
+            <!-- Bộ lọc PoE -->
+            <div class="md:col-span-2">
+              <select 
+                id="filter-poe" 
+                class="w-full px-4 py-3.5 bg-slate-50/80 hover:bg-slate-50 border border-slate-100 rounded-2xl text-slate-700 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm"
+              >
+                <option value="ALL">Mọi nguồn cấp</option>
+                <option value="PoE">Có hỗ trợ PoE/PoE+</option>
+                <option value="Non-PoE">Không PoE (Data Only)</option>
+              </select>
+            </div>
+
+            <!-- Nút Reset bộ lọc -->
+            <div class="md:col-span-2">
+              <button 
+                id="btn-reset"
+                class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold py-3.5 rounded-2xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+              >
+                <i class="fa-solid fa-arrow-rotate-left"></i> Làm mới
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Trình hiển thị trạng thái kết quả bộ lọc -->
+        <div id="results-count" class="text-sm font-semibold text-slate-500 mb-6 px-2"></div>
+
+        <!-- GRID SẢN PHẨM -->
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Các thẻ sản phẩm Cisco Switch được đưa vào đây bởi JS -->
+        </div>
+
+        <!-- BỘ CHUYỂN TRANG -->
+        <div id="pagination-controls" class="mt-16 flex justify-center items-center gap-4">
+          <!-- Các nút phân trang được đưa vào đây bởi JS -->
+        </div>
+
+      </div>
+    </main>
+
+    <!-- FOOTER AREA -->
+    <footer class="mt-auto bg-slate-900 text-white pt-20 pb-10">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
+          
+          <!-- Brand & Support -->
+          <div class="lg:col-span-4">
+            <h4 class="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Hỗ trợ kinh doanh</h4>
+            <div class="grid gap-4">
+              <div 
+                onclick="handleZaloRedirect('0938.888.304')"
+                class="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group cursor-pointer"
+              >
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-gray-400 text-[10px] font-bold uppercase">Kinh doanh 1</span>
+                  <i class="fa fa-phone text-blue-400 text-xs group-hover:rotate-12 transition-transform"></i>
+                </div>
+                <p class="text-xl font-bold">0938.888.304</p>
+              </div>
+              <div 
+                onclick="handleZaloRedirect('0974.700.952')"
+                class="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:border-blue-500/30 transition-all group cursor-pointer"
+              >
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-gray-400 text-[10px] font-bold uppercase">Kinh doanh 2</span>
+                  <i class="fa fa-phone text-blue-400 text-xs group-hover:rotate-12 transition-transform"></i>
+                </div>
+                <p class="text-xl font-bold">0974.700.952</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Info -->
+          <div class="lg:col-span-4">
+            <h4 class="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Liên hệ trực tiếp</h4>
+            <div class="space-y-6">
+              <div class="flex gap-4">
+                <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-blue-400 shrink-0">
+                  <i class="fa fa-map-marker-alt"></i>
+                </div>
+                <div>
+                  <h5 class="text-sm font-bold mb-1 uppercase tracking-wider">Trụ sở chính</h5>
+                  <p class="text-gray-400 text-sm leading-relaxed">CÔNG TY TNHH TM DV TIN HỌC HN NETWORK</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Số 2A Đường Thành Công, Phường Phú Thọ Hòa, TP. HCM</p>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-blue-400 shrink-0">
+                  <i class="fa fa-headset"></i>
+                </div>
+                <div>
+                  <h5 class="text-sm font-bold mb-1 uppercase tracking-wider">Tổng đài & Email</h5>
+                  <p class="text-gray-400 text-sm leading-relaxed">Hotline: (028) 668 42 689</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Email: info@hnnetwork.vn</p>
+                </div>
+              </div>
+              <div class="flex gap-4 pt-2">
+                <a href="https://www.facebook.com/hnnetwork.vn" target="_blank" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-blue-600 transition-all"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-red-600 transition-all"><i class="fab fa-youtube"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Map -->
+          <div class="lg:col-span-4">
+             <h4 class="text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-8">Vị trí bản đồ</h4>
+             <div class="rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 border border-white/10 shadow-2xl h-[250px]">
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2412216077746!2d106.63263728527505!3d10.792827961914577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529532c42131f%3A0xc72609f9f908c1cc!2zMkEgVGjDoG5oIEPDtG5nLCBUw6JuIFRow6BuaCwgVMOibiBQaMO6LCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1772251814694!5m2!1svi!2s" 
+                  width="100%" height="100%" frameBorder="0" style="border:0" allowfullscreen="" loading="lazy"
+                ></iframe>
+             </div>
+          </div>
+
+        </div>
+
+        <div class="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] text-gray-500 font-black uppercase tracking-widest">
+          <p>&copy; 2026 HN Network Enterprise Solutions. All Rights Reserved.</p>
+          <div class="flex gap-8">
+            <a href="#" class="hover:text-blue-400 transition-colors">Privacy Policy</a>
+            <a href="#" class="hover:text-blue-400 transition-colors">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- SCRIPT XỬ LÝ GIAO DIỆN & DỮ LIỆU TĨNH SWITCH CISCO -->
+  <script>
+    // Dữ liệu sản phẩm Switch Cisco chính xác, chi tiết từ dòng Catalyst 1000 đến Catalyst 9000
+    const ciscoSwitches = [
+      { 
+        id: 1, 
+        model: 'Catalyst C1000-8T-2G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2', 
+        ports: '8 X 10/100/1000M RJ45', 
+        uplink: '2 X 1G SFP/RJ-45 combo', 
+        poeBudget: 'Không hỗ trợ (Data Only)', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 2, 
+        model: 'Catalyst C1000-8FP-2G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2', 
+        ports: '8 X 10/100/1000M PoE+', 
+        uplink: '2 X 1G SFP/RJ-45 combo', 
+        poeBudget: '120W PoE budget', 
+        stacking: 'Virtual Stacking',
+        poeType: 'PoE'
+      },
+      { 
+        id: 3, 
+        model: 'Catalyst C1000-24T-4G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2', 
+        ports: '24 X 10/100/1000M RJ45', 
+        uplink: '4 X 1G SFP', 
+        poeBudget: 'Không hỗ trợ (Data Only)', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 4, 
+        model: 'Catalyst C1000-24FP-4G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2', 
+        ports: '24 X 10/100/1000M PoE+', 
+        uplink: '4 X 1G SFP', 
+        poeBudget: '370W PoE budget', 
+        stacking: 'Virtual Stacking (Up to 8)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 5, 
+        model: 'Catalyst C1000-48T-4G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2', 
+        ports: '48 X 10/100/1000M RJ45', 
+        uplink: '4 X 1G SFP', 
+        poeBudget: 'Không hỗ trợ (Data Only)', 
+        stacking: 'Virtual Stacking',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 6, 
+        model: 'Catalyst C1000-48FP-4G-L', 
+        series: 'Catalyst 1000',
+        layer: 'Layer 2', 
+        ports: '48 X 10/100/1000M PoE+', 
+        uplink: '4 X 1G SFP', 
+        poeBudget: '370W PoE budget', 
+        stacking: 'Virtual Stacking',
+        poeType: 'PoE'
+      },
+      { 
+        id: 7, 
+        model: 'Catalyst C9200L-24T-4G-E', 
+        series: 'Catalyst 9200',
+        layer: 'Layer 3 Lite (Ess.)', 
+        ports: '24 X 10/100/1000M RJ45', 
+        uplink: '4 X 1G SFP Fixed', 
+        poeBudget: 'Không hỗ trợ (Data Only)', 
+        stacking: 'StackWise-80 (Up to 80G)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 8, 
+        model: 'Catalyst C9200L-24P-4G-E', 
+        series: 'Catalyst 9200',
+        layer: 'Layer 3 Lite (Ess.)', 
+        ports: '24 X 10/100/1000M PoE+', 
+        uplink: '4 X 1G SFP Fixed', 
+        poeBudget: '370W PoE budget', 
+        stacking: 'StackWise-80 (Up to 80G)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 9, 
+        model: 'Catalyst C9200L-24T-4X-E', 
+        series: 'Catalyst 9200',
+        layer: 'Layer 3 Lite (Ess.)', 
+        ports: '24 X 10/100/1000M RJ45', 
+        uplink: '4 X 10G SFP+ Fixed', 
+        poeBudget: 'Không hỗ trợ (Data Only)', 
+        stacking: 'StackWise-80 (Up to 80G)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 10, 
+        model: 'Catalyst C9200L-24P-4X-E', 
+        series: 'Catalyst 9200',
+        layer: 'Layer 3 Lite (Ess.)', 
+        ports: '24 X 10/100/1000M PoE+', 
+        uplink: '4 X 10G SFP+ Fixed', 
+        poeBudget: '370W PoE budget', 
+        stacking: 'StackWise-80 (Up to 80G)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 11, 
+        model: 'Catalyst C9200L-48T-4X-E', 
+        series: 'Catalyst 9200',
+        layer: 'Layer 3 Lite (Ess.)', 
+        ports: '48 X 10/100/1000M RJ45', 
+        uplink: '4 X 10G SFP+ Fixed', 
+        poeBudget: 'Không hỗ trợ (Data Only)', 
+        stacking: 'StackWise-80 (Up to 80G)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 12, 
+        model: 'Catalyst C9200L-48P-4X-E', 
+        series: 'Catalyst 9200',
+        layer: 'Layer 3 Lite (Ess.)', 
+        ports: '48 X 10/100/1000M PoE+', 
+        uplink: '4 X 10G SFP+ Fixed', 
+        poeBudget: '740W PoE budget', 
+        stacking: 'StackWise-80 (Up to 80G)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 13, 
+        model: 'Catalyst C9200-24T-A', 
+        series: 'Catalyst 9200',
+        layer: 'Layer 3 (Advantage)', 
+        ports: '24 X 1G ports', 
+        uplink: 'Modular Uplink Modules', 
+        poeBudget: 'Có thể nâng cấp', 
+        stacking: 'StackWise-160 (Up to 160G)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 14, 
+        model: 'Catalyst C9300L-24T-4X-E', 
+        series: 'Catalyst 9300',
+        layer: 'Layer 3 (Enterprise)', 
+        ports: '24 X 10/100/1000M RJ45', 
+        uplink: '4 X 10G SFP+ Fixed', 
+        poeBudget: 'Không hỗ trợ (Data Only)', 
+        stacking: 'StackWise-320 (Up to 320G)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 15, 
+        model: 'Catalyst C9300L-48P-4X-A', 
+        series: 'Catalyst 9300',
+        layer: 'Layer 3 (Enterprise)', 
+        ports: '48 X 10/100/1000M PoE+', 
+        uplink: '4 X 10G SFP+ Fixed', 
+        poeBudget: '715W default PoE budget', 
+        stacking: 'StackWise-320 (Up to 320G)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 16, 
+        model: 'Catalyst C9300-24T-E', 
+        series: 'Catalyst 9300',
+        layer: 'Layer 3 (UADP 2.0)', 
+        ports: '24 X 10/100/1000M RJ45', 
+        uplink: 'Modular Uplinks Option', 
+        poeBudget: 'Không hỗ trợ (Data Only)', 
+        stacking: 'StackWise-480 (Up to 480G)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 17, 
+        model: 'Catalyst C9300-48P-E', 
+        series: 'Catalyst 9300',
+        layer: 'Layer 3 (UADP 2.0)', 
+        ports: '48 X 10/100/1000M PoE+', 
+        uplink: 'Modular Uplinks Option', 
+        poeBudget: '437W PoE default', 
+        stacking: 'StackWise-480 (Up to 480G)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 18, 
+        model: 'Catalyst C9300-48UXM-A', 
+        series: 'Catalyst 9300',
+        layer: 'Layer 3 Multi-Gigabit', 
+        ports: '36x 2.5G + 12x mGig (up to 10G)', 
+        uplink: 'Modular Uplinks Option', 
+        poeBudget: 'UPOE / High Power Budget', 
+        stacking: 'StackWise-480 (Up to 480G)',
+        poeType: 'PoE'
+      },
+      { 
+        id: 19, 
+        model: 'Catalyst C9500-16X-A', 
+        series: 'Catalyst 9500',
+        layer: 'Core Switch / L3', 
+        ports: '16 X 1G/10G SFP+', 
+        uplink: 'Uplink 2 X 40G QSFP+', 
+        poeBudget: 'Không hỗ trợ (Core)', 
+        stacking: 'StackWise Virtual (SVL)',
+        poeType: 'Non-PoE'
+      },
+      { 
+        id: 20, 
+        model: 'Catalyst C9500-24Y4C-A', 
+        series: 'Catalyst 9500',
+        layer: 'Core Switch / High-Density', 
+        ports: '24 X 1G/10G/25G SFP28', 
+        uplink: '4 X 40G/100G QSFP28', 
+        poeBudget: 'Không hỗ trợ (Core)', 
+        stacking: 'StackWise Virtual (SVL)',
+        poeType: 'Non-PoE'
+      }
+    ];
+
+    const productsPerPage = 9;
+    let currentPage = parseInt(localStorage.getItem('ciscoSwitchPage')) || 1;
+    
+    // State quản lý bộ lọc
+    let searchFilter = '';
+    let seriesFilter = 'ALL';
+    let poeFilter = 'ALL';
+
+    // 2. Element Selectors
+    const productGrid = document.getElementById('product-grid');
+    const paginationControls = document.getElementById('pagination-controls');
+    const resultsCount = document.getElementById('results-count');
+    const navbar = document.getElementById('navbar');
+    const navLogo = document.getElementById('nav-logo');
+    
+    // Selectors Filters
+    const searchInput = document.getElementById('search-input');
+    const filterSeries = document.getElementById('filter-series');
+    const filterPoe = document.getElementById('filter-poe');
+    const btnReset = document.getElementById('btn-reset');
+
+    // Navigation Menu Toggles
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+    const mobileProductsToggle = document.getElementById('mobile-products-toggle');
+    const mobileProductsMenu = document.getElementById('mobile-products-menu');
+    const mobileProductsIcon = document.getElementById('mobile-products-icon');
+    const mobileCiscoToggle = document.getElementById('mobile-cisco-toggle');
+    const mobileCiscoMenu = document.getElementById('mobile-cisco-menu');
+    const mobileCiscoIcon = document.getElementById('mobile-cisco-icon');
+
+    // 3. Hàm lấy danh sách sản phẩm sau lọc
+    function getFilteredProducts() {
+      return ciscoSwitches.filter(item => {
+        // Tìm kiếm theo từ khóa
+        const matchSearch = item.model.toLowerCase().includes(searchFilter.toLowerCase()) || 
+                            item.ports.toLowerCase().includes(searchFilter.toLowerCase()) ||
+                            item.layer.toLowerCase().includes(searchFilter.toLowerCase());
+        
+        // Phân loại dòng Switch
+        const matchSeries = (seriesFilter === 'ALL') || (item.series === seriesFilter);
+
+        // Phân loại nguồn PoE
+        const matchPoe = (poeFilter === 'ALL') || (item.poeType === poeFilter);
+
+        return matchSearch && matchSeries && matchPoe;
+      });
+    }
+
+    // 4. Render sản phẩm theo trang có kèm bộ lọc
+    function renderProducts() {
+      const filtered = getFilteredProducts();
+      const totalProducts = filtered.length;
+      
+      // Hiển thị số lượng tìm thấy
+      if (searchFilter || seriesFilter !== 'ALL' || poeFilter !== 'ALL') {
+        resultsCount.innerHTML = `Tìm thấy <span class="text-blue-600 font-extrabold">${totalProducts}</span> thiết bị Switch phù hợp yêu cầu.`;
+      } else {
+        resultsCount.innerHTML = `Hiển thị tất cả <span class="text-slate-900 font-extrabold">${totalProducts}</span> thiết bị chuyển mạch Cisco.`;
+      }
+
+      // Giới hạn trang hiện tại nếu vượt quá số trang kết quả mới
+      const totalPages = Math.ceil(totalProducts / productsPerPage) || 1;
+      if (currentPage > totalPages) {
+        currentPage = totalPages;
+      }
+
+      const startIndex = (currentPage - 1) * productsPerPage;
+      const endIndex = startIndex + productsPerPage;
+      const currentProducts = filtered.slice(startIndex, endIndex);
+
+      if (currentProducts.length === 0) {
+        productGrid.innerHTML = `
+          <div class="col-span-1 md:col-span-2 lg:col-span-3 flex flex-col items-center justify-center py-16 bg-white border border-dashed border-slate-200 rounded-[2.5rem] text-center p-8">
+            <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 mb-4">
+              <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+            </div>
+            <h4 class="text-lg font-bold text-slate-900 mb-2">Không tìm thấy sản phẩm phù hợp</h4>
+            <p class="text-slate-400 text-sm max-w-md">Hãy thử tìm kiếm với các từ khóa khác hoặc điều chỉnh lại các lựa chọn bộ lọc thiết bị mạng của bạn.</p>
+          </div>
+        `;
+        paginationControls.innerHTML = '';
+        return;
+      }
+
+      productGrid.innerHTML = currentProducts.map(p => `
+        <div class="product-card bg-white rounded-[2.5rem] border border-slate-100/90 shadow-[0_12px_36px_-12px_rgba(0,0,0,0.03)] p-8 flex flex-col h-full">
+          <!-- Switch Cisco Icon Header -->
+          <div class="w-14 h-14 cisco-switch-badge rounded-2xl flex items-center justify-center mb-7 self-start transition-colors duration-300">
+            <!-- Thiết kế biểu tượng Switch Switch Chassis mạ điện rực rỡ -->
+            <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="6" y1="12" x2="10" y2="12"></line>
+              <line x1="14" y1="12" x2="18" y2="12"></line>
+              <circle cx="6" cy="12" r="1" fill="currentColor"></circle>
+              <circle cx="10" cy="12" r="1" fill="currentColor"></circle>
+              <circle cx="14" cy="12" r="1" fill="currentColor"></circle>
+              <circle cx="18" cy="12" r="1" fill="currentColor"></circle>
+              <path d="M17 9l3 3-3 3"></path>
+              <path d="M7 15l-3-3 3-3"></path>
+            </svg>
+          </div>
+          
+          <!-- Dòng sản phẩm & Model -->
+          <div class="mb-2 flex items-center gap-2">
+            <span class="text-[10px] font-extrabold text-blue-600 bg-blue-50 px-3 py-1 rounded-full uppercase">${p.series}</span>
+          </div>
+          <h3 class="text-2xl font-black text-slate-900 mb-8 tracking-tight">${p.model}</h3>
+          
+          <!-- Thuộc tính Switch (Chuyển đổi hoàn toàn cho Switch) -->
+          <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="bg-[#f8fafc] rounded-2xl p-4 flex flex-col justify-center min-h-[72px]">
+              <span class="font-extrabold text-slate-900 text-xs tracking-tight line-clamp-2">${p.layer}</span>
+              <span class="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">PHÂN LỚP/HỆ ĐIỀU HÀNH</span>
+            </div>
+            
+            <div class="bg-[#f8fafc] rounded-2xl p-4 flex flex-col justify-center min-h-[72px]">
+              <span class="font-extrabold text-slate-900 text-xs tracking-tight line-clamp-2">${p.ports}</span>
+              <span class="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">CỔNG DOWNLINK</span>
+            </div>
+            
+            <div class="bg-[#f8fafc] rounded-2xl p-4 flex flex-col justify-center min-h-[72px]">
+              <span class="font-extrabold text-slate-900 text-xs tracking-tight line-clamp-2">${p.uplink}</span>
+              <span class="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">CỔNG UPLINK</span>
+            </div>
+            
+            <div class="bg-[#f8fafc] rounded-2xl p-4 flex flex-col justify-center min-h-[72px]">
+              <span class="font-extrabold text-slate-900 text-xs tracking-tight line-clamp-2">${p.poeBudget}</span>
+              <span class="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">CÔNG SUẤT POE</span>
+            </div>
+            
+            <div class="col-span-2 bg-[#f8fafc] rounded-2xl p-4 flex flex-col justify-center min-h-[72px]">
+              <span class="font-extrabold text-slate-900 text-xs tracking-tight">${p.stacking}</span>
+              <span class="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">KHẢ NĂNG STACKING</span>
+            </div>
+          </div>
+
+          <!-- Nút hành động báo giá -->
+          <div class="mt-auto">
+            <button 
+              onclick="handleZaloRedirect('0938888304')"
+              class="w-full bg-[#0f172a] hover:bg-blue-600 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-md shadow-slate-100"
+            >
+              LIÊN HỆ BÁO GIÁ <span class="text-sm">→</span>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      renderPagination(totalProducts);
+    }
+
+    // 5. Render thanh chuyển trang linh hoạt dựa theo kết quả lọc
+    function renderPagination(totalProducts) {
+      const totalPages = Math.ceil(totalProducts / productsPerPage);
+      if (totalPages <= 1) {
+        paginationControls.innerHTML = '';
+        return;
+      }
+
+      let html = '';
+
+      // Back Button
+      html += `
+        <button 
+          onclick="changePage(${currentPage - 1})"
+          ${currentPage === 1 ? 'disabled' : ''}
+          class="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 bg-white hover:shadow-xl transition-all disabled:opacity-50"
+        >
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+      `;
+
+      // Page Numbers
+      html += `<div class="flex gap-2">`;
+      for (let i = 1; i <= totalPages; i++) {
+        html += `
+          <button
+            onclick="changePage(${i})"
+            class="w-12 h-12 rounded-2xl font-black text-sm transition-all ${
+              currentPage === i 
+              ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' 
+              : 'bg-white border border-slate-200 text-slate-400'
+            }"
+          >
+            ${i}
+          </button>
+        `;
+      }
+      html += `</div>`;
+
+      // Next Button
+      html += `
+        <button 
+          onclick="changePage(${currentPage + 1})"
+          ${currentPage === totalPages ? 'disabled' : ''}
+          class="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-600 bg-white hover:shadow-xl transition-all disabled:opacity-50"
+        >
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      `;
+
+      paginationControls.innerHTML = html;
+    }
+
+    // 6. Hàm chuyển trang mượt mà
+    window.changePage = function(page) {
+      const filtered = getFilteredProducts();
+      const totalPages = Math.ceil(filtered.length / productsPerPage);
+      if (page < 1 || page > totalPages) return;
+      currentPage = page;
+      localStorage.setItem('ciscoSwitchPage', currentPage);
+      renderProducts();
+      
+      // Cuộn lên mượt mà về đầu danh sách sản phẩm
+      document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // 7. Gắn bộ lắng nghe sự kiện lọc thời gian thực
+    searchInput.addEventListener('input', (e) => {
+      searchFilter = e.target.value;
+      currentPage = 1;
+      renderProducts();
+    });
+
+    filterSeries.addEventListener('change', (e) => {
+      seriesFilter = e.target.value;
+      currentPage = 1;
+      renderProducts();
+    });
+
+    filterPoe.addEventListener('change', (e) => {
+      poeFilter = e.target.value;
+      currentPage = 1;
+      renderProducts();
+    });
+
+    btnReset.addEventListener('click', () => {
+      searchInput.value = '';
+      filterSeries.value = 'ALL';
+      filterPoe.value = 'ALL';
+      
+      searchFilter = '';
+      seriesFilter = 'ALL';
+      poeFilter = 'ALL';
+      
+      currentPage = 1;
+      renderProducts();
+    });
+
+    // 8. Đổi giao diện thanh điều hướng Header khi cuộn trang
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navbar.className = "fixed top-0 w-full z-50 transition-all duration-300 glass-nav py-3 border-b border-gray-100 shadow-sm";
+        navLogo.className = "transition-all duration-300 object-contain h-10";
+      } else {
+        navbar.className = "fixed top-0 w-full z-50 transition-all duration-300 bg-transparent py-6";
+        navLogo.className = "transition-all duration-300 object-contain h-14";
+      }
+    });
+
+    // 9. Bật/tắt Mobile Menu
+    mobileMenuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      if (mobileMenu.classList.contains('hidden')) {
+        mobileMenuIcon.className = "fa-solid fa-bars text-xl";
+      } else {
+        mobileMenuIcon.className = "fa-solid fa-xmark text-2xl";
+      }
+    });
+
+    // 10. Bật/tắt thư mục Sản Phẩm trên mobile
+    mobileProductsToggle.addEventListener('click', () => {
+      mobileProductsMenu.classList.toggle('hidden');
+      if (mobileProductsMenu.classList.contains('hidden')) {
+        mobileProductsIcon.className = "fa-solid fa-chevron-right text-[10px] text-gray-400";
+      } else {
+        mobileProductsIcon.className = "fa-solid fa-chevron-down text-[10px] text-gray-400";
+      }
+    });
+
+    // 11. Bật/tắt thư mục Cisco trên mobile
+    mobileCiscoToggle.addEventListener('click', () => {
+      mobileCiscoMenu.classList.toggle('hidden');
+      if (mobileCiscoMenu.classList.contains('hidden')) {
+        mobileCiscoIcon.className = "fa-solid fa-chevron-right text-[10px] text-gray-400";
+      } else {
+        mobileCiscoIcon.className = "fa-solid fa-chevron-down text-[10px] text-gray-400";
+      }
+    });
+
+    // 12. Hàm chuyển tiếp liên kết Zalo mượt mà không dùng Alert
+    window.handleZaloRedirect = function(phone) {
+      const cleanPhone = phone.replace(/\./g, '').replace(/ /g, '');
+      window.open(`https://zalo.me/${cleanPhone}`, '_blank');
+    }
+
+    // Khởi chạy hệ thống hiển thị danh mục
+    renderProducts();
+  </script>
+</body>
+</html>
