@@ -264,6 +264,7 @@
                 <option value="Nexus 3000">ToR Datacenter Nexus 3000</option>
                 <option value="Nexus 3550">Ultra Low Latency FPGA 3550</option>
                 <option value="Meraki MS">Cisco Meraki MS Series</option>
+                <option value="Catalyst 9550">Core Smart Catalyst 9550</option>
               </select>
             </div>
 
@@ -1427,7 +1428,63 @@
         poeBudget: 'UPoE high power budget',
         stacking: 'Physical Stacking (Up to 400G)',
         poeType: 'PoE'
-      }
+      },
+       // === DÒNG CISCO C9550 SERIES SMART SWITCHES (AI-Ready, Silicon One ASIC, High Density 50G/100G/400G) ===
+{
+        id: 6501,
+        model: 'Catalyst C9550-24L4CD',
+        series: 'Catalyst 9550',
+        layer: 'AI-Ready Smart Core / Aggregation (1RU)',
+        ports: '24 X 50G SFP56 (50/25/10/1G)',
+        uplink: '4 X 100G QSFP28 / 2 X 400G QSFP-DD',
+        poeBudget: 'Không hỗ trợ (Core/Aggregation)',
+        stacking: 'Băng thông hệ thống 3.2 Tbps / Silicon One',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 6502,
+        model: 'Catalyst C9550-48L4CD',
+        series: 'Catalyst 9550',
+        layer: 'AI-Ready Smart Core / Aggregation (1RU)',
+        ports: '48 X 50G SFP56 (50/25/10/1G)',
+        uplink: '4 X 100G QSFP28 / 2 X 400G QSFP-DD',
+        poeBudget: 'Không hỗ trợ (Core/Aggregation)',
+        stacking: 'Băng thông hệ thống 3.2 Tbps / Silicon One',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 6503,
+        model: 'Catalyst C9550-32C',
+        series: 'Catalyst 9550',
+        layer: 'AI-Ready High-Density Core (1RU)',
+        ports: '32 X 100G QSFP28 (100G/40G)',
+        uplink: 'Hỗ trợ Splitter Cables (Dense Core)',
+        poeBudget: 'Không hỗ trợ (Core/Aggregation)',
+        stacking: 'Băng thông hệ thống 3.2 Tbps / Silicon One',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 6504,
+        model: 'Catalyst C9550-96L4D',
+        series: 'Catalyst 9550',
+        layer: 'AI-Ready High-Density Core (2RU)',
+        ports: '96 X 50G SFP56 (50/25/10/1G)',
+        uplink: '4 X 400G QSFP-DD (400G/100G/40G)',
+        poeBudget: 'Không hỗ trợ (Ultra-Density Core)',
+        stacking: 'Băng thông hệ thống 6.4 Tbps / 3.9 Bpps',
+        poeType: 'Non-PoE'
+      },
+      {
+        id: 6505,
+        model: 'Catalyst C9550-64C-XL',
+        series: 'Catalyst 9550',
+        layer: 'AI-Ready Ultra-Density Core (2RU)',
+        ports: '64 X 100G QSFP28 (100G/40G)',
+        uplink: 'High-Density Campus Backbone',
+        poeBudget: 'Không hỗ trợ (Ultra-Density Core)',
+        stacking: 'Băng thông hệ thống 6.4 Tbps / Silicon One',
+        poeType: 'Non-PoE'
+      },
     ];
 
     const productsPerPage = 9;
